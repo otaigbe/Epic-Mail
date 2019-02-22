@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* styling signup form */
+* {
+  box-sizing:border-box;
+}
+body { 
+	background-color: lightblue;
+}
+#wrapper{
+	width: 100%;
+}
+
+#content{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+#signup{
+    width: 20%;
+	text-align: center;
+}
+
+#signup > #holder > fieldset{
+	border-style: solid;
+	
+}
+
+#signup > #holder > fieldset > input{
+	width: 100%;
+	padding: 5px;
+}
+
+#signup > #holder > fieldset > button{
+	width: 100%;
+	padding: 5px;
+	background-color: steelblue;
+}
+
+
+@media screen and (max-width:800px) {
+  #wrapper, #signup, #content {
+    width:100%; 
+  }
+}
+/*end of signup styling*/
