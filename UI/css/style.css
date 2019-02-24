@@ -1,0 +1,331 @@
+@charset "utf-8";
+/* styling singin,signup  and reset password form */
+* {
+  box-sizing:border-box;
+}
+body { 
+	background-color: lightblue;
+	margin: 0;
+  font-family: "Lato", sans-serif;
+}
+#wrapper{
+	width: 100%;
+}
+
+#content{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+#signup, #signin{
+    width: 20%;
+	text-align: center;
+}
+
+#signup > #holder > fieldset{
+	border-style: solid;	
+}
+
+#signup > #holder > fieldset > input{
+	width: 100%;
+	padding: 5px;
+}
+
+#signup > #holder > fieldset > button{
+	width: 100%;
+	padding: 5px;
+	background-color: steelblue;
+}
+
+#signin > #holder > fieldset{
+	border-style: solid;	
+}
+
+#signin > #holder > fieldset > input{
+	width: 100%;
+	padding: 5px;
+}
+
+#signin > #holder > fieldset > button{
+	width: 100%;
+	padding: 5px;
+	background-color: steelblue;
+}
+
+#forgotPassword {
+	display: none;
+	position:absolute;
+	background-color: steelblue;
+	width: 20%;
+	padding: 20px;
+}
+
+#forgotPassword > #alternate > fieldset{
+	border-style: solid;
+	margin-bottom: 10px;
+	padding: 5px;
+}
+
+#forgotPassword > #alternate > fieldset > input{
+	width: 100%;
+	padding: 5px;
+}
+
+#forgotPassword > #alternate > fieldset > button{
+	width: 100%;
+	padding: 5px;
+	background-color: steelblue;
+}
+
+.fa-times-circle{
+	margin-left: 93%;
+	color: red;
+	cursor: pointer;
+}
+
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0; 
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: -1; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+} 
+
+@media screen and (max-width:800px) {
+  #wrapper, #signup, #content {
+    width:100%; 
+  }	
+.sidebar{
+position:absolute;
+width: 28%;
+}
+	
+.sidebar button {
+  display: none;
+}
+}
+
+@media screen and (max-width:400px){
+.grouparea {
+  margin-left: 10px;
+	padding-left: 0px;
+}
+	
+.sidebar{
+position:relative;
+display: none;
+overflow: hidden;
+}
+	
+.sidebar button {
+  display: none;
+}
+#createGroup {
+	margin: 0px;
+	width: 10%;
+/*	text-align: center;*/
+/*	padding-top: 5px;*/
+	height: 10px;
+	display:none;
+}
+
+#createGroup > form > input {
+/*	width: 85%;*/
+	padding-top: 10px;
+/*	padding-bottom: 5px;*/
+	padding-left: 5px;
+	font-size: 14px;
+	margin-top: -45px;
+	display: none;
+}
+	
+	#createGroup > form > button {
+	width: 14%;
+	padding: 0px;
+	display:none;
+	text-align: center;
+}
+}
+
+/*end of signup styling*/
+
+/*styling gropus page*/
+.sidebar {
+  margin: 0;
+  padding: 0px;
+/*  width: 200px;*/
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar button {
+  display: block;
+  color: black;
+  width: 100%;
+	text-align: left;
+	padding:8px;
+	cursor: pointer;
+}
+ 
+.sidebar button.active {
+  background-color: steelblue;
+  color: white;
+}
+
+.sidebar button:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+.fa-plus-square{
+	margin-left: 95px;
+}
+
+div.grouparea {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+#createGroup {
+	margin: 0px;
+	width: 100%;
+/*	text-align: center;*/
+	padding-top: 5px;
+	height: 10px;
+	display:none;
+}
+
+#createGroup > form > input {
+	width: 85%;
+	padding-top: 10px;
+/*	padding-bottom: 5px;*/
+	padding-left: 5px;
+	font-size: 14px;
+	margin-top: -45px;
+}
+
+form#group{
+	height: 10px;
+}
+
+#createGroup > form > button {
+	width: 14%;
+	padding: 0px;
+	display:inline;
+	text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+/*  background-color: #2196F3;*/
+/*  padding: 10px;*/
+}
+.panel {
+  display: none;
+  background-color: white;
+  overflow: hidden;
+   margin-right: 10px;
+}
+
+.panel input{
+	width: 90%;
+    padding:5px;
+}
+
+.panel button{
+    padding:5px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  cursor: pointer;
+  margin-right: 9px;
+}
+
+.tile{
+	margin-bottom: 5px;
+}
+
+.fa-plus, .fa-minus{
+	float: right;
+}
+
+.findOne{
+	font-weight: bolder;
+	margin-top: 5px;
+	border-bottom: thick rgba(9,97,247,1.00) solid;
+	width:100%
+}
+
+.plus{
+ margin-left: 20px;	
+}
+
+.user {
+	border-bottom: thick rgba(0,0,0,1.00);
+	border-style: solid;
+	border-width: 2px;
+	border-color: steelblue;
+	width: 100%;
+}
+
+.addUser-btn{
+	margin-top: 5px;
+}
+
+/*
+media screen and (max-width: 400px) {
+  .sidebar {
+    width: 50px;
+	height: auto;
+  }
+}
+*/
+
+/*
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  div.content {margin-left: 0;}
+}
+*/
+
+
+
+/*
+@media screen and (max-width: 400px) {
+  .sidebar button {
+    text-align: center;
+    float: none;
+  }
+	.sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+}
+*/
+
+/*end of groups page style*/
