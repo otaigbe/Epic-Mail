@@ -1,0 +1,136 @@
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+	box-sizing: border-box;
+	background-color: lightblue;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	overflow: hidden;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: lightblue;
+  border: thick black solid;	
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.modal {
+  position: absolute; 
+bottom: 0px;
+right: 0px;
+  width: 40%;
+/*	height: 400px;*/
+	border: thick blue solid;
+}
+
+#bar{
+	width: 100%;
+	background-color: steelblue;
+	padding: 1px;
+}
+
+
+.close-btn{
+  margin-left: 93%;
+	color: red;
+}
+
+/*customizing the text editor*/
+.ql-container{
+	height: 150px;
+	background-color: white;
+}
+
+#compose{
+	background-color: steelblue;
+}
+
+
+#details input{
+	width: 99%;
+	margin-right:2px;
+	margin-bottom: 2px;
+}
+
+.send{
+	background-color: steelblue;
+	float:right;
+	padding: 10px;
+}
+
+
+.close-btn:hover,
+.close-btn:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sidebar button {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  width: 100%;
+}
+ 
+.sidebar button.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.sidebar button:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar button {float: left;}
+  div.content {margin-left: 0;}
+	
+.modal {
+position: absolute; 
+bottom: 0px;
+right: 0px;
+width: 90%;
+border: thick blue solid;
+	margin-left: 10px;
+	margin-right:10px;
+}
+
+.close-btn{
+  margin-left: 89%;
+	color: red;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+	
+	
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar button {
+    text-align: center;
+    float: none;
+  }
+}
