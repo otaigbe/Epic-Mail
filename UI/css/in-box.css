@@ -1,0 +1,59 @@
+@charset "utf-8";
+.sidebar button{
+  margin-bottom: 5px;
+  background-color: steelblue;	
+}
+
+.mail {
+  display: grid;
+  grid-template-columns: auto;
+  padding: 10px;
+}
+.message {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;	
+}
+
+.check-box {
+	float: left;
+}
+
+.sender{
+	float:left;
+	margin-left: 50px;
+}
+
+.fa-refresh{
+	margin-left: 25px;
+	margin-right: 25px;
+}
+.title {
+	float: left;
+	margin-left: 200px;
+}
+
+.sendDate{
+	float: right;
+	margin-left: 400px;
+}
+
+.pagination {
+	float: right;
+}
+
+.fa-arrow-circle-left, .fa-arrow-circle-right{
+	margin-right: 20px;
+}
+.displayHeadings{
+	background-color: steelblue;
+	padding: 10px;
+}
+
+#tabcontentDisplayarea{
+	border: thick black solid;
+	background-color: white;
+}
