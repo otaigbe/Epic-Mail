@@ -1,0 +1,154 @@
+body {
+  margin: 0;
+  font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+  background-color: lightblue;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  border-right: solid steelblue thin;
+}
+
+.panel{
+	background-color: white;
+}
+
+.sidebar button {
+  display: block;
+  color: black;
+  padding: 10px;
+  text-decoration: none;
+  width:100%;	
+	background-color: steelblue;
+}
+ 
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+/*  background-color: steelblue;*/
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0);
+  padding: 20px;
+  font-size: 30px;
+  margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.grid-item:hover{
+	background-color: steelblue;
+}
+
+.fa-plus, .fa-minus, .fa-check{
+	float: right;
+}
+
+#groupForm > input{
+width:78%;
+padding: 5px;
+border-right: thin rgba(9,95,227,1.00) solid;
+}
+
+#createGroup{
+	display: none;
+}
+
+#submit-btn{
+	width: 15%;
+	padding: 0px;
+	float:right;
+	border-radius: 15px
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 10px;
+  height: 1000px;
+}
+
+.active{
+	background-color: steelblue;
+}
+
+#addUser{
+	border-bottom: thick steelblue solid;
+}
+
+#addUser > input{
+  width: 90%;
+	padding: 5px;
+}
+
+.addUser-btn{
+	background-color: steelblue;
+	padding: 5px;
+	width: 100%;
+	text-align: left;
+}
+
+#addUser > button{
+	float: right;
+	padding: 4px;
+}
+
+@media screen and (max-width: 700px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+.grid-item{
+/*	width: 95%;*/
+	  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0);
+	}
+	
+.grid-container {
+  display: grid;
+  grid-template-columns: auto;
+  background-color: #2196F3;
+}
+	
+#addUser > input{
+  width: 80%;
+}
+
+#addUser > button{
+	float: right;
+}	
+	
+  .sidebar button {float: left;}
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+  .sidebar button {
+    text-align: center;
+    float: none;
+  }
+	.grid-item{
+/*		width: 95%;*/
+		  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0);
+	}
+	#addUser > input{
+  width: 80%;
+}
+
+#addUser > button{
+	float: right;
+}
+	
+	.grid-container {
+  display: grid;
+  grid-template-columns: auto;
+  background-color: #2196F3;
+}
+}
