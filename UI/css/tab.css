@@ -1,0 +1,44 @@
+@charset "utf-8";
+.tab {
+	overflow: hidden;
+/*	border: 1px solid #ccc;*/
+	background-color: #f1f1f1;
+}
+.tab span {
+	background-color: inherit;
+	float: left;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 14px 16px;
+	transition: 0.3s;
+	font-size: 17px;
+	min-width: 15%;
+}
+.tab span:hover {
+	background-color: #ddd;
+}
+.tab span.active {
+	background-color: #ccc;
+}
+.tabcontent {
+	display: block;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-top: none;
+	background-color: white;
+	margin-top: 0px;
+/*	height: 500px;*/
+}
+.close-tab {
+	float: right;
+}
+.close-tab:hover {
+	color: red;
+}
+
+/*
+.replyArea{
+	border: thin black solid;
+}
+*/
