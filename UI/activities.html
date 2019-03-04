@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://cdn.quilljs.com/1.2.2/quill.snow.css" rel="stylesheet">
+<script src="https://cdn.quilljs.com/1.2.2/quill.js"></script>
+<link rel="stylesheet" href="css/activities.css">
+<link rel="stylesheet" href="css/in-box.css">
+<link rel="stylesheet" href="css/logo.css">
+<link rel="stylesheet" href="css/tab.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<button type="button" id="signout" onclick="location.href='signIn.html';"><em class="fa fa-sign-out" aria-hidden="true"></em></button>
+<div>	 
+  <div id="logo"> 
+    <h1> <a href="#">EpicM@il</a> </h1>
+  </div>
+</div>
+<div class="sidebar">
+  <button id="compose">Compose</button>
+  <button id="inbox" type="button">Inbox <span class="count">0</span></button>
+  <button id="sent" type="button">Sent mails<span class="count">0</span></button>
+	<button id="draft" type="button">Draft<span class="count">0</span></button>
+</div>
+	<div id="overlay"></div>
+
+<div class="content">
+  <div id="composeWindow"> </div>
+  <div id="displayarea"> </div>
+</div>
+<script src="js/activities.js"></script> 
+<script src="js/inbox.js"></script>
+</body>
+</html>

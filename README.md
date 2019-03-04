@@ -1,1 +1,2 @@
+[![Build Status](https://travis-ci.org/otaigbe/Epic-Mail.svg?branch=ft-integrating-travisci-164355491)](https://travis-ci.org/otaigbe/Epic-Mail) [![Coverage Status](https://coveralls.io/repos/github/otaigbe/Epic-Mail/badge.svg?branch=ch-integrating-test-coverage-with-coveralls-164356614)](https://coveralls.io/github/otaigbe/Epic-Mail?branch=ch-integrating-test-coverage-with-coveralls-164356614)
 # Epic-Mail

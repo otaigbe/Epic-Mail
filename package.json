@@ -1,0 +1,79 @@
+{
+  "name": "epic-mail",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "migrations": "babel-node ./src/dbUtils/createTables.js --env",
+    "test1": "npm run migrations && cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha --recursive src/tests/version1/ --timeout 25000 --exit",
+    "test": "cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha src/tests/v1/auth.js src/tests/v1/messages.js --timeout 25000 --exit",
+    "dev": "nodemon --exec babel-node ./src/index.js",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel ./src --out-dir ./build",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && node ./build/index.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/otaigbe/Epic-Mail.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/otaigbe/Epic-Mail/issues"
+  },
+  "homepage": "https://github.com/otaigbe/Epic-Mail#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/register": "^7.0.0",
+    "babel-plugin-istanbul": "^5.1.0",
+    "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.11.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha-lcov-reporter": "^1.3.0",
+    "nodemon": "^1.18.9",
+    "nyc": "^13.1.0"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "bcrypt": "^3.0.2",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "joi": "^14.3.0",
+    "jsonwebtoken": "^8.3.0",
+    "mocha": "^5.2.0",
+    "pg": "^7.7.1",
+    "pg-format": "^1.0.4",
+    "pg-transaction": "^1.0.4",
+    "rimraf": "^2.6.2",
+    "socket.io": "^2.2.0"
+  },
+  "engines": {
+    "node": "10.5.0"
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
+  },
+  "nyc": {
+    "require": [
+      "@babel/register",
+      "@babel/polyfill"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
+  }
+}
