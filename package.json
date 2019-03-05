@@ -29,6 +29,7 @@
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
     "@babel/register": "^7.0.0",
     "babel-plugin-istanbul": "^5.1.0",
     "coveralls": "^3.0.2",
