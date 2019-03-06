@@ -66,9 +66,9 @@ messages.getMessageById = (req, res) => {
   const messageId = req.params.messageId;
   const message = usefulfunc.searchForMessageById(storage, Number(messageId));
   if (message) {
-    return res.status(200).json(response.success('GET', req, message, `Showing message ${message.id} emails`, 200));
+    return res.status(200).json(response.success('GET', req, message, `Showing message with id of ${message.id}`, 200));
   }
-  return res.status(404).json(response.failure(`Couldnt find message with id ${messageId}`, null, 404));
+  return res.status(404).json(response.failure(`Couldn't find message with id ${messageId}`, null, 404));
 };
 
 messages.deleteMessageById = (req, res) => {

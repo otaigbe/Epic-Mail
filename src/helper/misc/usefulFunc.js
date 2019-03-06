@@ -49,7 +49,6 @@ customFunctions.searchForMessageById = (storage, messageId) => {
   });
 };
 
-
 customFunctions.searchForMessageByIdIndex = (storage, messageId) => {
   return storage.findIndex((element) => { 
     if (element.id === messageId) {
