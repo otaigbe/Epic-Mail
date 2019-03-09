@@ -123,9 +123,7 @@ messages.deleteMessageById = function (req, res) {
 messages.testingCloudMail = function (req, res) {
   var id = _usefulFunc.default.insertMessageIntoStorage(_cloudmail.default, req.body);
 
-  if (id) {
-    return res.status(201).json(_responseSchema.default.success('POST', req, req.body, 'CloudMail Matter', 201));
-  }
+  return res.status(201).json(_responseSchema.default.success('POST', req, req.body, 'CloudMail Matter', 201));
 };
 
 messages.getAllSentEmailsFromCloudMailServer = function (req, res) {

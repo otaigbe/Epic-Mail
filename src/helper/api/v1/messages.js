@@ -89,9 +89,8 @@ messages.deleteMessageById = (req, res) => {
 
 messages.testingCloudMail = (req, res) => {
   const id = usefulfunc.insertMessageIntoStorage(cloudStorage, req.body);
-  if (id) {
-    return res.status(201).json(response.success('POST', req, req.body, 'CloudMail Matter', 201));
-  }
+  return res.status(201).json(response.success('POST', req, req.body, 'CloudMail Matter', 201));
+  
 };
 
 messages.getAllSentEmailsFromCloudMailServer = (req, res) => {
