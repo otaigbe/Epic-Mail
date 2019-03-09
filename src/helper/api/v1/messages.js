@@ -84,4 +84,8 @@ messages.deleteMessageById = (req, res) => {
     return res.status(404).json(response.failure(`Couldn't find any message with id ${messageId}!Deletion unsuccessful`, null, 404));
   }
 };
+
+messages.testingCloudMail = (req, res) => {
+  return res.status(201).json(response.success('DELETE', req, req.body, 'CloudMail matter', 201));
+};
 export default messages;

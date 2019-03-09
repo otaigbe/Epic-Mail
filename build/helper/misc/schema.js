@@ -27,7 +27,26 @@ schemas.message = _joi.default.object({
   message: _joi.default.string().required(),
   to: _joi.default.string(),
   cc: _joi.default.string(),
-  from: _joi.default.string()
+  from: _joi.default.string() // headers: Joi.object().keys({
+  //   Subject: Joi.string(),
+  //   To: Joi.string(),
+  //   From: Joi.string(),
+  //   Received: Joi.string(),
+  //   'Return-path': Joi.string(),
+  // }),
+  // plain: Joi.string(),
+  // html: Joi.string(),
+  // reply_plain: Joi.string(),
+  // envelope: Joi.object().keys({
+  //   to: Joi.string(),
+  //   // recipients: ,
+  //   from: Joi.string(),
+  //   helo_domain: Joi.string(),
+  //   remote_ip: Joi.string(),
+  //   spf: Joi.string(),
+  //   tls: Joi.string(),
+  // }),
+
 });
 var _default = schemas;
 exports.default = _default;

@@ -5,6 +5,8 @@ const router = express.Router();
 
 router.post('/', messagesImpl.sendMail);
 
+router.post('/cloudmail', messagesImpl.testingCloudMail);
+
 router.get('/', messagesImpl.getAllReceivedEmails);
 
 router.get('/unread', messagesImpl.getAllUnreadEmails);

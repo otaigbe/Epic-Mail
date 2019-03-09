@@ -25,4 +25,8 @@ messagesImpl.getMessageById = (req, res) => {
 messagesImpl.deleteMessageById = (req, res) => {
   messageFunctions.deleteMessageById(req, res);
 };
+
+messagesImpl.testingCloudMail = (req, res) => {
+  messageFunctions.testingCloudMail(req, res);
+};
 export default messagesImpl;

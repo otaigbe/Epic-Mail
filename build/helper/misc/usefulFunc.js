@@ -76,5 +76,10 @@ customFunctions.searchForMessageByIdIndex = function (storage, messageId) {
   });
 };
 
+customFunctions.setCookieAndRedirect = function (res, token, url) {
+  res.cookie('x-auth-token', token);
+  return res.redirect(url);
+};
+
 var _default = customFunctions;
 exports.default = _default;

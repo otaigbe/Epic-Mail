@@ -14,6 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = _express.default.Router();
 
 router.post('/', _messages.default.sendMail);
+router.post('/cloudmail', _messages.default.testingCloudMail);
 router.get('/', _messages.default.getAllReceivedEmails);
 router.get('/unread', _messages.default.getAllUnreadEmails);
 router.get('/sent', _messages.default.getAllSentEmails);

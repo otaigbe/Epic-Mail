@@ -23,6 +23,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var messages = {};
 
 messages.sendMail = function (req, res) {
+  console.log(req.body);
+
   var result = _joi.default.validate(req.body, _schema.default.message);
 
   if (result.error === null) {
@@ -47,9 +49,9 @@ messages.sendMail = function (req, res) {
       message.type = 'received';
     } else if (message.to) {
       message.type = 'sent';
-    }
+    } // console.log(message);
 
-    console.log(message);
+
     return res.status(201).json(_responseSchema.default.success('POST', req, message, 'message created and saved successfully', 201));
   }
 
@@ -92,10 +94,10 @@ messages.getMessageById = function (req, res) {
   var message = _usefulFunc.default.searchForMessageById(_messages.default, Number(messageId));
 
   if (message) {
-    return res.status(200).json(_responseSchema.default.success('GET', req, message, "Showing message ".concat(message.id, " emails"), 200));
+    return res.status(200).json(_responseSchema.default.success('GET', req, message, "Showing message with id of ".concat(message.id), 200));
   }
 
-  return res.status(404).json(_responseSchema.default.failure("Couldnt find message with id ".concat(messageId), null, 404));
+  return res.status(404).json(_responseSchema.default.failure("Couldn't find message with id ".concat(messageId), null, 404));
 };
 
 messages.deleteMessageById = function (req, res) {
@@ -114,6 +116,10 @@ messages.deleteMessageById = function (req, res) {
   if (messageIndex === -1) {
     return res.status(404).json(_responseSchema.default.failure("Couldn't find any message with id ".concat(messageId, "!Deletion unsuccessful"), null, 404));
   }
+};
+
+messages.testingCloudMail = function (req, res) {
+  return res.status(201).json(_responseSchema.default.success('DELETE', req, req.body, 'CloudMail matter', 201));
 };
 
 var _default = messages;

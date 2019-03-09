@@ -35,5 +35,9 @@ messagesImpl.deleteMessageById = function (req, res) {
   _messages.default.deleteMessageById(req, res);
 };
 
+messagesImpl.testingCloudMail = function (req, res) {
+  _messages.default.testingCloudMail(req, res);
+};
+
 var _default = messagesImpl;
 exports.default = _default;
