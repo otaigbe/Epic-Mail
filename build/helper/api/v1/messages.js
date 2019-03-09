@@ -17,6 +17,8 @@ var _messages = _interopRequireDefault(require("../../../fixtures/messages"));
 
 var _responseSchema = _interopRequireDefault(require("../../misc/responseSchema"));
 
+var _cloudmail = _interopRequireDefault(require("../../../fixtures/cloudmail"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable prefer-destructuring */
@@ -119,7 +121,15 @@ messages.deleteMessageById = function (req, res) {
 };
 
 messages.testingCloudMail = function (req, res) {
-  return res.status(201).json(_responseSchema.default.success('DELETE', req, req.body, 'CloudMail matter', 201));
+  var id = _usefulFunc.default.insertMessageIntoStorage(_cloudmail.default, req.body);
+
+  if (id) {
+    return res.status(201).json(_responseSchema.default.success('POST', req, req.body, 'CloudMail Matter', 201));
+  }
+};
+
+messages.getAllSentEmailsFromCloudMailServer = function (req, res) {
+  return res.status(200).json(_responseSchema.default.success('GET', req, _cloudmail.default, 'All Cloud mail messages', 200));
 };
 
 var _default = messages;

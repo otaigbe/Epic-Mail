@@ -39,5 +39,9 @@ messagesImpl.testingCloudMail = function (req, res) {
   _messages.default.testingCloudMail(req, res);
 };
 
+messagesImpl.getAllSentEmailsFromCloudMailServer = function (req, res) {
+  _messages.default.getAllSentEmailsFromCloudMailServer(req, res);
+};
+
 var _default = messagesImpl;
 exports.default = _default;

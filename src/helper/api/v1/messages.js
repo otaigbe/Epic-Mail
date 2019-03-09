@@ -5,6 +5,8 @@ import schema from '../../misc/schema';
 import errorHandler from '../../errorHandler/errorHandler';
 import storage from '../../../fixtures/messages';
 import response from '../../misc/responseSchema';
+import cloudStorage from '../../../fixtures/cloudmail';
+
 
 const messages = {};
 
@@ -86,6 +88,14 @@ messages.deleteMessageById = (req, res) => {
 };
 
 messages.testingCloudMail = (req, res) => {
-  return res.status(201).json(response.success('DELETE', req, req.body, 'CloudMail matter', 201));
+  const id = usefulfunc.insertMessageIntoStorage(cloudStorage, req.body);
+  if (id) {
+    return res.status(201).json(response.success('POST', req, req.body, 'CloudMail Matter', 201));
+  }
+};
+
+messages.getAllSentEmailsFromCloudMailServer = (req, res) => {
+  return res.status(200).json(response.success('GET', req, cloudStorage, 'All Cloud mail messages', 200));
+
 };
 export default messages;

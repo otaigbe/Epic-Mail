@@ -7,6 +7,8 @@ router.post('/', messagesImpl.sendMail);
 
 router.post('/cloudmail', messagesImpl.testingCloudMail);
 
+router.get('/cloudmail', messagesImpl.getAllSentEmailsFromCloudMailServer);
+
 router.get('/', messagesImpl.getAllReceivedEmails);
 
 router.get('/unread', messagesImpl.getAllUnreadEmails);

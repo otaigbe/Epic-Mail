@@ -1,4 +1,5 @@
 import messageFunctions from '../helper/api/v1/messages';
+import messages from '../helper/api/v1/messages';
 
 const messagesImpl = {};
 
@@ -28,5 +29,9 @@ messagesImpl.deleteMessageById = (req, res) => {
 
 messagesImpl.testingCloudMail = (req, res) => {
   messageFunctions.testingCloudMail(req, res);
+};
+
+messagesImpl.getAllSentEmailsFromCloudMailServer = (req, res) => {
+  messageFunctions.getAllSentEmailsFromCloudMailServer(req, res);
 };
 export default messagesImpl;
