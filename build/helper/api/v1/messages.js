@@ -7,6 +7,8 @@ exports.default = void 0;
 
 var _joi = _interopRequireDefault(require("joi"));
 
+var _formidable = _interopRequireDefault(require("formidable"));
+
 var _usefulFunc = _interopRequireDefault(require("../../misc/usefulFunc"));
 
 var _schema = _interopRequireDefault(require("../../misc/schema"));
@@ -121,9 +123,20 @@ messages.deleteMessageById = function (req, res) {
 };
 
 messages.testingCloudMail = function (req, res) {
-  var id = _usefulFunc.default.insertMessageIntoStorage(_cloudmail.default, req.body);
+  var form = new _formidable.default.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    console.log(fields.to);
+    console.log(fields.from);
+    console.log(fields.subject);
+    res.writeHead(200, {
+      'content-type': 'text/plain'
+    });
+    res.end('Message Received. Thanks!\r\n');
 
-  return res.status(201).json(_responseSchema.default.success('POST', req, req.body, 'CloudMail Matter', 201));
+    var id = _usefulFunc.default.insertMessageIntoStorage(_cloudmail.default, fields);
+
+    return res.status(201).json(_responseSchema.default.success('POST', req, fields, 'CloudMail Matter', 201));
+  });
 };
 
 messages.getAllSentEmailsFromCloudMailServer = function (req, res) {

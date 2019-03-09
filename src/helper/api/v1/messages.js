@@ -1,5 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import Joi from 'joi';
+import formidable from 'formidable';
 import usefulfunc from '../../misc/usefulFunc';
 import schema from '../../misc/schema';
 import errorHandler from '../../errorHandler/errorHandler';
@@ -87,14 +88,10 @@ messages.deleteMessageById = (req, res) => {
   }
 };
 
-messages.testingCloudMail = (req, res) => {
-  const id = usefulfunc.insertMessageIntoStorage(cloudStorage, req.body);
+messages.testingCloudMail = (req, res) => {    
+  cloudStorage.push(req.body);
   return res.status(201).json(response.success('POST', req, req.body, 'CloudMail Matter', 201));
-  
 };
 
-messages.getAllSentEmailsFromCloudMailServer = (req, res) => {
-  return res.status(200).json(response.success('GET', req, cloudStorage, 'All Cloud mail messages', 200));
-
-};
+messages.getAllSentEmailsFromCloudMailServer = (req, res) => res.status(200).json(response.success('GET', req, cloudStorage, 'All Cloud mail messages', 200));
 export default messages;
