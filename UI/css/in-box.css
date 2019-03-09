@@ -33,6 +33,11 @@
 	margin-right: 25px;
 }
 
+.fa-refresh:hover{
+	color: red;
+	cursor: pointer;
+}
+
 .fa-trash{
 	margin-left: 25px;
 	cursor: pointer;
@@ -41,6 +46,11 @@
 .fa-trash:hover{
 	border: thin lightblue solid;
 	color: red;
+}
+
+.fa-arrow-circle-right:hover, .fa-arrow-circle-left:hover{
+	color: red;
+	cursor: pointer;
 }
 .title {
 	float: left;

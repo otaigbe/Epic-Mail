@@ -147,6 +147,8 @@ if (checkBoxes[i].checked===true){
 	checkedboxes[i].parentElement.parentElement.removeChild(checkedboxes[i].parentElement);
 		}
 	}
+		document.getElementsByClassName('check-box-top')[0].checked = false;
+
 };
 
 function cancelProp(e){
@@ -169,6 +171,12 @@ if (e.target.checked === false){
 	
 }
 
+
+function getNewEmails(){
+	
+}
+
+
 $('body').on('click', '#inbox', viewMessages.bind(this, "Inbox", "receivedMails"));
 $('body').on('click', '#draft', viewMessages.bind(this, "Draft", "draftMail"));
 $('body').on('click', '.draftMail', createComposeWindow.bind(this));
@@ -180,5 +188,5 @@ $('body').on('click', '.sentMails', messageDisplayTab.bind(this, '<button type="
 $('body').on('click', '.fa-trash', deleteMessage.bind(this));
 $('body').on('click', '.check-box', cancelProp);
 $('body').on('click', '.check-box-top', selectAllCheckboxesForDeletion);
-
+$('body').on('click', '.fa-refresh', getNewEmails);
 document.getElementById('inbox').click();

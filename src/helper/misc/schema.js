@@ -22,5 +22,24 @@ schemas.message = Joi.object({
   to: Joi.string(),
   cc: Joi.string(),
   from: Joi.string(),
+  // headers: Joi.object().keys({
+  //   Subject: Joi.string(),
+  //   To: Joi.string(),
+  //   From: Joi.string(),
+  //   Received: Joi.string(),
+  //   'Return-path': Joi.string(),
+  // }),
+  // plain: Joi.string(),
+  // html: Joi.string(),
+  // reply_plain: Joi.string(),
+  // envelope: Joi.object().keys({
+  //   to: Joi.string(),
+  //   // recipients: ,
+  //   from: Joi.string(),
+  //   helo_domain: Joi.string(),
+  //   remote_ip: Joi.string(),
+  //   spf: Joi.string(),
+  //   tls: Joi.string(),
+  // }),
 });
 export default schemas;

@@ -41,19 +41,20 @@ customFunctions.searchAndAddToArrayType = (array, storage, type) => {
   return array;
 };
 
-customFunctions.searchForMessageById = (storage, messageId) => {
-  return storage.find((element) => { 
-    if (element.id === messageId) {
-      return element;
-    }
-  });
-};
+customFunctions.searchForMessageById = (storage, messageId) => storage.find((element) => {
+  if (element.id === messageId) {
+    return element;
+  }
+});
 
-customFunctions.searchForMessageByIdIndex = (storage, messageId) => {
-  return storage.findIndex((element) => { 
-    if (element.id === messageId) {
-      return element;
-    }
-  });
+customFunctions.searchForMessageByIdIndex = (storage, messageId) => storage.findIndex((element) => {
+  if (element.id === messageId) {
+    return element;
+  }
+});
+
+customFunctions.setCookieAndRedirect = (res, token, url) => {
+  res.cookie('x-auth-token', token);
+  return res.redirect(url);
 };
 export default customFunctions;

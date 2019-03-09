@@ -9,6 +9,7 @@ import response from '../../misc/responseSchema';
 const messages = {};
 
 messages.sendMail = (req, res) => {
+  console.log(req.body);
   const result = Joi.validate(req.body, schema.message);
   if (result.error === null) {
     const message = {};
@@ -30,7 +31,7 @@ messages.sendMail = (req, res) => {
     } else if (message.to) {
       message.type = 'sent';
     }
-    console.log(message);
+    // console.log(message);
     return res.status(201).json(response.success('POST', req, message, 'message created and saved successfully', 201));
   }
   errorHandler.validationError(res, result);
