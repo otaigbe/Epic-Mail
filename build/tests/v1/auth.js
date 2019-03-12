@@ -128,4 +128,104 @@ describe('Testing the Epic mail app', function () {
       }, _callee3);
     })));
   });
+  describe('Testing the signin method', function () {
+    it('should signin a user successfully',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee4() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return _chai.default.request(_index.default).post('/api/v1/auth/signin/').type('form').send({
+                email: 'otaigbe@epicmail.com',
+                password: 'piloting'
+              });
+
+            case 2:
+              res = _context4.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('data');
+
+              _chai.default.expect(res.body.data).to.have.property('resource');
+
+            case 7:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    })));
+    it('should return a validation error',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee5() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return _chai.default.request(_index.default).post('/api/v1/auth/signin/').type('form').send({
+                email: 'otaigbe@epicmail.com',
+                password: ''
+              });
+
+            case 2:
+              res = _context5.sent;
+
+              _chai.default.expect(res).to.have.status(422);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('error');
+
+            case 6:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    })));
+    it('should return an invalid username/password error message',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee6() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return _chai.default.request(_index.default).post('/api/v1/auth/signin/').type('form').send({
+                email: 'otaigbe@epicmail.com',
+                password: 'piloti'
+              });
+
+            case 2:
+              res = _context6.sent;
+
+              _chai.default.expect(res).to.have.status(400);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('error');
+
+            case 6:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    })));
+  });
 });

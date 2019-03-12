@@ -92,5 +92,66 @@ function () {
   };
 }();
 
+auth.signin =
+/*#__PURE__*/
+function () {
+  var _ref2 = _asyncToGenerator(
+  /*#__PURE__*/
+  regeneratorRuntime.mark(function _callee2(req, res) {
+    var result, found, validPassword;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            result = _joi.default.validate(req.body, _schema.default.signinSchema);
+
+            if (!(result.error === null)) {
+              _context2.next = 12;
+              break;
+            }
+
+            found = _usefulFunc.default.searchForUsernameAndPassword(req.body);
+
+            if (!found) {
+              _context2.next = 10;
+              break;
+            }
+
+            _context2.next = 6;
+            return _bcrypt.default.compare(req.body.password, found.password);
+
+          case 6:
+            validPassword = _context2.sent;
+
+            if (validPassword) {
+              _context2.next = 9;
+              break;
+            }
+
+            return _context2.abrupt("return", res.status(400).json(_responseSchema.default.failure('Invalid username or password.', null, 400)));
+
+          case 9:
+            return _context2.abrupt("return", res.status(200).json(_responseSchema.default.success('POST', req, found, "Welcome ".concat(found.username), 200)));
+
+          case 10:
+            _context2.next = 13;
+            break;
+
+          case 12:
+            _errorHandler.default.validationError(res, result);
+
+          case 13:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
 var _default = auth;
 exports.default = _default;

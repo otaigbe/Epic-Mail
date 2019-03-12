@@ -35,4 +35,20 @@ auth.signup = async (req, res) => {
   }
 };
 
+auth.signin = async (req, res) => {
+  const result = Joi.validate(req.body, schema.signinSchema);
+  if (result.error === null) {
+    const found = usefulFunc.searchForUsernameAndPassword(req.body);
+    if (found) {
+      const validPassword = await bcrypt.compare(req.body.password, found.password);
+      if (!validPassword) {
+        return res.status(400).json(response.failure('Invalid username or password.', null, 400));
+      }
+      return res.status(200).json(response.success('POST', req, found, `Welcome ${found.username}`, 200));
+    }
+  } else {
+    errorHandler.validationError(res, result);
+  }
+};
+
 export default auth;
