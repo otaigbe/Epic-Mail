@@ -2,10 +2,10 @@
 .tab {
 	overflow: hidden;
 /*	border: 1px solid #ccc;*/
-	background-color: #f1f1f1;
+	background-color: lightblue;
 }
 .tab span {
-	background-color: inherit;
+	background-color: #ccc;
 	float: left;
 	border: none;
 	outline: none;
@@ -19,7 +19,7 @@
 	background-color: #ddd;
 }
 .tab span.active {
-	background-color: #ccc;
+	background-color: white;
 }
 .tabcontent {
 	display: block;

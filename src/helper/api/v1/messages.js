@@ -12,7 +12,6 @@ import cloudStorage from '../../../fixtures/cloudmail';
 const messages = {};
 
 messages.sendMail = (req, res) => {
-  console.log(req.body);
   const result = Joi.validate(req.body, schema.message);
   if (result.error === null) {
     const message = {};

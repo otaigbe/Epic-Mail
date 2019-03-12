@@ -43,6 +43,8 @@ function wrapCreatedGroupInAccordion(groupName){
 	span.appendChild(panel);
 
 	document.getElementsByClassName('grid-container')[0].appendChild(span);
+	document.getElementById('displayarea').style.display = "none";
+	document.getElementsByClassName('grid-container')[0].style.display = "grid";
 }
 
 function createNewGroup(){

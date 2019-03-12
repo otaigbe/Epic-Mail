@@ -6,11 +6,13 @@
 body { 
 	background-color: lightblue;
 	margin: 0;
-  font-family: "Lato", sans-serif;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
 }
 #wrapper{
 	width: 100%;
 }
+
+
 
 #content{
   width: 100%;
@@ -22,72 +24,124 @@ body {
   min-height: 100vh;
 }
 
-.signInLink{
-	float: right;
-}
-
 
 #signup, #signin{
-    width: 20%;
+    width: 40%;
 	text-align: center;
-	margin-top: -200px;
+	margin-top: -100px;
+	background-color: rgba(255,255,255, 0.8);
+	padding: 20px;
+    box-shadow: 5px 5px 2px 1px rgba(70, 130, 180, 0.5);
+	border-radius: 2px;
 }
 
 #signup > #holder > fieldset{
-	border-style: solid;	
+	border-style: none;	
 }
 
 #signup > #holder > fieldset > input{
 	width: 100%;
 	padding: 5px;
+	line-height: 1.4em;
+	background-color: transparent;
+	border: thin black solid;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-size: 14pt;
+	border-radius: 2px;
+
 }
 
 #signup > #holder > fieldset > button{
 	width: 100%;
-	padding: 5px;
+	padding: 10px;
 	background-color: steelblue;
+	font-size: 14pt;
+	border-radius: 2px;
+	line-height: 1.4em;
+	border: none;
+}
+#signup > #holder > fieldset > button:hover{
+	background-color: #555;
+	color: white;
 }
 
 #signin > #holder > fieldset{
-	border-style: solid;	
+	border-style: none;	
 }
 
 #signin > #holder > fieldset > input{
 	width: 100%;
 	padding: 5px;
+	line-height: 1.4em;
+	background-color: transparent;
+	border: thin black solid;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-size: 14pt;
+	border-radius: 2px;
 }
 
 #signin > #holder > fieldset > button{
 	width: 100%;
-	padding: 5px;
+	padding: 10px;
 	background-color: steelblue;
+	line-height: 1.4em;
+	font-size: 14pt;
+	border-radius: 2px;
+	border: none;
+}
+
+#signin > #holder > fieldset > button:hover{
+	background-color: #555;
+	color: white;
 }
 
 #forgotPassword {
 	display: none;
 	position:absolute;
-	background-color: steelblue;
-	width: 20%;
+		background-color: rgba(255,255,255, 0.8);
+	width: 40%;
 	padding: 20px;
+	height: 450px;
+	top: 200px;
+box-shadow: 5px 5px 1px 1px rgba(70, 130, 180);
+	border-radius: 2px;
 }
 
 #forgotPassword > #alternate > fieldset{
-	border-style: solid;
-	margin-bottom: 10px;
-	padding: 5px;
+	border-style: none;	
+
 }
 
 #forgotPassword > #alternate > fieldset > input{
 	width: 100%;
 	padding: 5px;
+	line-height: 1.4em;
+	background-color: transparent;
+	border: thin black solid;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-size: 14pt;
+	border-radius: 2px;
 }
 
 #forgotPassword > #alternate > fieldset > button{
 	width: 100%;
-	padding: 5px;
+	padding: 10px;
 	background-color: steelblue;
+	line-height: 1.4em;
+	font-size: 14pt;
+	border-radius: 2px;
+	border: none;
 }
 
+#forgotPassword > #alternate > fieldset > button:hover{
+	background-color: #555;
+	color: white;
+}
+
+#forgotPassword  #alternate span{
+	font-size: 14pt;
+	font-weight: 700;
+}
 .fa-times-circle{
 	margin-left: 93%;
 	color: red;
@@ -108,64 +162,6 @@ body {
   cursor: pointer; /* Add a pointer on hover */
 } 
 
-@media screen and (max-width:800px) {
-  #wrapper, #signup,#signin, #content {
-    width:100%; 
-  }	
-.sidebar{
-position:absolute;
-width: 28%;
-}
-	
-.sidebar button {
-  display: none;
-}
-}
-
-@media screen and (max-width:400px){
-	#wrapper, #signup,#signin, #content {
-    width:100%; 
-  }
-.grouparea {
-  margin-left: 10px;
-	padding-left: 0px;
-}
-	
-.sidebar{
-position:relative;
-display: none;
-overflow: hidden;
-}
-	
-.sidebar button {
-  display: none;
-}
-#createGroup {
-	margin: 0px;
-	width: 10%;
-/*	text-align: center;*/
-/*	padding-top: 5px;*/
-	height: 10px;
-	display:none;
-}
-
-#createGroup > form > input {
-/*	width: 85%;*/
-	padding-top: 10px;
-/*	padding-bottom: 5px;*/
-	padding-left: 5px;
-	font-size: 14px;
-	margin-top: -45px;
-	display: none;
-}
-	
-	#createGroup > form > button {
-	width: 14%;
-	padding: 0px;
-	display:none;
-	text-align: center;
-}
-}
 
 /*end of signup styling*/
 
@@ -301,5 +297,88 @@ form#group{
 	margin-top: 5px;
 }
 
-
 /*end of groups page style*/
+
+@media screen and (max-width:800px) {
+  #wrapper, #signup,#signin, #content {
+    width:100%; 
+  }	
+.sidebar{
+position:absolute;
+width: 28%;
+}
+	
+.sidebar button {
+  display: none;
+}
+}
+
+@media screen and (max-width:400px){
+#logo h1 {
+	font-size: 40px;
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: 'Lobster', helvetica, arial;
+}
+#logo h1 a {
+	text-decoration: none;
+	color: steelblue;
+}
+#logo h1:after {
+	content : 'EpicM@il';
+	text-shadow: 0 1px 0 lightsteelblue;
+}
+#logo {
+	background-color: black;
+	height: 20%;
+}	
+	
+#signup,#signin{
+    width:100%; 
+	height: 100%;
+}
+
+	#maillogo{
+		display: none;
+	}	
+.grouparea {
+  margin-left: 10px;
+	padding-left: 0px;
+}
+	
+.sidebar{
+position:relative;
+display: none;
+overflow: hidden;
+}
+	
+.sidebar button {
+  display: none;
+}
+#createGroup {
+	margin: 0px;
+	width: 10%;
+/*	text-align: center;*/
+/*	padding-top: 5px;*/
+	height: 10px;
+	display:none;
+}
+
+#createGroup > form > input {
+/*	width: 85%;*/
+	padding-top: 10px;
+/*	padding-bottom: 5px;*/
+	padding-left: 5px;
+	font-size: 14px;
+	margin-top: -45px;
+	display: none;
+}
+	
+	#createGroup > form > button {
+	width: 14%;
+	padding: 0px;
+	display:none;
+	text-align: center;
+}
+}
+
