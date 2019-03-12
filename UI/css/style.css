@@ -98,7 +98,7 @@ body {
 #forgotPassword {
 	display: none;
 	position:absolute;
-		background-color: rgba(255,255,255, 0.8);
+	background-color: rgba(255,255,255);
 	width: 40%;
 	padding: 20px;
 	height: 450px;
