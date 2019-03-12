@@ -1,0 +1,28 @@
+#logo h1 {
+        position: relative;
+        font-size: 70px;
+        margin-top: 0;
+        margin-bottom: 0;
+        font-family: 'Lobster', helvetica, arial;
+    }
+     
+#logo h1 a {
+        text-decoration: none;
+        position: absolute;
+		color: steelblue;
+    }
+     
+#logo h1:after {
+        content : 'EpicM@il';
+        text-shadow: 0 1px 0 lightsteelblue;
+    }
+#logo{
+	background-color: black;
+	/* width: 700px; */
+	/* float: left; */
+}
+
+.signOut{
+	float: right;
+	margin-top: 65px;
+}
