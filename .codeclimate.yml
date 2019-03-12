@@ -1,0 +1,25 @@
+version: "2"
+checks:
+  file-lines:
+    config:
+      threshold: 1000
+  method-complexity:
+    config:
+      threshold: 20
+  method-count:
+    config:
+      threshold: 50
+  method-lines:
+    config:
+      threshold: 50
+  similar-code:
+    enabled: false
+exclude_patterns:
+  - "build/"
+  - "UI/"
+  - "config/"
+  - "dbUtils/"
+  - "dist/"
+  - "features/"
+  - "**/node_modules/"
+  - "test/"
