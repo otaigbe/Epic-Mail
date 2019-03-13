@@ -22,5 +22,9 @@ messagesImpl.getMessageById = (req, res) => {
   messageFunctions.getMessageById(req, res);
 };
 
+messagesImpl.deleteMessageById = (req, res) => {
+  messageFunctions.deleteMessageById(req, res);
+};
+
 
 export default messagesImpl;

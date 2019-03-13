@@ -8,6 +8,7 @@ router.get('/', messagesImpl.getAllReceivedEmails);
 router.get('/unread', messagesImpl.getAllUnreadEmails);
 router.get('/sent', messagesImpl.getAllSentEmails);
 router.get('/:messageId', messagesImpl.getMessageById);
+router.delete('/:messageId', messagesImpl.deleteMessageById);
 
 
 export default router;

@@ -81,4 +81,22 @@ describe('Testing the messages Endpoint', () => {
     });
   });
 
+  describe('Testing the Delete email by Id Endpoint', () => {
+    it('should delete a specific users email by Id', async () => {
+      const res = await chai.request(app).get('/api/v1/messages/193');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+      chai.expect(res.body.data).to.have.property('message');
+    });
+
+    it('should return a message not found error and deletion incomplete message', async () => {
+      const res = await chai.request(app).get('/api/v1/messages/19300');
+      chai.expect(res).to.have.status(404);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('error');
+      chai.expect(res.body.error).to.have.property('message');
+    });
+  });
+
 });
