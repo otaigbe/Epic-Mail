@@ -56,5 +56,29 @@ messages.sendMail = function (req, res) {
   _errorHandler.default.validationError(res, result);
 };
 
+messages.getAllReceivedEmails = function (req, res) {
+  var receivedEmails = [];
+
+  for (var i = 0; i < _messages.default.length; i++) {
+    if (_messages.default[i].type === 'received') {
+      receivedEmails.push(_messages.default[i]);
+    }
+  }
+
+  return res.status(200).json(_responseSchema.default.success('GET', req, receivedEmails, "Showing all ".concat(receivedEmails.length, " received emails"), 200));
+};
+
+messages.getAllUnreadEmails = function (req, res) {
+  var unreadEmails = [];
+
+  for (var i = 0; i < _messages.default.length; i++) {
+    if (_messages.default[i].status === 'unread') {
+      unreadEmails.push(_messages.default[i]);
+    }
+  }
+
+  return res.status(200).json(_responseSchema.default.success('GET', req, unreadEmails, "Showing all ".concat(unreadEmails.length, " unread emails"), 200));
+};
+
 var _default = messages;
 exports.default = _default;

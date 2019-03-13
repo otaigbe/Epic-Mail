@@ -15,5 +15,13 @@ messagesImpl.sendMail = function (req, res) {
   _messages.default.sendMail(req, res);
 };
 
+messagesImpl.getAllReceivedEmails = function (req, res) {
+  _messages.default.getAllReceivedEmails(req, res);
+};
+
+messagesImpl.getAllUnreadEmails = function (req, res) {
+  _messages.default.getAllUnreadEmails(req, res);
+};
+
 var _default = messagesImpl;
 exports.default = _default;

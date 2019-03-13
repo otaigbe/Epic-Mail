@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', messagesImpl.sendMail);
 router.get('/', messagesImpl.getAllReceivedEmails);
+router.get('/unread', messagesImpl.getAllUnreadEmails);
 
 
 export default router;

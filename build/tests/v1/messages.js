@@ -89,4 +89,70 @@ describe('Testing the messages Endpoint', function () {
       }, _callee2);
     })));
   });
+  describe('Testing the get all received email Endpoint', function () {
+    it('should get all emails where status is received',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee3() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages');
+
+            case 2:
+              res = _context3.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('data');
+
+              _chai.default.expect(res.body.data).to.have.property('message');
+
+            case 7:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    })));
+  });
+  describe('Testing the get all unread emails Endpoint', function () {
+    it('should get all emails where status is unread',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee4() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              _context4.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages/unread');
+
+            case 2:
+              res = _context4.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('data');
+
+              _chai.default.expect(res.body.data).to.have.property('message');
+
+            case 7:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    })));
+  });
 });

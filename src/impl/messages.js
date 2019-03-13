@@ -10,4 +10,9 @@ messagesImpl.getAllReceivedEmails = (req, res) => {
   messageFunctions.getAllReceivedEmails(req, res);
 };
 
+messagesImpl.getAllUnreadEmails = (req, res) => {
+  messageFunctions.getAllUnreadEmails(req, res);
+};
+
+
 export default messagesImpl;

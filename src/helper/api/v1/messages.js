@@ -47,4 +47,14 @@ messages.getAllReceivedEmails = (req, res) => {
   return res.status(200).json(response.success('GET', req, receivedEmails, `Showing all ${receivedEmails.length} received emails`, 200));
 };
 
+messages.getAllUnreadEmails = (req, res) => {
+  const unreadEmails = [];
+  for (let i = 0; i < storage.length; i++) {
+    if (storage[i].status === 'unread') {
+      unreadEmails.push(storage[i]);
+    }
+  }
+  return res.status(200).json(response.success('GET', req, unreadEmails, `Showing all ${unreadEmails.length} unread emails`, 200));
+};
+
 export default messages;
