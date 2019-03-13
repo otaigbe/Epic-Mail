@@ -18,5 +18,6 @@ router.get('/', _messages.default.getAllReceivedEmails);
 router.get('/unread', _messages.default.getAllUnreadEmails);
 router.get('/sent', _messages.default.getAllSentEmails);
 router.get('/:messageId', _messages.default.getMessageById);
+router.delete('/:messageId', _messages.default.deleteMessageById);
 var _default = router;
 exports.default = _default;

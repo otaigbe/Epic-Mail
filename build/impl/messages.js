@@ -31,5 +31,9 @@ messagesImpl.getMessageById = function (req, res) {
   _messages.default.getMessageById(req, res);
 };
 
+messagesImpl.deleteMessageById = function (req, res) {
+  _messages.default.deleteMessageById(req, res);
+};
+
 var _default = messagesImpl;
 exports.default = _default;

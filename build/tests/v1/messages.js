@@ -252,4 +252,68 @@ describe('Testing the messages Endpoint', function () {
       }, _callee7);
     })));
   });
+  describe('Testing the Delete email by Id Endpoint', function () {
+    it('should delete a specific users email by Id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee8() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages/193');
+
+            case 2:
+              res = _context8.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('data');
+
+              _chai.default.expect(res.body.data).to.have.property('message');
+
+            case 7:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
+    })));
+    it('should return a message not found error and deletion incomplete message',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee9() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee9$(_context9) {
+        while (1) {
+          switch (_context9.prev = _context9.next) {
+            case 0:
+              _context9.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages/19300');
+
+            case 2:
+              res = _context9.sent;
+
+              _chai.default.expect(res).to.have.status(404);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('error');
+
+              _chai.default.expect(res.body.error).to.have.property('message');
+
+            case 7:
+            case "end":
+              return _context9.stop();
+          }
+        }
+      }, _callee9);
+    })));
+  });
 });

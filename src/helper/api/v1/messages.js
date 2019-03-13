@@ -72,4 +72,17 @@ messages.getMessageById = (req, res) => {
   return res.status(404).json(response.failure(`Couldn't find message with id ${messageId}`, null, 404));
 };
 
+messages.deleteMessageById = (req, res) => {
+  const messageId = req.params.messageId;
+  const messageIndex = usefulfunc.searchForMessageByIdIndex(storage, Number(messageId));
+  console.log(messageIndex);
+  if (messageIndex !== -1) {
+    storage.splice(messageIndex, 1);
+    return res.status(202).json(response.success('DELETE', req, storage, `Deleted message with id of ${messageId} emails`, 202));
+  }
+  if (messageIndex === -1) {
+    return res.status(404).json(response.failure(`Couldn't find any message with id ${messageId}!Deletion unsuccessful`, null, 404));
+  }
+};
+
 export default messages;
