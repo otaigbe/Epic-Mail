@@ -37,5 +37,14 @@ messages.sendMail = (req, res) => {
   errorHandler.validationError(res, result);
 };
 
+messages.getAllReceivedEmails = (req, res) => {
+  const receivedEmails = [];
+  for (let i = 0; i < storage.length; i++) {
+    if (storage[i].type === 'received') {
+      receivedEmails.push(storage[i]);
+    }
+  }
+  return res.status(200).json(response.success('GET', req, receivedEmails, `Showing all ${receivedEmails.length} received emails`, 200));
+};
 
 export default messages;

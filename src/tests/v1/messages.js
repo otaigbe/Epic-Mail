@@ -32,4 +32,14 @@ describe('Testing the messages Endpoint', () => {
       chai.expect(res.body.error.message).to.eql('Something wrong with input!');
     });
   });
+
+  describe('Testing the get all received email Endpoint', () => {
+    it('should get all emails where status is received', async () => {
+      const res = await chai.request(app).get('/api/v1/messages');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+      chai.expect(res.body.data).to.have.property('message');
+    });
+  });
 });

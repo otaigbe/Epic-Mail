@@ -6,5 +6,8 @@ messagesImpl.sendMail = (req, res) => {
   messageFunctions.sendMail(req, res);
 };
 
+messagesImpl.getAllReceivedEmails = (req, res) => {
+  messageFunctions.getAllReceivedEmails(req, res);
+};
 
 export default messagesImpl;
