@@ -52,4 +52,14 @@ describe('Testing the messages Endpoint', () => {
       chai.expect(res.body.data).to.have.property('message');
     });
   });
+
+  describe('Testing the get all sent emails Endpoint', () => {
+    it('should get all emails where type is sent', async () => {
+      const res = await chai.request(app).get('/api/v1/messages/sent');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+      chai.expect(res.body.data).to.have.property('message');
+    });
+  });
 });

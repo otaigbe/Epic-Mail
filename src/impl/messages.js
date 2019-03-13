@@ -14,5 +14,8 @@ messagesImpl.getAllUnreadEmails = (req, res) => {
   messageFunctions.getAllUnreadEmails(req, res);
 };
 
+messagesImpl.getAllSentEmails = (req, res) => {
+  messageFunctions.getAllSentEmails(req, res);
+};
 
 export default messagesImpl;

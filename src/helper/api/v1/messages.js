@@ -57,4 +57,10 @@ messages.getAllUnreadEmails = (req, res) => {
   return res.status(200).json(response.success('GET', req, unreadEmails, `Showing all ${unreadEmails.length} unread emails`, 200));
 };
 
+messages.getAllSentEmails = (req, res) => {
+  let sentEmails = [];
+  sentEmails = usefulfunc.searchAndAddToArrayType(sentEmails, storage, 'sent');
+  return res.status(200).json(response.success('GET', req, sentEmails, `Showing all ${sentEmails.length} sent emails`, 200));
+};
+
 export default messages;
