@@ -63,4 +63,13 @@ messages.getAllSentEmails = (req, res) => {
   return res.status(200).json(response.success('GET', req, sentEmails, `Showing all ${sentEmails.length} sent emails`, 200));
 };
 
+messages.getMessageById = (req, res) => {
+  const messageId = req.params.messageId;
+  const message = usefulfunc.searchForMessageById(storage, Number(messageId));
+  if (message) {
+    return res.status(200).json(response.success('GET', req, message, `Showing message with id of ${message.id}`, 200));
+  }
+  return res.status(404).json(response.failure(`Couldn't find message with id ${messageId}`, null, 404));
+};
+
 export default messages;

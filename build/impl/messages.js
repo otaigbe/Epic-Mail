@@ -23,5 +23,13 @@ messagesImpl.getAllUnreadEmails = function (req, res) {
   _messages.default.getAllUnreadEmails(req, res);
 };
 
+messagesImpl.getAllSentEmails = function (req, res) {
+  _messages.default.getAllSentEmails(req, res);
+};
+
+messagesImpl.getMessageById = function (req, res) {
+  _messages.default.getMessageById(req, res);
+};
+
 var _default = messagesImpl;
 exports.default = _default;

@@ -80,5 +80,23 @@ messages.getAllUnreadEmails = function (req, res) {
   return res.status(200).json(_responseSchema.default.success('GET', req, unreadEmails, "Showing all ".concat(unreadEmails.length, " unread emails"), 200));
 };
 
+messages.getAllSentEmails = function (req, res) {
+  var sentEmails = [];
+  sentEmails = _usefulFunc.default.searchAndAddToArrayType(sentEmails, _messages.default, 'sent');
+  return res.status(200).json(_responseSchema.default.success('GET', req, sentEmails, "Showing all ".concat(sentEmails.length, " sent emails"), 200));
+};
+
+messages.getMessageById = function (req, res) {
+  var messageId = req.params.messageId;
+
+  var message = _usefulFunc.default.searchForMessageById(_messages.default, Number(messageId));
+
+  if (message) {
+    return res.status(200).json(_responseSchema.default.success('GET', req, message, "Showing message with id of ".concat(message.id), 200));
+  }
+
+  return res.status(404).json(_responseSchema.default.failure("Couldn't find message with id ".concat(messageId), null, 404));
+};
+
 var _default = messages;
 exports.default = _default;
