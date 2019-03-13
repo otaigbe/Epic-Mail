@@ -98,5 +98,23 @@ messages.getMessageById = function (req, res) {
   return res.status(404).json(_responseSchema.default.failure("Couldn't find message with id ".concat(messageId), null, 404));
 };
 
+messages.deleteMessageById = function (req, res) {
+  var messageId = req.params.messageId;
+
+  var messageIndex = _usefulFunc.default.searchForMessageByIdIndex(_messages.default, Number(messageId));
+
+  console.log(messageIndex);
+
+  if (messageIndex !== -1) {
+    _messages.default.splice(messageIndex, 1);
+
+    return res.status(202).json(_responseSchema.default.success('DELETE', req, _messages.default, "Deleted message with id of ".concat(messageId, " emails"), 202));
+  }
+
+  if (messageIndex === -1) {
+    return res.status(404).json(_responseSchema.default.failure("Couldn't find any message with id ".concat(messageId, "!Deletion unsuccessful"), null, 404));
+  }
+};
+
 var _default = messages;
 exports.default = _default;
