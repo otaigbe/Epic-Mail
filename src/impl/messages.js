@@ -18,4 +18,9 @@ messagesImpl.getAllSentEmails = (req, res) => {
   messageFunctions.getAllSentEmails(req, res);
 };
 
+messagesImpl.getMessageById = (req, res) => {
+  messageFunctions.getMessageById(req, res);
+};
+
+
 export default messagesImpl;

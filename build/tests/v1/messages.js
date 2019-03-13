@@ -155,4 +155,101 @@ describe('Testing the messages Endpoint', function () {
       }, _callee4);
     })));
   });
+  describe('Testing the get all sent emails Endpoint', function () {
+    it('should get all emails where type is sent',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee5() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              _context5.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages/sent');
+
+            case 2:
+              res = _context5.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('data');
+
+              _chai.default.expect(res.body.data).to.have.property('message');
+
+            case 7:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    })));
+  });
+  describe('Testing the get specific users email by Id Endpoint', function () {
+    it('should get a specific users email by Id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee6() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              _context6.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages/193');
+
+            case 2:
+              res = _context6.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('data');
+
+              _chai.default.expect(res.body.data).to.have.property('message');
+
+            case 7:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    })));
+    it('should return a message not found error message',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee7() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages/19300');
+
+            case 2:
+              res = _context7.sent;
+
+              _chai.default.expect(res).to.have.status(404);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('error');
+
+              _chai.default.expect(res.body.error).to.have.property('message');
+
+            case 7:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    })));
+  });
 });
