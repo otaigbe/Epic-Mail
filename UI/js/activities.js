@@ -1,4 +1,9 @@
 const createComposeWindow = function (e){
+//	if(document.querySelector('.content')[0].style.display === "none" ){
+//		document.querySelector('.content')[0].style.display= "block";
+//	}
+//			document.querySelector('.modal').style.display= "block";
+
 		on();
 	let modal = `<div id="myModal" class="modal">
 <div class="bar"><button type="button" class="close-btn"><i class="fa fa-close"></i>
@@ -20,7 +25,7 @@ var editor = new Quill('#editor', {
 	document.querySelector('.to').value = sender;
 	document.querySelector('.topic').value = mailtitle;
 	}
-	
+
 }
 
 function on() {

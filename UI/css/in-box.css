@@ -16,25 +16,30 @@
   padding: 10px;
   font-size: 15px;
   text-align: center;
-  cursor: pointer;	
+  cursor: pointer;
 }
 
 .check-box {
 	float: left;
 }
 
-.sender{
+.mailId{
 	float:left;
-	margin-left: 50px;
+	margin-left: 5%;
 }
 
 .fa-refresh{
-	margin-left: 25px;
-	margin-right: 25px;
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+.fa-refresh:hover{
+	color: red;
+	cursor: pointer;
 }
 
 .fa-trash{
-	margin-left: 25px;
+	margin-left: 2%;
 	cursor: pointer;
 }
 
@@ -42,14 +47,19 @@
 	border: thin lightblue solid;
 	color: red;
 }
+
+.fa-arrow-circle-right:hover, .fa-arrow-circle-left:hover{
+	color: red;
+	cursor: pointer;
+}
 .title {
 	float: left;
-	margin-left: 200px;
+	margin-left: 20%;
 }
 
 .sendDate{
 	float: right;
-	margin-left: 400px;
+	margin-left: 2%;
 }
 
 .pagination {
@@ -57,13 +67,18 @@
 }
 
 .fa-arrow-circle-left, .fa-arrow-circle-right{
-	margin-right: 20px;
+	margin-right: 5px;
 }
 .displayHeadings{
 	background-color: steelblue;
 	padding: 10px;
 }
+/*
+.receivedMails span{
+	float: none;
 
+}
+*/
 #tabcontentDisplayarea{
 	border: thick black solid;
 	background-color: white;

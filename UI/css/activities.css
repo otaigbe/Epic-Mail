@@ -21,6 +21,10 @@ body {
   cursor: pointer;
 }
 
+.sidebar .icon {
+  display: none;
+}
+
 .sidebar {
 	margin: 0;
 	padding: 0;
@@ -97,9 +101,13 @@ body {
 .sidebar button {
 	display: block;
 	color: black;
-	padding: 16px;
+	padding: 10px;
 	text-decoration: none;
 	width: 100%;
+	font-size: 14pt;
+	border-radius: 2px;
+	line-height: 1.4em;
+	border: none;
 }
 .sidebar button.active {
 	background-color: #4CAF50;
@@ -109,11 +117,15 @@ body {
 	background-color: #555;
 	color: white;
 }
+
+#sidenav2{
+	display: none;
+}
 div.content {
 	margin-left: 250px;
 /*	padding: 1px 16px;*/
 	height: 1000px;
-	border: thick black solid;
+	border: thin black solid;
 }
 
 .count{
@@ -146,38 +158,112 @@ div.content {
 
 #signout:hover{
 	background-color: #555;
+	color: white;
+}
+
+#submit-btn{
+	width: 15%;
+	font-size: 10pt;
+	padding: 0px;
+	float:right;
+/*	border-radius: 15px*/
+}
+
+#groupForm > input{
+width:78%;
+padding: 5px;
+border-right: thin rgba(9,95,227,1.00) solid;
+}
+
+#createGroup{
+	display: none;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0);
+  padding: 20px;
+  font-size: 30px;
+  margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.grid-item:hover{
+	background-color: steelblue;
+}
+
+.fa-plus, .fa-minus, .fa-check{
+	float: right;
+}
+
+.panel{
+	background-color: white;
+}
+
+.active{
+	background-color: steelblue;
+}
+
+#addUser{
+	border-bottom: thick steelblue solid;
+}
+
+#addUser > input{
+  width: 90%;
+	padding: 5px;
+}
+
+.addUser-btn{
+	background-color: steelblue;
+	padding: 5px;
+	width: 100%;
+	text-align: left;
+}
+
+#addUser > button{
+	float: right;
+	padding: 4px;
 }
 
 @media screen and (max-width: 700px) {
-.sidebar {
-	width: 100%;
-	height: auto;
-	position: relative;
+.sidebar{
+display:  none;
 }
+
+
 .sidebar button {
-	float: left;
+    float: left;
+    display: block;
+	margin:2px;
+	font-size: 10pt;
 }
-div.content {
-	margin-left: 0;
-}
-	
-#tabcontentDisplayarea{
-	border: thick black solid;
-	background-color: white;
-	height: 700px;
-}
+	div.content {margin-left: 0;}
+.sidebar.responsive {
+	position: relative;
+	display: block;
+	border: none;
+	}
 
+  .sidebar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+	.sidebar.responsive button {
+   width: 18%;
+float: left;
+		padding: 5px;
+	}
 
-body {
-	margin: 0;
-	font-family: "Lato", sans-serif;
-	box-sizing: border-box;
-	background-color: lightblue;
-	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
-	overflow: auto;
-}
-	
-	
+	.sidebar.responsive button:after{
+	}
+	.count{
+		display: none;
+	}
 .modal, .replymodal {
 	position: absolute;
 	bottom: 0px;
@@ -187,72 +273,36 @@ body {
 	margin-left: 10px;
 	margin-right: 10px;
 }
-	
-.close-btn, .close-btn-reply {
-	margin-left: 89%;
-	color: red;
-}
-
-.close:hover, .close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}
-}
-
-@media screen and (max-width: 400px) {
-.sidebar {
-	width: 100%;
-	height: auto;
-	position: relative;
-}
-.sidebar button {
-	float: left;
-}
-div.content {
-	margin-left: 0;
-}
-	
-#tabcontentDisplayarea{
-	border: thick black solid;
-	background-color: white;
-	height: 700px;
-	width: 100%;
-}
-
-
-body {
-	margin: 0;
-	font-family: "Lato", sans-serif;
-	box-sizing: border-box;
-	background-color: lightblue;
-	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
-	overflow: auto;
-}
-	
-.displayHeadings{
-	background-color: steelblue;
-	padding: 10px;
-	width:100%;
-}	
-	
-.modal, .replymodal {
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-	width: 90%;
-	border: thick blue solid;
-	margin-left: 10px;
+	#displayarea{
+		margin-left: 10px;
 	margin-right: 10px;
-}
-	
-.close-btn, .close-btn-reply {
-	margin-left: 89%;
-	color: red;
+	}
+	.mailbody, .mailId{
+		display: none;
+	}
+	.pagination{
+		float:none;
+	}
+
+	.grid-item{
+/*		width: 95%;*/
+		  background-color: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(0, 0, 0);
+	}
+	#addUser > input{
+  width: 80%;
 }
 
-.close:hover, .close:focus {
-	color: #000;
-	text-decoration: none;
-	cursor: pointer;
-}}
+#addUser > button{
+	float: right;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto;
+  background-color: #2196F3;
+}
+	#submit-btn{
+		font-size: 9pt;
+	}
+}
