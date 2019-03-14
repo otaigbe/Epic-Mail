@@ -1,6 +1,6 @@
 import express from 'express';
-import auth from '../routes/auth/auth';
-import messages from '../routes/messages';
+import auth from './auth';
+import messages from './messages';
 
 
 const router = express.Router();

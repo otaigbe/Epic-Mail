@@ -73,7 +73,7 @@ describe('Testing the messages Endpoint', function () {
             case 2:
               res = _context2.sent;
 
-              _chai.default.expect(res).to.have.status(422);
+              _chai.default.expect(res).to.have.status(400);
 
               _chai.default.expect(res.body).to.have.property('status');
 

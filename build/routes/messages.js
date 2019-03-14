@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _express = _interopRequireDefault(require("express"));
 
-var _messages = _interopRequireDefault(require("../impl/messages"));
+var _messages = _interopRequireDefault(require("../controller/messages"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

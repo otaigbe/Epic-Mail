@@ -11,7 +11,7 @@ var _dotenv = _interopRequireDefault(require("dotenv"));
 
 require("@babel/polyfill");
 
-var _v = _interopRequireDefault(require("./controller/versions/v1"));
+var _v = _interopRequireDefault(require("./routes/v1"));
 
 var _error = _interopRequireDefault(require("./middleware/error"));
 

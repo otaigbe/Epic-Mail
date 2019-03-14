@@ -3,7 +3,7 @@ body {
 	font-family: "Lato", sans-serif;
 	box-sizing: border-box;
 	background-color: lightblue;
-	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, "serif"
 	overflow: hidden;
 }
 
@@ -60,6 +60,16 @@ body {
 	margin-left: 95%;
 	color: red;
 }
+.close-btn:before{
+	font-family: "Font Awesome 5 Free";
+	content:'\f410';
+}
+
+.close-btn-reply:before{
+	font-family: "Font Awesome 5 Free";
+	content:'\f410';
+}
+
 /*customizing the text editor*/
 .ql-container {
 	height: 140px;
@@ -84,6 +94,20 @@ body {
 	margin-right: 5px;
 	margin-bottom: 20px;
 }
+
+#dummygroups > div {
+	background-color: steelblue;
+	width: 40%;
+	margin: 5px;
+	height: 50px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#dummygroups > div:hover {
+	background-color: #555;
+}
+
 
 .save{
 	background-color: steelblue;
@@ -123,9 +147,8 @@ body {
 }
 div.content {
 	margin-left: 250px;
-/*	padding: 1px 16px;*/
+	padding: 1px 16px;
 	height: 1000px;
-	border: thin black solid;
 }
 
 .count{
@@ -181,18 +204,24 @@ border-right: thin rgba(9,95,227,1.00) solid;
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
+	grid-gap: 5px;
 }
 
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 2px solid rgba(0, 0, 0);
-  padding: 20px;
+  padding: 10px;
   font-size: 30px;
   margin-right: 5px;
-	margin-bottom: 5px;
+margin-bottom: 5px;
+	margin-left: 5px;
 }
 
 .grid-item:hover{
+	background-color: steelblue;
+}
+
+.grid-item.active{
 	background-color: steelblue;
 }
 

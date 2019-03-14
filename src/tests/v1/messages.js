@@ -26,7 +26,7 @@ describe('Testing the messages Endpoint', () => {
         subject: '',
         message: 'tthyth thn4thnbet thntrhnth t thynthne tne etyne tjne tjntetjnh tjnt eyn',
       });
-      chai.expect(res).to.have.status(422);
+      chai.expect(res).to.have.status(400);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('error');
       chai.expect(res.body.error.message).to.eql('Something wrong with input!');
