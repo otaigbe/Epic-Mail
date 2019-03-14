@@ -1,7 +1,7 @@
 import express from 'express';
 import conf from 'dotenv';
 import '@babel/polyfill';
-import endpoints from './controller/versions/v1';
+import endpoints from './routes/v1';
 import error from './middleware/error';
 
 conf.config();

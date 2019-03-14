@@ -1,6 +1,6 @@
 import express from 'express';
-import signup from '../signup';
-import signin from '../signin';
+import signup from './signup';
+import signin from './signin';
 
 const router = express.Router();
 

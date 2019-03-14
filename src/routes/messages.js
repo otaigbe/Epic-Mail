@@ -1,14 +1,14 @@
 import express from 'express';
-import messagesImpl from '../impl/messages';
+import messagesController from '../controller/messages';
 
 const router = express.Router();
 
-router.post('/', messagesImpl.sendMail);
-router.get('/', messagesImpl.getAllReceivedEmails);
-router.get('/unread', messagesImpl.getAllUnreadEmails);
-router.get('/sent', messagesImpl.getAllSentEmails);
-router.get('/:messageId', messagesImpl.getMessageById);
-router.delete('/:messageId', messagesImpl.deleteMessageById);
+router.post('/', messagesController.sendMail);
+router.get('/', messagesController.getAllReceivedEmails);
+router.get('/unread', messagesController.getAllUnreadEmails);
+router.get('/sent', messagesController.getAllSentEmails);
+router.get('/:messageId', messagesController.getMessageById);
+router.delete('/:messageId', messagesController.deleteMessageById);
 
 
 export default router;

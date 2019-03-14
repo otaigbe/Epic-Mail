@@ -30,7 +30,7 @@ describe('Testing the Epic mail app', () => {
         password: '',
         alternateEmail: 'stanlex4400@gmail.com',
       });
-      chai.expect(res).to.have.status(422);
+      chai.expect(res).to.have.status(400);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('error');
       chai.expect(res.body.error.message).to.eql('Something wrong with input!');
@@ -67,7 +67,7 @@ describe('Testing the Epic mail app', () => {
         email: 'otaigbe@epicmail.com',
         password: '',
       });
-      chai.expect(res).to.have.status(422);
+      chai.expect(res).to.have.status(400);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('error');
     });

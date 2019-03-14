@@ -12,8 +12,7 @@
     "build-babel": "babel ./src --out-dir ./build",
     "build": "npm run clean && npm run build-babel",
     "start": "npm run build && node ./build/index.js",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "smtp": "node ./src/smtp.js & sendmail test@localhost < ./src/email.txt"
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -49,7 +48,6 @@
     "chai-http": "^4.2.0",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
-    "formidable": "^1.2.1",
     "joi": "^14.3.0",
     "jsonwebtoken": "^8.3.0",
     "mocha": "^5.2.0",
@@ -57,10 +55,7 @@
     "pg": "^7.7.1",
     "pg-format": "^1.0.4",
     "pg-transaction": "^1.0.4",
-    "rimraf": "^2.6.2",
-    "smtp-protocol": "^2.4.7",
-    "smtp-server": "^3.5.0",
-    "socket.io": "^2.2.0"
+    "rimraf": "^2.6.2"
   },
   "engines": {
     "node": "10.5.0"

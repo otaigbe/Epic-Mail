@@ -77,7 +77,7 @@ describe('Testing the Epic mail app', function () {
             case 2:
               res = _context2.sent;
 
-              _chai.default.expect(res).to.have.status(422);
+              _chai.default.expect(res).to.have.status(400);
 
               _chai.default.expect(res.body).to.have.property('status');
 
@@ -182,7 +182,7 @@ describe('Testing the Epic mail app', function () {
             case 2:
               res = _context5.sent;
 
-              _chai.default.expect(res).to.have.status(422);
+              _chai.default.expect(res).to.have.status(400);
 
               _chai.default.expect(res.body).to.have.property('status');
 
