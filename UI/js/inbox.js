@@ -172,10 +172,10 @@ evt.currentTarget.parentElement.querySelector('.replyArea').appendChild(ui);
 //document.getElementById('reply').appendChild(ui);
 evt.target.disabled= true;
 const node = evt.currentTarget.parentElement.querySelector('.replyeditor');
-var editor = new Quill(node, {theme: 'snow'});
+//var editor = new Quill(node, {theme: 'snow'});
 evt.currentTarget.parentElement.querySelector('.send').addEventListener('click', function(e){
 //	console.log(editor.getText());
-const text = document.createTextNode(editor.getText());
+//const text = document.createTextNode(editor.getText());
 const hr = document.createElement('hr');
 const replyButton = e.target.parentElement.querySelector('.close-btn-reply');
 const replyArea = e.target.parentElement.parentElement.parentElement.querySelector('.replyArea').appendChild(hr);
@@ -183,7 +183,7 @@ e.target.parentElement.parentElement.parentElement.querySelector('.replyArea').a
 e.target.parentElement.parentElement.parentElement.querySelector('.replyArea').appendChild(hr);
 e.target.parentElement.querySelector('.close-btn-reply').click();
 });
-	
+	console.log("Created the reply section")
 const body = document.querySelector("body");
 body.querySelector('.close-btn-reply').addEventListener("click", closeComposeReplyWindow);	
 }

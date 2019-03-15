@@ -11,10 +11,7 @@ var _signup = _interopRequireDefault(require("../controller/signup"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import signupImpl from '../impl/auth/signup';
-// import signupController from '../controller/auth';
-var router = _express.default.Router(); // router.post('/', signupImpl.signup);
-
+var router = _express.default.Router();
 
 router.post('/', _signup.default.signup);
 var _default = router;

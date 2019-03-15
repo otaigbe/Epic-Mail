@@ -9,19 +9,19 @@ const createComposeWindow = function (e){
 <div class="bar"><button type="button" class="close-btn">
 </button></div><div id="details"><input type="text" class="to" name="to" placeholder="To"><br><input type="text" class="cc" name="Cc" placeholder="Cc">
 <input type="text" name="topic" class="topic" placeholder="Topic">
-</div><div id="editor"></div><button type="button" class="save">Save As Draft</button><button type="button" class="send">Send</button></div>`;
+</div><div id="editor"><textarea class="message-compose"></textarea></div><button type="button" class="save">Save As Draft</button><button type="button" class="send">Send</button></div>`;
 modal = document.createRange().createContextualFragment(modal);
 document.getElementById('composeWindow').appendChild(modal);
 e.target.disabled = true;
-var editor = new Quill('#editor', {
-		theme: 'snow'
-	});
+//var editor = new Quill('#editor', {
+//		theme: 'snow'
+//	});
 	if (e.target.classList.contains('draftMail')){
 	console.log(e.target);
-	const mailbody = e.target.querySelector('.mailbody').textContent;
+//	const mailbody = e.target.querySelector('.mailbody').textContent;
 	const mailtitle = e.target.querySelector('.title').textContent;
 	const sender = e.target.querySelector('.sender').textContent;
-	editor.setText(`${mailbody}\n`);
+	//editor.setText(`${mailbody}\n`);
 	document.querySelector('.to').value = sender;
 	document.querySelector('.topic').value = mailtitle;
 	}
@@ -50,6 +50,6 @@ function createReply() {
 <div class="bar"><button type="button" class="close-btn-reply">
 </button></div><div id="details"><input type="text" name="to" placeholder="To"><br><input type="text" name="Cc" placeholder="Cc">
 <input type="text" name="topic" placeholder="Topic"></div>
-<div class="replyeditor"></div><button type="button" class="send" >Send</button></div>`;
+<div class="replyeditor"><textarea class="message-compose"></textarea></div><button type="button" class="send" >Send</button></div>`;
 	return modal;
 }
