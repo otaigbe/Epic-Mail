@@ -3,7 +3,7 @@ body {
 	font-family: "Lato", sans-serif;
 	box-sizing: border-box;
 	background-color: lightblue;
-	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, "serif";
 	overflow: hidden;
 }
 
@@ -56,10 +56,26 @@ body {
 #composeWindow{
 	z-index: 1;
 }
-.close-btn,.close-btn-reply {
+.close-btn {
 	margin-left: 95%;
 	color: red;
 }
+
+.close-btn-reply {
+	margin-left: 95%;
+	color: red;
+}
+
+.close-btn:before{
+	font-family: "Font Awesome 5 Free";
+	content:'\f410';
+}
+
+.close-btn-reply:before{
+	font-family: "Font Awesome 5 Free";
+	content:'\f410';
+}
+
 /*customizing the text editor*/
 .ql-container {
 	height: 140px;
@@ -80,17 +96,58 @@ body {
 .send {
 	background-color: steelblue;
 	float: right;
-	padding: 5px;
+	padding: 10px;
 	margin-right: 5px;
 	margin-bottom: 20px;
+	font-size: 14pt;
+	border-radius: 2px;
+	line-height: 1.4em;
+	border: none;
 }
 
+.send:hover{
+	background-color: #555;
+	color: white;
+}
+
+.message-compose{
+	width: 98%;
+	height: 150px;
+	margin-left: 5px;
+}
+
+#dummygroups > div {
+	background-color: steelblue;
+	width: 40%;
+	margin: 5px;
+	height: 50px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#dummygroups > div:hover {
+	background-color: #555;
+}
+
+.draftMail:hover{
+	background-color: #555;
+	color: white;
+}
+
+.sentMails:hover{
+	background-color: #555;
+	color: white;
+}
 .save{
 	background-color: steelblue;
 /*	float: right;*/
-	padding: 5px;
+	padding: 10px;
 	margin-right: 5px;
 	margin-bottom: 20px;
+	font-size: 14pt;
+	border-radius: 2px;
+	line-height: 1.4em;
+	border: none;
 }
 
 .close-btn:hover, .close-btn:focus {
@@ -123,9 +180,8 @@ body {
 }
 div.content {
 	margin-left: 250px;
-/*	padding: 1px 16px;*/
+	padding: 1px 16px;
 	height: 1000px;
-	border: thin black solid;
 }
 
 .count{
@@ -139,8 +195,19 @@ div.content {
 
 .retract-mail-btn, .reply-to-mail-btn{
 	background-color: steelblue;
-	padding: 5px;
+	padding: 10px;
+	font-size: 14pt;
+	border-radius: 2px;
+	line-height: 1.4em;
+	border: none;
 }
+
+.retract-mail-btn:hover, .reply-to-mail-btn:hover{
+	background-color: #555;
+	color: white;
+	
+}
+
 #tabcontentDisplayarea{
 	border: thick black solid;
 	background-color: white;
@@ -154,6 +221,11 @@ div.content {
 	z-index: 1;
 	position: relative;
 	background-color: steelblue;
+}
+
+.receivedMails:hover{
+	background-color: #555;
+	color:white;
 }
 
 #signout:hover{
@@ -181,18 +253,24 @@ border-right: thin rgba(9,95,227,1.00) solid;
 .grid-container {
   display: grid;
   grid-template-columns: auto auto auto;
+	grid-gap: 5px;
 }
 
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 2px solid rgba(0, 0, 0);
-  padding: 20px;
+  padding: 10px;
   font-size: 30px;
   margin-right: 5px;
-	margin-bottom: 5px;
+margin-bottom: 5px;
+	margin-left: 5px;
 }
 
 .grid-item:hover{
+	background-color: steelblue;
+}
+
+.grid-item.active{
 	background-color: steelblue;
 }
 
