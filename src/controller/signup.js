@@ -29,6 +29,7 @@ export default class SignupController {
       userObj.username = req.body.username;
       userObj.alternateEmail = req.body.alternateEmail;
       const existentUsername = usefulFunc.searchForAlreadyExistingUsername(userObj);
+      
       if (!existentUsername) {
         const id = usefulFunc.insertIntoStorage(userObj);
         return res.status(201).json(response.success('POST', req, userObj, `Account created!Welcome ${req.body.username}`, 201));

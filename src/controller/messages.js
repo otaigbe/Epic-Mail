@@ -5,6 +5,8 @@ import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import storage from '../fixtures/messages';
 import response from '../helper/responseSchema';
+import dbhelper from '../model/dbHelper';
+import queries from '../model/queries';
 
 export default class MessagesController {
   /**
@@ -42,14 +44,11 @@ export default class MessagesController {
     errorHandler.validationError(res, result);
   }
 
-  static getAllReceivedEmails(req, res) {
-    const receivedEmails = [];
-    for (let i = 0; i < storage.length; i++) {
-      if (storage[i].type === 'received') {
-        receivedEmails.push(storage[i]);
-      }
-    }
-    return res.status(200).json(response.success('GET', req, receivedEmails, `Showing all ${receivedEmails.length} received emails`, 200));
+  static async getAllReceivedEmails(req, res) {
+    const args = ['received'];
+    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectAllMessages, args);
+    const receivedEmails = dbOperationResult.rows;
+    return res.status(200).json(response.success('GET', req, receivedEmails, 'Showing all received emails', 200));
   }
 
   static getAllUnreadEmails(req, res) {
