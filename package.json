@@ -6,7 +6,7 @@
   "scripts": {
     "migration": "babel-node ./src/model/migration.js --env",
     "test1": "npm run migrations && cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha --recursive src/tests/version1/ --timeout 25000 --exit",
-    "test": "npm run migration && cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha src/tests/v1/auth.js src/tests/v1/messages.js --timeout 25000 --exit",
+    "test": "npm run migration && cross-env NODE_ENV=test nyc --reporter=text --reporter=html mocha src/tests/v1/auth.js src/tests/v1/messages.js src/tests/v1/groups.js --timeout 25000 --exit",
     "dev": "nodemon --exec babel-node ./src/index.js",
     "clean": "rm -rf build && mkdir build",
     "build-babel": "babel ./src --out-dir ./build",
