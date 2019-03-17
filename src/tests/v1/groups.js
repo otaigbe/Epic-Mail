@@ -40,6 +40,28 @@ describe('Testing the groups Endpoint', () => {
     });
   });
 
+  describe('Testing the rename a group endpoint', () => {
+    it('should rename a group successfully', async () => {
+      const res = await chai.request(app).patch('/api/v1/groups/1/name').type('form').send(
+        {
+          groupname: 'esrfsdd',
+        },
+      );
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('message');
+    });
+  });
+
+  describe('Testing the group all groups created by a particular user endpoint', () => {
+    it('should get all groups', async () => {
+      const res = await chai.request(app).get('/api/v1/groups');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('message');
+    });
+  });
+  
   describe('Testing the delete group by id endpoint', () => {
     it('should delete a group with provided id', async () => {
       const res = await chai.request(app).delete('/api/v1/groups/1');
@@ -49,12 +71,7 @@ describe('Testing the groups Endpoint', () => {
     });
   });
 
-  describe('Testing the group all groups created by a particular user endpoint', () => {
-    it('should delete a group with provided id', async () => {
-      const res = await chai.request(app).get('/api/v1/groups');
-      chai.expect(res).to.have.status(200);
-      chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('message');
-    });
-  });
+  
+
+ 
 });
