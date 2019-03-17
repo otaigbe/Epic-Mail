@@ -8,11 +8,12 @@ chai.use(chaiHttp);
 
 describe('Testing the messages Endpoint', () => {
   describe('Testing the save/send mail Endpoint', () => {
-    it('should save a message successfully', async () => {
+    it('should save and send a message successfully', async () => {
       const res = await chai.request(app).post('/api/v1/messages').type('form').send({
-        to: 'stanley@epicmail.com',
-        subject: 'No subject',
-        message: 'tthyth thn4thnbet thntrhnth t thynthne tne etyne tjne tjntetjnh tjnt eyn',
+        subject: 'oiiuyizsgrtfhtuyoiuo',
+        message: 'Just created this test message',
+        receiver: 'otaigbe@epicmail.com',
+        sender: 'osas422@epicmail.com',
       });
       chai.expect(res).to.have.status(201);
       chai.expect(res.body).to.have.property('status');
@@ -20,6 +21,17 @@ describe('Testing the messages Endpoint', () => {
       chai.expect(res.body.data).to.have.property('message');
     });
 
+    it('should save a message as draft', async () => {
+      const res = await chai.request(app).post('/api/v1/messages').type('form').send({
+        sender: 'osas422@epicmail.com',
+        subject: 'oiiuyizsgrtfhtuyoiuo',
+        message: 'Just created this message',
+      });
+      chai.expect(res).to.have.status(201);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+      chai.expect(res.body.data).to.have.property('message');
+    });
     it('should return a validation error', async () => {
       const res = await chai.request(app).post('/api/v1/messages').type('form').send({
         to: 'stanley@epicmail.com',
@@ -65,7 +77,7 @@ describe('Testing the messages Endpoint', () => {
 
   describe('Testing the get specific users email by Id Endpoint', () => {
     it('should get a specific users email by Id', async () => {
-      const res = await chai.request(app).get('/api/v1/messages/193');
+      const res = await chai.request(app).get('/api/v1/messages/1');
       chai.expect(res).to.have.status(200);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('data');
@@ -83,7 +95,7 @@ describe('Testing the messages Endpoint', () => {
 
   describe('Testing the Delete email by Id Endpoint', () => {
     it('should delete a specific users email by Id', async () => {
-      const res = await chai.request(app).get('/api/v1/messages/193');
+      const res = await chai.request(app).get('/api/v1/messages/1');
       chai.expect(res).to.have.status(200);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('data');
@@ -98,5 +110,4 @@ describe('Testing the messages Endpoint', () => {
       chai.expect(res.body.error).to.have.property('message');
     });
   });
-
 });

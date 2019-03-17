@@ -16,11 +16,10 @@ schemas.signinSchema = Joi.object({
 });
 
 schemas.message = Joi.object({
-  parentMessageId: Joi.number(),
+  parentmessageid: Joi.number().integer(),
   subject: Joi.string().required(),
   message: Joi.string().required(),
-  to: Joi.string(),
-  cc: Joi.string(),
-  from: Joi.string(),
+  receiver: Joi.string().email().max(256),
+  sender: Joi.string().email().max(256).required(),
 });
 export default schemas;
