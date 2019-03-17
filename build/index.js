@@ -25,8 +25,8 @@ app.use(_express.default.urlencoded({
 }));
 app.use(_express.default.json());
 app.use(_express.default.static('./UI'));
-app.use('/', _v.default);
-app.use(_error.default);
+app.use('/', _v.default); // app.use(error);
+
 var port = process.env.PORT || 3000;
 var server = app.listen(port, function () {
   console.log("app running on ".concat(port, "..."));

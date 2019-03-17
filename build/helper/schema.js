@@ -22,12 +22,11 @@ schemas.signinSchema = _joi.default.object({
   password: _joi.default.string().required()
 });
 schemas.message = _joi.default.object({
-  parentMessageId: _joi.default.number(),
+  parentmessageid: _joi.default.number().integer(),
   subject: _joi.default.string().required(),
   message: _joi.default.string().required(),
-  to: _joi.default.string(),
-  cc: _joi.default.string(),
-  from: _joi.default.string()
+  receiver: _joi.default.string().email().max(256),
+  sender: _joi.default.string().email().max(256).required()
 });
 var _default = schemas;
 exports.default = _default;

@@ -142,7 +142,7 @@ describe('Testing the Epic mail app', function () {
               _context4.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/auth/signin/').type('form').send({
                 email: 'otaigbe@epicmail.com',
-                password: 'piloting'
+                password: 'password'
               });
 
             case 2:
@@ -152,11 +152,10 @@ describe('Testing the Epic mail app', function () {
 
               _chai.default.expect(res.body).to.have.property('status');
 
-              _chai.default.expect(res.body).to.have.property('data');
+              _chai.default.expect(res.body).to.have.property('data'); // chai.expect(res.body.data).to.have.property('resource');
 
-              _chai.default.expect(res.body.data).to.have.property('resource');
 
-            case 7:
+            case 6:
             case "end":
               return _context4.stop();
           }

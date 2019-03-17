@@ -17,6 +17,10 @@ var _errorHandler = _interopRequireDefault(require("../helper/errorHandler"));
 
 var _responseSchema = _interopRequireDefault(require("../helper/responseSchema"));
 
+var _dbHelper = _interopRequireDefault(require("../model/dbHelper"));
+
+var _queries = _interopRequireDefault(require("../model/queries"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -49,7 +53,7 @@ function () {
       var _signup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var result, password, salt, hashedPassword, userId, userObj, existentUsername, id;
+        var result, password, salt, hashedPassword, userId, userObj, args, dbOperationResult, args2, dbOperationResult2;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -57,7 +61,7 @@ function () {
                 result = _joi.default.validate(req.body, _schema.default.userSchema);
 
                 if (!(result.error === null)) {
-                  _context.next = 23;
+                  _context.next = 29;
                   break;
                 }
 
@@ -81,23 +85,35 @@ function () {
                 userObj.password = hashedPassword;
                 userObj.username = req.body.username;
                 userObj.alternateEmail = req.body.alternateEmail;
-                existentUsername = _usefulFunc.default.searchForAlreadyExistingUsername(userObj);
+                args = [userObj.username]; // const existentUsername = usefulFunc.searchForAlreadyExistingUsername(userObj);
 
-                if (existentUsername) {
-                  _context.next = 22;
+                _context.next = 21;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.checkForAlreadyExistentUser, args);
+
+              case 21:
+                dbOperationResult = _context.sent;
+
+                if (!(dbOperationResult.rowCount === 0)) {
+                  _context.next = 28;
                   break;
                 }
 
-                id = _usefulFunc.default.insertIntoStorage(userObj);
+                // const id = usefulFunc.insertIntoStorage(userObj);
+                args2 = [userObj.firstName, userObj.lastName, userObj.username, userObj.password, userObj.email, userObj.alternateEmail];
+                _context.next = 26;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.insertNewUser, args2);
+
+              case 26:
+                dbOperationResult2 = _context.sent;
                 return _context.abrupt("return", res.status(201).json(_responseSchema.default.success('POST', req, userObj, "Account created!Welcome ".concat(req.body.username), 201)));
 
-              case 22:
+              case 28:
                 return _context.abrupt("return", res.status(409).json(_responseSchema.default.failure('chosen username/email already exists, choose a unique username.', null, 409)));
 
-              case 23:
+              case 29:
                 _errorHandler.default.validationError(res, result);
 
-              case 24:
+              case 30:
               case "end":
                 return _context.stop();
             }
