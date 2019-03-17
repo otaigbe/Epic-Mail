@@ -6,6 +6,7 @@ queries.selectAllSentEmails = 'SELECT * FROM sent';
 queries.checkIfUserAlreadyHasGroupWithGroupName = 'SELECT * FROM groups WHERE groupname = $1 AND creator = $2';
 queries.checkIfUserOwnsTheGroupAboutToBeDeleted = 'SELECT * FROM groups WHERE groupid = $1 AND creator = $2';
 queries.deleteGroupById = 'DELETE FROM groups WHERE groupid = $1 AND creator = $2';
+queries.selectAllGroupsCreatedByAUser = 'SELECT * FROM groups WHERE creator = $1';
 queries.selectEmailById = 'SELECT * FROM messages WHERE messageid = $1';
 queries.deleteQueryById = 'DELETE FROM messages WHERE messageid = $1';
 queries.createGroup = 'INSERT INTO groups (groupname, creator) VALUES ($1, $2) returning groupid';

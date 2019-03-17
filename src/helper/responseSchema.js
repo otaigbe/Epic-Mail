@@ -24,9 +24,7 @@ export default class Response {
     return {
       message,
       status: code,
-      data: [
-        resource,
-      ],
+      data: resource,
     };
   }
 
