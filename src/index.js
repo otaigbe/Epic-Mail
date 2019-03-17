@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static('./UI'));
 app.use('/', endpoints);
 
-app.use(error);
+// app.use(error);
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => { console.log(`app running on ${port}...`); });

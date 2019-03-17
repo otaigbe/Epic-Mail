@@ -5,6 +5,8 @@ import usefulFunc from '../helper/usefulFunc';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
+import dbhelper from '../model/dbHelper';
+import queries from '../model/queries';
 
 export default class SignupController {
   /**
@@ -28,10 +30,13 @@ export default class SignupController {
       userObj.password = hashedPassword;
       userObj.username = req.body.username;
       userObj.alternateEmail = req.body.alternateEmail;
-      const existentUsername = usefulFunc.searchForAlreadyExistingUsername(userObj);
-      
-      if (!existentUsername) {
-        const id = usefulFunc.insertIntoStorage(userObj);
+      const args = [userObj.username];
+      // const existentUsername = usefulFunc.searchForAlreadyExistingUsername(userObj);
+      const dbOperationResult = await dbhelper.performTransactionalQuery(queries.checkForAlreadyExistentUser, args);
+      if (dbOperationResult.rowCount === 0) {
+        // const id = usefulFunc.insertIntoStorage(userObj);
+        const args2 = [userObj.firstName, userObj.lastName, userObj.username, userObj.password, userObj.email, userObj.alternateEmail];
+        const dbOperationResult2 = await dbhelper.performTransactionalQuery(queries.insertNewUser, args2);
         return res.status(201).json(response.success('POST', req, userObj, `Account created!Welcome ${req.body.username}`, 201));
       }
       return res.status(409).json(response.failure('chosen username/email already exists, choose a unique username.', null, 409));

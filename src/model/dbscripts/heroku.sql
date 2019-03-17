@@ -1,17 +1,16 @@
--- DROP TABLE IF EXISTS users CASCADE;
--- DROP TABLE IF EXISTS messages CASCADE;
--- DROP TABLE IF EXISTS sent CASCADE;
--- DROP TABLE IF EXISTS inbox CASCADE;
--- DROP TABLE IF EXISTS groups CASCADE;
--- DROP TABLE IF EXISTS groupmembers CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS messages CASCADE;
+DROP TABLE IF EXISTS sent CASCADE;
+DROP TABLE IF EXISTS inbox CASCADE;
+DROP TABLE IF EXISTS groups CASCADE;
+DROP TABLE IF EXISTS groupmembers CASCADE;
 
 
 DROP TYPE IF EXISTS status cascade;
 DROP TYPE IF EXISTS messagetype cascade;
-CREATE TYPE status AS ENUM('read', 'unread', 'draft', 'sent');
-CREATE TYPE messagetype AS ENUM('received', 'sent', 'draft');
+CREATE TYPE messagestatus AS ENUM('read', 'unread', 'draft', 'sent');
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
         userid bigserial PRIMARY KEY UNIQUE NOT NULL,
         firstname VARCHAR(200) NOT NULL,
         lastname VARCHAR(200) NOT NULL,
@@ -21,38 +20,37 @@ CREATE TABLE IF NOT EXISTS users (
         alternateemail VARCHAR(500) NOT NULL
     );
 
-CREATE TABLE IF NOT EXISTS messages (
+CREATE TABLE messages (
         messageid bigserial PRIMARY KEY UNIQUE NOT NULL,
         createdon TIMESTAMP DEFAULT NOW() NOT NULL,
         subject text NOT NULL,
         message TEXT NOT NULL,
         parentmessageid BIGINT REFERENCES messages(messageid),
-        status STATUS NOT NULL,
-        creator BIGINT REFERENCES users(userid),
-        sentto VARCHAR(200) REFERENCES users(email),
-        receivedfrom VARCHAR(200) REFERENCES users(email),
-        messagetype messagetype NOT NULL
-        );
+        status messagestatus NOT NULL,
+        sender VARCHAR(200) REFERENCES users(email),
+        receiver VARCHAR(200) REFERENCES users(email)
+                );
 
 
-CREATE TABLE IF NOT EXISTS sent (
-        senderid BIGSERIAL PRIMARY KEY UNIQUE NOT NULL,
+CREATE TABLE sent (
         messageid BIGINT REFERENCES messages(messageid),
-        createdon TIMESTAMP(6) DEFAULT now() 
+        createdon TIMESTAMP(6) DEFAULT now(),
+        sender VARCHAR(200) REFERENCES users(email) NOT NULL
    );
 
-   CREATE TABLE IF NOT EXISTS inbox (
-        receiverid bigserial PRIMARY KEY UNIQUE NOT NULL,
+   CREATE TABLE inbox (
         messageid BIGINT REFERENCES messages(messageid),
-        createdon TIMESTAMP(6) DEFAULT now()
+        createdon TIMESTAMP(6) DEFAULT now(),
+        status messagestatus NOT NULL,
+        receiverusername VARCHAR(200) REFERENCES users(username)
    );
-CREATE TABLE IF NOT EXISTS groups (
+CREATE TABLE groups (
     groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
     groupname VARCHAR(200) NOT NULL,
     createdon TIMESTAMP(6) DEFAULT now(),
-    creator BIGINT REFERENCES users(userid)
+    creator VARCHAR(200) REFERENCES users(username)
 );
-  CREATE TABLE IF NOT EXISTS groupmembers (
+  CREATE TABLE groupmembers (
   groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
   memberid BIGINT REFERENCES users(userid),
   addedon TIMESTAMP(6) DEFAULT now()
@@ -63,7 +61,7 @@ INSERT into users (firstname, lastname, username, password, email, alternateemai
   ('osas', 'okhueleigbe', 'osas422','${hashedPassword}', 'osas422@epicmail.com', 'otaigbe@gmail.com'),
   ('felicia', 'okhueleigbe', 'felicitas','${hashedPassword}', 'felicitas@epicmail.com', 'otaigbe@gmail.com');
   
-INSERT INTO messages (subject, message, parentmessageid, status, creator, sentto, receivedfrom, messagetype)
-  VALUES ('rdtrfr ffafrge f g r  gg g', 'e wre wt e rewer gwerere', null, 'draft', 2, 'felicitas@epicmail.com', null, 'draft'),
-  ('sadasds sdsf f f dsf sgf etgf retg g gt', 'ewtwereb rgwerehgw reg rehrh ge trtrt gwrgewreg eg', null, 'draft', 3, 'osas422@epicmail.com', null, 'sent'),
-  ('ewtrwer w4rwr gere', 'qwrewrr wefrwr  rgrw rgwtrgw trgwrgwegrwtrg', null, 'unread', 1, null, 'felicitas@epicmail.com', 'received');  
+INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver)
+  VALUES ('rdtrfr ffafrge f g r  gg g', 'e wre wt e rewer gwerere', null, 'draft', 'felicitas@epicmail.com', null),
+  ('sadasds sdsf f f dsf sgf etgf retg g gt', 'ewtwereb rgwerehgw reg rehrh ge trtrt gwrgewreg eg', null, 'sent', 'osas422@epicmail.com', 'felicitas@epicmail.com'),
+  ('ewtrwer w4rwr gere', 'qwrewrr wefrwr  rgrw rgwtrgw trgwrgwegrwtrg', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com')

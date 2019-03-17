@@ -7,10 +7,10 @@ import messages from '../fixtures/messages';
 conf.config();
 
 async function createSchema() {
-  const dropType = 'DROP TYPE IF EXISTS status cascade';
+  const dropType = 'DROP TYPE IF EXISTS messagestatus cascade';
   const dropMessageType = 'DROP TYPE IF EXISTS messagetype cascade';
-  const createTypeStatus = 'CREATE TYPE status AS ENUM(\'read\', \'unread\', \'draft\', \'sent\')';
-  const createTypeMessageType = 'CREATE TYPE messagetype AS ENUM(\'received\', \'sent\', \'draft\')';
+  const createTypeStatus = 'CREATE TYPE messagestatus AS ENUM(\'read\', \'unread\', \'draft\', \'sent\')';
+  // const createTypeMessageType = 'CREATE TYPE messagetype AS ENUM(\'received\', \'sent\', \'draft\')';
 
   const createUserTable = `CREATE TABLE IF NOT EXISTS users (
         userid bigserial PRIMARY KEY UNIQUE NOT NULL,
@@ -28,28 +28,27 @@ async function createSchema() {
         subject text NOT NULL,
         message TEXT NOT NULL,
         parentmessageid BIGINT REFERENCES messages(messageid),
-        status STATUS NOT NULL,
-        creator BIGINT REFERENCES users(userid),
-        sentto VARCHAR(200) REFERENCES users(email),
-        receivedfrom VARCHAR(200) REFERENCES users(email),
-        messagetype messagetype NOT NULL
+        status messagestatus NOT NULL,
+        sender VARCHAR(200) REFERENCES users(email),
+        receiver VARCHAR(200) REFERENCES users(email)
         )`;
 
   const sent = `CREATE TABLE IF NOT EXISTS sent (
-        senderid BIGSERIAL PRIMARY KEY UNIQUE NOT NULL,
         messageid BIGINT REFERENCES messages(messageid),
-        createdon TIMESTAMP(8) DEFAULT now() 
+        createdon TIMESTAMP(8) DEFAULT now(),
+        sender VARCHAR(200) REFERENCES users(email)
    )`;
   const inBox = `CREATE TABLE IF NOT EXISTS inbox (
-        receiverid bigserial PRIMARY KEY UNIQUE NOT NULL,
         messageid BIGINT REFERENCES messages(messageid),
-        createdon TIMESTAMP(8) DEFAULT now()
+        createdon TIMESTAMP(8) DEFAULT now(),
+        status messagestatus NOT NULL,
+        receiverusername VARCHAR(200) REFERENCES users(email)
    )`;
   const group = `CREATE TABLE IF NOT EXISTS groups (
     groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
     groupname VARCHAR(200) NOT NULL,
     createdon TIMESTAMP(8) DEFAULT now(),
-    creator BIGINT REFERENCES users(userid)
+    creator VARCHAR(200) REFERENCES users(username)
 )`;
   const groupMembers = `CREATE TABLE IF NOT EXISTS groupmembers (
   groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
@@ -75,18 +74,18 @@ async function createSchema() {
   //   }
   // }
   //   console.log(addMessagesToMessageTable);
-  const addMessagesToMessageTable = `INSERT INTO messages (subject, message, parentmessageid, status, creator, sentto, receivedfrom, messagetype)
-  VALUES ('rdtrfr ffafrge f g r  gg g', 'e wre wt e rewer gwerere', null, 'draft', 2, 'felicitas@epicmail.com', null, 'draft'),
-  ('sadasds sdsf f f dsf sgf etgf retg g gt', 'ewtwereb rgwerehgw reg rehrh ge trtrt gwrgewreg eg', null, 'draft', 3, 'osas422@epicmail.com', null, 'sent'),
-  ('ewtrwer w4rwr gere', 'qwrewrr wefrwr  rgrw rgwtrgw trgwrgwegrwtrg', null, 'unread', 1, null, 'felicitas@epicmail.com', 'received')`;
+  const addMessagesToMessageTable = `INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver)
+  VALUES ('rdtrfr ffafrge f g r  gg g', 'e wre wt e rewer gwerere', null, 'draft', 'felicitas@epicmail.com', null),
+  ('sadasds sdsf f f dsf sgf etgf retg g gt', 'ewtwereb rgwerehgw reg rehrh ge trtrt gwrgewreg eg', null, 'sent', 'osas422@epicmail.com', 'felicitas@epicmail.com'),
+  ('ewtrwer w4rwr gere', 'qwrewrr wefrwr  rgrw rgwtrgw trgwrgwegrwtrg', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com')`;
   pool.connect(async (err, client) => {
     if (err) console.log(err);
     try {
-      await client.query('DROP TABLE IF EXISTS users, messages, sent, groups cascade');
+      await client.query('DROP TABLE IF EXISTS users, messages, sent, inbox, groups, groupmembers cascade');
       await client.query(dropType);
       await client.query(dropMessageType);
       await client.query(createTypeStatus);
-      await client.query(createTypeMessageType);
+      // await client.query(createTypeMessageType);
       await client.query(createUserTable);
       await client.query(createMessageTable);
       await client.query(inBox);
