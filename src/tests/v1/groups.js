@@ -48,4 +48,13 @@ describe('Testing the groups Endpoint', () => {
       chai.expect(res.body).to.have.property('message');
     });
   });
+
+  describe('Testing the group all groups created by a particular user endpoint', () => {
+    it('should delete a group with provided id', async () => {
+      const res = await chai.request(app).get('/api/v1/groups');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('message');
+    });
+  });
 });

@@ -46,4 +46,9 @@ export default class GroupsController {
     }
   }
 
+  static async getAllGroups(req, res) {
+    const args = ['otaigbe@epicmail.com'];
+    const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllGroupsCreatedByAUser, args);
+    return res.status(200).json(response.groupSuccess(dbOperationResult.rows, 'Showing all groups created by User ---', 200));
+  }
 }
