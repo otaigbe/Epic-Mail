@@ -51,4 +51,29 @@ export default class GroupsController {
     const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllGroupsCreatedByAUser, args);
     return res.status(200).json(response.groupSuccess(dbOperationResult.rows, 'Showing all groups created by User ---', 200));
   }
+
+  static async renameAGroup(req, res) {
+    const result = Joi.validate(req.body, schema.rename);
+    if (result.error === null) {
+      const args = [req.params.groupId, 'otaigbe@epicmail.com'];
+      const args1 = [req.body.groupname, 'otaigbe@epicmail.com'];
+      const args2 = [req.body.groupname, req.params.groupId, 'otaigbe@epicmail.com'];
+
+      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+      if (dbOperationResult.rowCount === 1) {
+        const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args1);
+        if (dbOperationResult1.rowCount > 0) {
+          return res.status(400).json(response.groupFailure(`You Already have a group with name ${req.body.groupname}! Chooose a different group name`, 400));
+        }
+        if (dbOperationResult1.rowCount === 0) {
+          const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.renameGroup, args2);
+          return res.status(200).json(response.groupSuccess(null, `Group with id ${req.params.groupId} has been renamed to ${req.body.groupname}!`, 200));
+        }
+      } else if (dbOperationResult.rowCount === 0) {
+        // not found
+        return res.status(400).json(response.groupFailure(`Group with id ${req.params.groupId} doesnt exist for the creator`, 404));
+      }
+    }
+    errorHandler.validationError(res, result);
+  }
 }

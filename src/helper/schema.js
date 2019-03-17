@@ -24,8 +24,15 @@ schemas.message = Joi.object({
 });
 
 schemas.group = Joi.object({
-  groupname: Joi.string().alphanum().min(4).max(30).required(),
+  groupname: Joi.string().alphanum().min(4).max(30)
+    .required(),
   creator: Joi.string().required(),
+});
+
+schemas.rename = Joi.object({
+  groupname: Joi.string().alphanum().min(4).max(30)
+    .trim()
+    .required(),
 });
 
 export default schemas;
