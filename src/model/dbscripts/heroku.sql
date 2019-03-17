@@ -42,7 +42,7 @@ CREATE TABLE sent (
         messageid BIGINT REFERENCES messages(messageid),
         createdon TIMESTAMP(6) DEFAULT now(),
         status messagestatus NOT NULL,
-        receiverusername VARCHAR(200) REFERENCES users(username)
+        receiverusername VARCHAR(200) REFERENCES users(email)
    );
 CREATE TABLE groups (
     groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
