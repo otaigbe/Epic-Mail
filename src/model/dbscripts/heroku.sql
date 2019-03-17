@@ -48,7 +48,7 @@ CREATE TABLE groups (
     groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
     groupname VARCHAR(200) NOT NULL,
     createdon TIMESTAMP(6) DEFAULT now(),
-    creator VARCHAR(200) REFERENCES users(username)
+    creator VARCHAR(200) REFERENCES users(email)
 );
   CREATE TABLE groupmembers (
   groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
