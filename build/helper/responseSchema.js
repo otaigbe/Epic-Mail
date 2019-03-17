@@ -41,6 +41,15 @@ function () {
         }
       };
     }
+  }, {
+    key: "groupSuccess",
+    value: function groupSuccess(resource, message, code) {
+      return {
+        message: message,
+        status: code,
+        data: [resource]
+      };
+    }
     /**
     * Represents a book.
     * @constructor
@@ -57,6 +66,16 @@ function () {
         error: {
           message: message,
           error: errorObj
+        }
+      };
+    }
+  }, {
+    key: "groupFailure",
+    value: function groupFailure(message, code) {
+      return {
+        status: code,
+        error: {
+          message: message
         }
       };
     }

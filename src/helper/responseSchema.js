@@ -20,6 +20,16 @@ export default class Response {
     };
   }
 
+  static groupSuccess(resource, message, code) {
+    return {
+      message,
+      status: code,
+      data: [
+        resource,
+      ],
+    };
+  }
+
 
   /**
  * Represents a book.
@@ -34,6 +44,15 @@ export default class Response {
       error: {
         message,
         error: errorObj,
+      },
+    };
+  }
+
+  static groupFailure(message, code) {
+    return {
+      status: code,
+      error: {
+        message,
       },
     };
   }

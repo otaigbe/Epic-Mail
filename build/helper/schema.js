@@ -28,5 +28,9 @@ schemas.message = _joi.default.object({
   receiver: _joi.default.string().email().max(256),
   sender: _joi.default.string().email().max(256).required()
 });
+schemas.group = _joi.default.object({
+  groupname: _joi.default.string().alphanum().min(4).max(30).required(),
+  creator: _joi.default.string().required()
+});
 var _default = schemas;
 exports.default = _default;

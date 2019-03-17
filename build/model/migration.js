@@ -39,7 +39,7 @@ function _createSchema() {
             createMessageTable = "CREATE TABLE IF NOT EXISTS messages (\n        messageid bigserial PRIMARY KEY UNIQUE NOT NULL,\n        createdon TIMESTAMP DEFAULT NOW() NOT NULL,\n        subject text NOT NULL,\n        message TEXT NOT NULL,\n        parentmessageid BIGINT REFERENCES messages(messageid),\n        status messagestatus NOT NULL,\n        sender VARCHAR(200) REFERENCES users(email),\n        receiver VARCHAR(200) REFERENCES users(email)\n        )";
             sent = "CREATE TABLE IF NOT EXISTS sent (\n        messageid BIGINT REFERENCES messages(messageid),\n        createdon TIMESTAMP(8) DEFAULT now(),\n        sender VARCHAR(200) REFERENCES users(email)\n   )";
             inBox = "CREATE TABLE IF NOT EXISTS inbox (\n        messageid BIGINT REFERENCES messages(messageid),\n        createdon TIMESTAMP(8) DEFAULT now(),\n        status messagestatus NOT NULL,\n        receiverusername VARCHAR(200) REFERENCES users(email)\n   )";
-            group = "CREATE TABLE IF NOT EXISTS groups (\n    groupid bigserial PRIMARY KEY UNIQUE NOT NULL,\n    groupname VARCHAR(200) NOT NULL,\n    createdon TIMESTAMP(8) DEFAULT now(),\n    creator VARCHAR(200) REFERENCES users(username)\n)";
+            group = "CREATE TABLE IF NOT EXISTS groups (\n    groupid bigserial PRIMARY KEY UNIQUE NOT NULL,\n    groupname VARCHAR(200) NOT NULL,\n    createdon TIMESTAMP(8) DEFAULT now(),\n    creator VARCHAR(200) REFERENCES users(email)\n)";
             groupMembers = "CREATE TABLE IF NOT EXISTS groupmembers (\n  groupid bigserial PRIMARY KEY UNIQUE NOT NULL,\n  memberid BIGINT REFERENCES users(userid),\n  addedon TIMESTAMP(8) DEFAULT now()\n)";
             _context2.next = 11;
             return _bcrypt.default.genSalt(10);
