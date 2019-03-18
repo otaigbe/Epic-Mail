@@ -35,4 +35,8 @@ schemas.rename = Joi.object({
     .required(),
 });
 
+schemas.addToGroup = Joi.object({
+  userToBeAdded: Joi.string().email().max(256).required(),
+  
+});
 export default schemas;
