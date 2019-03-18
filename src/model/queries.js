@@ -10,6 +10,7 @@ queries.selectAllGroupsCreatedByAUser = 'SELECT * FROM groups WHERE creator = $1
 queries.renameGroup = 'UPDATE groups SET groupname = $1 WHERE groupid = $2 AND creator = $3';
 queries.insertNewMembersIntoGroup = 'INSERT INTO groupmembers (groupid, memberemail) VALUES ($1,$2)';
 queries.CheckIfUserIsAlreadyAMember = 'SELECT * FROM groupmembers WHERE groupid = $1 AND memberemail = $2';
+queries.deleteUserFromASpecificGroup = 'Delete from groupmembers WHERE groupid = $1 AND memberemail = $2';
 queries.selectEmailById = 'SELECT * FROM messages WHERE messageid = $1';
 queries.deleteQueryById = 'DELETE FROM messages WHERE messageid = $1';
 queries.createGroup = 'INSERT INTO groups (groupname, creator) VALUES ($1, $2) returning groupid';

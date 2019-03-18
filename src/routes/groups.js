@@ -8,5 +8,6 @@ router.delete('/:groupId', groupsController.deleteGroupById);
 router.get('/', groupsController.getAllGroups);
 router.patch('/:groupId/name', groupsController.renameAGroup);
 router.post('/:groupId/users', groupsController.addUserToGroup);
+router.delete('/:groupId/users/:email', groupsController.deleteUserFromParticularGroup);
 
 export default router;

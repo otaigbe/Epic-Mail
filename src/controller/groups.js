@@ -99,4 +99,18 @@ export default class GroupsController {
       }
     }
   }
+
+  static async deleteUserFromParticularGroup(req, res) {
+    const epicmail = usefulFunc.generateFullEmailAddress(req.params.email);
+    console.log(epicmail);
+    const args = [req.params.groupId, epicmail];
+    const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMember, args);
+    if (dbOperationResult3.rowCount > 0) {
+      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.deleteUserFromASpecificGroup, args);
+      return res.status(200).json(response.groupSuccess(null, `user with email ${req.params.email} deleted from group`, 200));
+    }
+    if (dbOperationResult3.rowCount === 0) {
+      return res.status(404).json(response.groupFailure(`You are not a member of Group with id ${req.params.groupId}! Nothing to delete`, 404));
+    }
+  }
 }
