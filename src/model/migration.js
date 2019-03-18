@@ -51,8 +51,8 @@ async function createSchema() {
     creator VARCHAR(200) REFERENCES users(email)
 )`;
   const groupMembers = `CREATE TABLE IF NOT EXISTS groupmembers (
-  groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
-  memberid BIGINT REFERENCES users(userid),
+  groupid bigserial REFERENCES groups(groupid) NOT NULL,
+  memberemail VARCHAR(200) REFERENCES users(email),
   addedon TIMESTAMP(8) DEFAULT now()
 )`;
 

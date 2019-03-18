@@ -71,9 +71,32 @@ export default class GroupsController {
         }
       } else if (dbOperationResult.rowCount === 0) {
         // not found
-        return res.status(400).json(response.groupFailure(`Group with id ${req.params.groupId} doesnt exist for the creator`, 404));
+        return res.status(404).json(response.groupFailure(`Group with id ${req.params.groupId} doesnt exist for the creator`, 404));
       }
     }
     errorHandler.validationError(res, result);
+  }
+
+  static async addUserToGroup(req, res) {
+    const result = Joi.validate(req.body, schema.addToGroup);
+    if (result.error === null) {
+      // check if user has agroup called groupname
+      const args = [req.params.groupId, 'otaigbe@epicmail.com'];
+      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+      if (dbOperationResult.rowCount === 1) {
+        const args2 = [req.params.groupId, req.body.userToBeAdded];
+        // check if usertobeadded is not already a member
+        const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMember, args2);
+        if (dbOperationResult3.rowCount > 0) {
+          return res.status(200).json(response.groupSuccess(null, 'You are already a member of the Group!', 200));
+        }
+        // add user to group
+        const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.insertNewMembersIntoGroup, args2);
+        return res.status(201).json(response.groupSuccess(null, 'User added to Group!', 201));
+      }
+      if (dbOperationResult.rowCount === 0) {
+        return res.status(404).json(response.groupFailure(`Non existent Group with id ${req.params.groupId} for this user!`, 404));
+      }
+    }
   }
 }

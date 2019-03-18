@@ -51,8 +51,9 @@ CREATE TABLE groups (
     creator VARCHAR(200) REFERENCES users(email)
 );
   CREATE TABLE groupmembers (
+  groupid bigserial REFERENCES groups(groupid) NOT NULL,
   groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
-  memberid BIGINT REFERENCES users(userid),
+  memberemail VARCHAR(200) REFERENCES users(email),
   addedon TIMESTAMP(6) DEFAULT now()
 );
 
