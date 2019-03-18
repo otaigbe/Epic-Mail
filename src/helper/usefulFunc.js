@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import store from '../fixtures/users';
 
 export default class UsefulFunctions {
@@ -56,5 +57,43 @@ export default class UsefulFunctions {
         return element;
       }
     });
+  }
+
+  static buildSqlStatement(message, argum) {
+    // const argum = [1, 2, 3, 4, 5];
+    let initial = `WITH insertres AS (
+INSERT into users (firstname, lastname, username, password, email, alternateemail)
+VALUES
+`;
+    for (let i = 0; i < argum.length; i++) {
+      initial += `(${message.subject} , ${message.messageBody}, ${message.parentmessageid}, ${message.status}, ${message.sender}, ${argum[i]})`;
+      if (i < argum.length - 1) {
+        initial += `,
+        `;
+      }
+    }
+    initial += ` RETURNING messageid ),
+insertres2 AS ( insert into inbox (messageid, status, receiverusername) values `;
+    for (let i = 0; i < argum.length; i++) {
+      initial += `((SELECT messageid FROM insertres), 'unread', ${argum[i]})`;
+
+      if (i < argum.length - 1) {
+        initial += `,
+        `;
+      }
+    }
+
+    initial += ') insert into sent (messageid, sender) values ';
+
+    for (let i = 0; i < argum.length; i++) {
+      initial += `((SELECT messageid FROM insertres), ${message.sender})`;
+
+      if (i < argum.length - 1) {
+        initial += `,
+        `;
+      }
+    }
+    initial += ' returning messageid';
+    return initial;
   }
 }

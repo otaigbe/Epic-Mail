@@ -113,4 +113,18 @@ export default class GroupsController {
       return res.status(404).json(response.groupFailure(`You are not a member of Group with id ${req.params.groupId}! Nothing to delete`, 404));
     }
   }
+
+  static async sendMailToAllMembersInAGroup(req, res) {
+    const message = {};
+    message.sender = req.body.sender;
+    message.messageBody = req.body.message;
+    message.subject = req.body.subject;
+    message.parentmessageid = req.body.parentmessageid;
+    message.receiver = req.body.receiver;
+    const args = [req.params.groupId, 'otaigbe@epicmail.com'];
+    const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllMembersOfAPraticularGroup, args);
+    const preparedSqlStatement = usefulFunc.buildSqlStatement(message, dbOperationResult.rows[0]);
+    const dbOperationResult1 = await dbhelpers.performTransactionalQuery(preparedSqlStatement, null);
+    return res.status(200).json(response.groupSuccess(null, 'message sent successfully to everyone in the group', 200));
+  }
 }
