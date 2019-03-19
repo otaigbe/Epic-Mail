@@ -19,7 +19,6 @@ describe('Testing the Epic mail app', () => {
       chai.expect(res).to.have.status(201);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('data');
-      chai.expect(res.body.data).to.have.property('message');
     });
 
     it('should return a validation error', async () => {
@@ -59,7 +58,6 @@ describe('Testing the Epic mail app', () => {
       chai.expect(res).to.have.status(200);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('data');
-      // chai.expect(res.body.data).to.have.property('resource');
     });
 
     it('should return a validation error', async () => {
