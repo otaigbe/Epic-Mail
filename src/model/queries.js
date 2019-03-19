@@ -13,7 +13,7 @@ queries.renameGroup = 'UPDATE groups SET groupname = $1 WHERE groupid = $2 AND c
 queries.insertNewMembersIntoGroup = 'INSERT INTO groupmembers (groupid, memberemail) VALUES ($1,$2)';
 queries.CheckIfUserIsAlreadyAMember = 'SELECT * FROM groupmembers WHERE groupid = $1 AND memberemail = $2';
 queries.deleteUserFromASpecificGroup = 'Delete from groupmembers WHERE groupid = $1 AND memberemail = $2';
-queries.selectAllMembersOfAPraticularGroup = 'SELECT memberemail FROM groupmembers WHERE groupid = $1';
+// queries.selectAllMembersOfAPraticularGroup = 'SELECT memberemail FROM groupmembers WHERE groupid = $1';
 // queries.insertIntoMessageInboxOutboxForGroup = ``
 queries.selectEmailById = 'SELECT * FROM messages WHERE messageid = $1';
 queries.selectEmailByIdForParticularUser = 'SELECT * FROM messages WHERE messageid = $1 AND sender = $2';

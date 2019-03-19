@@ -61,11 +61,70 @@ async function createSchema() {
   const addUserToUserTable = `INSERT into users (firstname, lastname, username, password, email, alternateemail) 
   VALUES ('otaigbe', 'okhueleigbe', 'otaigbe','${hashedPassword}', 'otaigbe@epicmail.com', 'otaigbe@gmail.com'),
   ('osas', 'okhueleigbe', 'osas422','${hashedPassword}', 'osas422@epicmail.com', 'otaigbe@gmail.com'),
+  ('emmakhun', 'gearge', 'george','${hashedPassword}', 'george@epicmail.com', 'otaigbe@gmail.com'),
+  ('omo', 'osahon', 'osahon','${hashedPassword}', 'osahon@epicmail.com', 'otaigbe@gmail.com'),
+  ('ade', 'Ehi', 'ade','${hashedPassword}', 'ade@epicmail.com', 'otaigbe@gmail.com'),
+  ('fidelis', 'christmas', 'fidelis','${hashedPassword}', 'fidelis@epicmail.com', 'otaigbe@gmail.com'),
   ('felicia', 'okhueleigbe', 'felicitas','${hashedPassword}', 'felicitas@epicmail.com', 'otaigbe@gmail.com')`;
+
   const addMessagesToMessageTable = `INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver)
-  VALUES ('rdtrfr ffafrge f g r  gg g', 'e wre wt e rewer gwerere', null, 'draft', 'felicitas@epicmail.com', null),
-  ('sadasds sdsf f f dsf sgf etgf retg g gt', 'ewtwereb rgwerehgw reg rehrh ge trtrt gwrgewreg eg', null, 'sent', 'osas422@epicmail.com', 'felicitas@epicmail.com'),
-  ('ewtrwer w4rwr gere', 'qwrewrr wefrwr  rgrw rgwtrgw trgwrgwegrwtrg', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com')`;
+  VALUES 
+  ('subject', 'messagebody', null, 'draft', 'felicitas@epicmail.com', null),
+  ('subject of mail', 'body of mail', null, 'sent', 'osas422@epicmail.com', 'felicitas@epicmail.com'),
+  ('another test subject', 'body of this email', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com'),
+  ('message for osas', 'Just created more and more ad more test message', null, 'sent', 'otaigbe@epicmail.com', 'osas422@epicmail.com'),
+  ('message for osas',  'Just created more and more and more test message', null, 'sent',  'otaigbe@epicmail.com',  'osas422@epicmail.com'),
+  ('message for osas',  'ths is the message body i am experimenting with', null, 'sent', 'otaigbe@epicmail.com', 'osas422@epicmail.com'),
+  ('message for osas',  'can you feel me', null, 'sent',  'otaigbe@epicmail.com',  'osas422@epicmail.com'),
+  ('message for osas',  'sucker free boss', null, 'sent',  'otaigbe@epicmail.com',  'osas422@epicmail.com'),
+  ('message for osas',  'sucker free boss',  null,  'sent', 'otaigbe@epicmail.com',  'osas422@epicmail.com'),
+  ('message for otaigbe',  'Are you there', null, 'sent',  'osas422@epicmail.com',  'otaigbe@epicmail.com'),
+  ('message for otaigbe', 'You dey there', null, 'sent', 'osas422@epicmail.com', 'otaigbe@epicmail.com'),
+  ('message for otaigbe', 'Whats up', null, 'sent', 'osas422@epicmail.com', 'otaigbe@epicmail.com'),
+  ('message for otaigbe', 'Whats up? Are you there', null, 'sent', 'osas422@epicmail.com', 'otaigbe@epicmail.com'),
+  ('message for otaigbe', 'Whats up? Are you there', null, 'sent', 'osas422@epicmail.com', 'otaigbe@epicmail.com'),
+  ('message for otaigbe', 'Just created message', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com'),
+  ('message for otaigbe', 'go home', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com'),
+  ('message for otaigbe', 'where are you', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com')`;
+
+  const insertIntoInbox = `INSERT INTO inbox (status, receiverusername) VALUES 
+('unread', 'osas422@epicmail.com'),
+('unread', 'osas422@epicmail.com'), 
+('unread', 'osas422@epicmail.com'), 
+('unread', 'osas422@epicmail.com'), 
+('unread', 'osas422@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com'), 
+('unread', 'otaigbe@epicmail.com')`;
+
+  const insertIntosent = `INSERT INTO sent (messageid, sender, senderid) VALUES 
+(4, 'otaigbe@epicmail.com', 1),
+(5, 'otaigbe@epicmail.com', 1),
+(6, 'otaigbe@epicmail.com', 1),
+(7, 'otaigbe@epicmail.com', 1),
+(8, 'otaigbe@epicmail.com', 1),
+(9, 'osas422@epicmail.com', 2),
+(10, 'osas422@epicmail.com', 2),
+(11, 'osas422@epicmail.com', 2),
+(12, 'osas422@epicmail.com', 2),
+(13, 'osas422@epicmail.com', 2),
+(14, 'felicitas@epicmail.com', 3),
+(15, 'felicitas@epicmail.com', 3),
+(16, 'felicitas@epicmail.com', 3),
+(17, 'felicitas@epicmail.com', 3)`;
+
+  const insertIntoGroup = `INSERT into groups (groupname, creator) VALUES ('team', 'otaigbe@epicmail.com'),
+                                                                         ('pals', 'otaigbe@epicmail.com'), 
+                                                                         ('acquaintances', 'otaigbe@epicmail.com')`;
+
+  const insertIntoGroupMembers = `INSERT into groupmembers (groupid, memberemail) VALUES (2, 'felicitas@epicmail.com'), 
+                                                                                         (2, 'osas422@epicmail.com')`;
   pool.connect(async (err, client) => {
     if (err) console.log(err);
     try {
@@ -82,6 +141,12 @@ async function createSchema() {
       await client.query(groupMembers);
       await client.query(addUserToUserTable);
       await client.query(addMessagesToMessageTable);
+      await client.query(insertIntoInbox);
+      await client.query(insertIntosent);
+      await client.query(insertIntoGroup);
+      await client.query(insertIntoGroupMembers);
+
+
       console.log('Tables created and Populated');
     } catch (error) {
       console.log(error);

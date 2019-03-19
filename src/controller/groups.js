@@ -15,13 +15,11 @@ export default class GroupsController {
    * @returns {Object} Success or failure message
    */
   static async createGroup(req, res) {
-    console.log(req.body);
-    const result = Joi.validate(req.body, schema.group);
+    const result = Joi.validate(req.body, schema.createGroup);
     if (result.error === null) {
-      console.log('joi validated');
       const group = {};
       group.groupName = req.body.groupname;
-      group.creator = req.body.creator;
+      group.creator = req.user.email;
       const args = [group.groupName, group.creator];
       const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args);
       if (dbOperationResult1.rowCount > 0) {
@@ -34,19 +32,19 @@ export default class GroupsController {
   }
 
   static async deleteGroupById(req, res) {
-    const args = [req.params.groupId, 'otaigbe@epicmail.com'];
+    const args = [req.params.groupId, req.user.email];
     const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
     if (dbOperationResult.rowCount === 1) {
       const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.deleteGroupById, args);
       return res.status(200).json(response.groupSuccess(null, `Deleted group with id of ${req.params.groupId}`, 200));
     }
     if (dbOperationResult.rowCount === 0) {
-      return res.status(404).json(response.failure(`Couldn't find group with id ${req.params.groupId} belonging to you`, null, 404));
+      return res.status(404).json(response.groupFailure(`Couldn't find group with id ${req.params.groupId} belonging to you`, 404));
     }
   }
 
   static async getAllGroups(req, res) {
-    const args = ['otaigbe@epicmail.com'];
+    const args = [req.user.email];
     const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllGroupsCreatedByAUser, args);
     return res.status(200).json(response.groupSuccess(dbOperationResult.rows, 'Showing all groups created by User ---', 200));
   }
@@ -57,9 +55,7 @@ export default class GroupsController {
       const args = [req.params.groupId, 'otaigbe@epicmail.com'];
       const args1 = [req.body.groupname, 'otaigbe@epicmail.com'];
       const args2 = [req.body.groupname, req.params.groupId, 'otaigbe@epicmail.com'];
-
       const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
-      /* istanbul ignore next */
       if (dbOperationResult.rowCount === 1) {
         const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args1);
         if (dbOperationResult1.rowCount > 0) {
@@ -70,41 +66,36 @@ export default class GroupsController {
           return res.status(200).json(response.groupSuccess(null, `Group with id ${req.params.groupId} has been renamed to ${req.body.groupname}!`, 200));
         }
       } else if (dbOperationResult.rowCount === 0) {
-        // not found
         return res.status(404).json(response.groupFailure(`Group with id ${req.params.groupId} doesnt exist for the creator`, 404));
       }
     }
     errorHandler.validationError(res, result);
   }
 
-  /* istanbul ignore next */
   static async addUserToGroup(req, res) {
     const result = Joi.validate(req.body, schema.addToGroup);
     if (result.error === null) {
-      // check if user has agroup called groupname
-      const args = [req.params.groupId, 'otaigbe@epicmail.com'];
+      const args = [req.params.groupId, req.user.email];
       const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
       if (dbOperationResult.rowCount === 1) {
         const args2 = [req.params.groupId, req.body.userToBeAdded];
-        // check if usertobeadded is not already a member
         const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMember, args2);
         if (dbOperationResult3.rowCount > 0) {
           return res.status(200).json(response.groupSuccess(null, 'You are already a member of the Group!', 200));
         }
-        // add user to group
         const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.insertNewMembersIntoGroup, args2);
         return res.status(201).json(response.groupSuccess(null, 'User added to Group!', 201));
       }
       if (dbOperationResult.rowCount === 0) {
         return res.status(404).json(response.groupFailure(`Non existent Group with id ${req.params.groupId} for this user!`, 404));
       }
+    } else {
+      errorHandler.validationError(res, result);
     }
   }
 
-  /* istanbul ignore next */
   static async deleteUserFromParticularGroup(req, res) {
     const epicmail = usefulFunc.generateFullEmailAddress(req.params.email);
-    console.log(epicmail);
     const args = [req.params.groupId, epicmail];
     const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMember, args);
     if (dbOperationResult3.rowCount > 0) {
@@ -118,16 +109,20 @@ export default class GroupsController {
 
   /* istanbul ignore next */
   static async sendMailToAllMembersInAGroup(req, res) {
-    const message = {};
-    message.sender = req.body.sender;
-    message.messageBody = req.body.message;
-    message.subject = req.body.subject;
-    message.parentmessageid = req.body.parentmessageid;
-    message.receiver = req.body.receiver;
-    const args = [req.params.groupId, 'otaigbe@epicmail.com'];
-    const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllMembersOfAPraticularGroup, args);
-    const preparedSqlStatement = usefulFunc.buildSqlStatement(message, dbOperationResult.rows[0]);
-    const dbOperationResult1 = await dbhelpers.performTransactionalQuery(preparedSqlStatement, null);
-    return res.status(200).json(response.groupSuccess(null, 'message sent successfully to everyone in the group', 200));
+    const result = Joi.validate(req.body, schema.addToGroup);
+    if (result.error === null) {
+      const message = {};
+      message.sender = req.user.email;
+      message.messageBody = req.body.message;
+      message.subject = req.body.subject;
+      message.parentmessageid = req.body.parentmessageid;
+      // message.receiver = req.body.receiver;
+      const args = [req.params.groupId, req.user.email];
+      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllMembersOfAPraticularGroup, args);
+      const preparedSqlStatement = usefulFunc.buildSqlStatement(message, dbOperationResult.rows[0]);
+      const dbOperationResult1 = await dbhelpers.performTransactionalQuery(preparedSqlStatement, null);
+      return res.status(200).json(response.groupSuccess(null, 'message sent successfully to everyone in the group', 200));
+    }
+    errorHandler.validationError(res, result);
   }
 }

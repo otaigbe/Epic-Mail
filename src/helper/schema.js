@@ -24,7 +24,13 @@ schemas.message = Joi.object({
   receiver: Joi.string().email().max(256),
 });
 
-schemas.group = Joi.object({
+
+schemas.groupMessage = Joi.object({
+  subject: Joi.string().min(4).trim().required(),
+  message: Joi.string().min(5).trim().required(),
+});
+
+schemas.createGroup = Joi.object({
   groupname: Joi.string().alphanum().min(4).max(30)
     .required(),
   creator: Joi.string().required(),
@@ -37,7 +43,8 @@ schemas.rename = Joi.object({
 });
 
 schemas.addToGroup = Joi.object({
-  userToBeAdded: Joi.string().email().max(256).required(),
+  userToBeAdded: Joi.string().email({ minDomainAtoms: 2 }).max(256).trim()
+    .required(),
 
 });
 export default schemas;
