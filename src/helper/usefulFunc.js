@@ -1,4 +1,5 @@
 /* eslint-disable no-plusplus */
+/* istanbul ignore file */
 import store from '../fixtures/users';
 
 export default class UsefulFunctions {

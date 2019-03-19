@@ -1,8 +1,6 @@
 import conf from 'dotenv';
-import format from 'pg-format';
 import bcrypt from 'bcrypt';
 import pool from './dbConnect';
-import messages from '../fixtures/messages';
 
 conf.config();
 
@@ -10,7 +8,6 @@ async function createSchema() {
   const dropType = 'DROP TYPE IF EXISTS messagestatus cascade';
   const dropMessageType = 'DROP TYPE IF EXISTS messagetype cascade';
   const createTypeStatus = 'CREATE TYPE messagestatus AS ENUM(\'read\', \'unread\', \'draft\', \'sent\')';
-  // const createTypeMessageType = 'CREATE TYPE messagetype AS ENUM(\'received\', \'sent\', \'draft\')';
 
   const createUserTable = `CREATE TABLE IF NOT EXISTS users (
         userid bigserial PRIMARY KEY UNIQUE NOT NULL,
@@ -63,17 +60,6 @@ async function createSchema() {
   VALUES ('otaigbe', 'okhueleigbe', 'otaigbe','${hashedPassword}', 'otaigbe@epicmail.com', 'otaigbe@gmail.com'),
   ('osas', 'okhueleigbe', 'osas422','${hashedPassword}', 'osas422@epicmail.com', 'otaigbe@gmail.com'),
   ('felicia', 'okhueleigbe', 'felicitas','${hashedPassword}', 'felicitas@epicmail.com', 'otaigbe@gmail.com')`;
-  // let addMessagesToMessageTable = 'INSERT into messages () VALUES ';
-  // for (let i = 0; i < messages.length; i++) {
-  //   addMessagesToMessageTable += `('${messages[i].from}', '${messages[i].to}', '${messages[i].messageBody}', '${messages[i].subject}', '${messages[i].type}', '${messages[i].status}', '${messages[i].id}', '${messages[i].createdOn}')`;
-  //   if (i < messages.length - 1) {
-  //     addMessagesToMessageTable += ',';
-  //   }
-  //   if (i === messages.length - 1) {
-  //     addMessagesToMessageTable += ';';
-  //   }
-  // }
-  //   console.log(addMessagesToMessageTable);
   const addMessagesToMessageTable = `INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver)
   VALUES ('rdtrfr ffafrge f g r  gg g', 'e wre wt e rewer gwerere', null, 'draft', 'felicitas@epicmail.com', null),
   ('sadasds sdsf f f dsf sgf etgf retg g gt', 'ewtwereb rgwerehgw reg rehrh ge trtrt gwrgewreg eg', null, 'sent', 'osas422@epicmail.com', 'felicitas@epicmail.com'),
