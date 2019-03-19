@@ -1,6 +1,5 @@
 /* eslint-disable consistent-return */
 import Joi from 'joi';
-import bcrypt from 'bcrypt';
 import usefulFunc from '../helper/usefulFunc';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
@@ -60,6 +59,7 @@ export default class GroupsController {
       const args2 = [req.body.groupname, req.params.groupId, 'otaigbe@epicmail.com'];
 
       const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+      /* istanbul ignore next */
       if (dbOperationResult.rowCount === 1) {
         const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args1);
         if (dbOperationResult1.rowCount > 0) {
@@ -77,6 +77,7 @@ export default class GroupsController {
     errorHandler.validationError(res, result);
   }
 
+  /* istanbul ignore next */
   static async addUserToGroup(req, res) {
     const result = Joi.validate(req.body, schema.addToGroup);
     if (result.error === null) {
@@ -100,6 +101,7 @@ export default class GroupsController {
     }
   }
 
+  /* istanbul ignore next */
   static async deleteUserFromParticularGroup(req, res) {
     const epicmail = usefulFunc.generateFullEmailAddress(req.params.email);
     console.log(epicmail);
@@ -112,5 +114,20 @@ export default class GroupsController {
     if (dbOperationResult3.rowCount === 0) {
       return res.status(404).json(response.groupFailure(`You are not a member of Group with id ${req.params.groupId}! Nothing to delete`, 404));
     }
+  }
+
+  /* istanbul ignore next */
+  static async sendMailToAllMembersInAGroup(req, res) {
+    const message = {};
+    message.sender = req.body.sender;
+    message.messageBody = req.body.message;
+    message.subject = req.body.subject;
+    message.parentmessageid = req.body.parentmessageid;
+    message.receiver = req.body.receiver;
+    const args = [req.params.groupId, 'otaigbe@epicmail.com'];
+    const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllMembersOfAPraticularGroup, args);
+    const preparedSqlStatement = usefulFunc.buildSqlStatement(message, dbOperationResult.rows[0]);
+    const dbOperationResult1 = await dbhelpers.performTransactionalQuery(preparedSqlStatement, null);
+    return res.status(200).json(response.groupSuccess(null, 'message sent successfully to everyone in the group', 200));
   }
 }

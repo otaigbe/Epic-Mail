@@ -9,5 +9,6 @@ router.get('/', groupsController.getAllGroups);
 router.patch('/:groupId/name', groupsController.renameAGroup);
 router.post('/:groupId/users', groupsController.addUserToGroup);
 router.delete('/:groupId/users/:email', groupsController.deleteUserFromParticularGroup);
+router.post('/:groupId/messages', groupsController.sendMailToAllMembersInAGroup);
 
 export default router;
