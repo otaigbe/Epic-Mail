@@ -8,18 +8,24 @@ export default class Response {
  * @param {string} message - The success message.
  * @param {integer} code - The http status code returned.
  */
-  static success(method, req, resource, message, code) {
+  static success(token, code) {
     return {
       status: code,
-      data: {
-        message,
-        'request-type': method,
-        url: req.originalUrl,
-        resource,
-      },
+      data: [{
+        token,
+      }],
     };
   }
 
+  static messageSuccess(resource, code) {
+    return {
+      status: code,
+      data: [{
+        resource,
+      }],
+    };
+  }
+  
   static groupSuccess(resource, message, code) {
     return {
       message,

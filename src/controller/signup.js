@@ -21,9 +21,9 @@ export default class SignupController {
       const { password } = req.body;
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      const userId = usefulFunc.generateId();
+      // const userId = usefulFunc.generateId();
       const userObj = {};
-      userObj.id = userId;
+      // userObj.id = userId;
       userObj.email = usefulFunc.generateFullEmailAddress(req.body.username);
       userObj.firstName = req.body.firstName;
       userObj.lastName = req.body.lastName;
@@ -31,13 +31,11 @@ export default class SignupController {
       userObj.username = req.body.username;
       userObj.alternateEmail = req.body.alternateEmail;
       const args = [userObj.username];
-      // const existentUsername = usefulFunc.searchForAlreadyExistingUsername(userObj);
       const dbOperationResult = await dbhelper.performTransactionalQuery(queries.checkForAlreadyExistentUser, args);
       if (dbOperationResult.rowCount === 0) {
-        // const id = usefulFunc.insertIntoStorage(userObj);
         const args2 = [userObj.firstName, userObj.lastName, userObj.username, userObj.password, userObj.email, userObj.alternateEmail];
         const dbOperationResult2 = await dbhelper.performTransactionalQuery(queries.insertNewUser, args2);
-        return res.status(201).json(response.success('POST', req, userObj, `Account created!Welcome ${req.body.username}`, 201));
+        return res.status(201).json(response.success(null, 201));
       }
       return res.status(409).json(response.failure('chosen username/email already exists, choose a unique username.', null, 409));
     }

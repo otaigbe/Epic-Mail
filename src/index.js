@@ -2,7 +2,7 @@ import express from 'express';
 import conf from 'dotenv';
 import '@babel/polyfill';
 import endpoints from './routes/v1';
-import error from './middleware/error';
+import auth from './middleware/auth';
 
 conf.config();
 const app = express();
@@ -10,6 +10,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('./UI'));
+
 app.use('/', endpoints);
 
 // app.use(error);
