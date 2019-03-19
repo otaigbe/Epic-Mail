@@ -1,5 +1,6 @@
 import express from 'express';
 import groupsController from '../controller/groups';
+import auth from '../middleware/auth';
 
 const router = express.Router();
 

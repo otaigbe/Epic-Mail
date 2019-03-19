@@ -1,5 +1,4 @@
 import conf from 'dotenv';
-import format from 'pg-format';
 import bcrypt from 'bcrypt';
 import pool from './dbConnect';
 import messages from '../fixtures/messages';
@@ -27,22 +26,24 @@ async function createSchema() {
         createdon TIMESTAMP DEFAULT NOW() NOT NULL,
         subject text NOT NULL,
         message TEXT NOT NULL,
-        parentmessageid BIGINT REFERENCES messages(messageid),
+        parentmessageid BIGINT,
         status messagestatus NOT NULL,
-        sender VARCHAR(200) REFERENCES users(email),
-        receiver VARCHAR(200) REFERENCES users(email)
+        sender VARCHAR(200) REFERENCES users(email) ON DELETE RESTRICT,
+        receiver VARCHAR(200) REFERENCES users(email) ON DELETE RESTRICT
         )`;
 
   const sent = `CREATE TABLE IF NOT EXISTS sent (
-        messageid BIGINT REFERENCES messages(messageid),
+        messageid BIGINT REFERENCES messages(messageid) ON DELETE CASCADE,
         createdon TIMESTAMP(8) DEFAULT now(),
-        sender VARCHAR(200) REFERENCES users(email)
+        sender VARCHAR(200) REFERENCES users(email),
+        senderid BIGINT REFERENCES users(userid)
    )`;
   const inBox = `CREATE TABLE IF NOT EXISTS inbox (
-        messageid BIGINT REFERENCES messages(messageid),
+        messageid BIGINT REFERENCES messages(messageid) ON DELETE CASCADE,
         createdon TIMESTAMP(8) DEFAULT now(),
         status messagestatus NOT NULL,
-        receiverusername VARCHAR(200) REFERENCES users(email)
+        receiverusername VARCHAR(200) REFERENCES users(email) ON DELETE RESTRICT,
+        receiverid BIGINT REFERENCES users(userid) ON DELETE RESTRICT
    )`;
   const group = `CREATE TABLE IF NOT EXISTS groups (
     groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
