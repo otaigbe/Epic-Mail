@@ -87,21 +87,21 @@ async function createSchema() {
   ('message for otaigbe', 'go home', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com'),
   ('message for otaigbe', 'where are you', null, 'sent', 'felicitas@epicmail.com', 'otaigbe@epicmail.com')`;
 
-  const insertIntoInbox = `INSERT INTO inbox (status, receiverusername) VALUES 
-('unread', 'osas422@epicmail.com'),
-('unread', 'osas422@epicmail.com'), 
-('unread', 'osas422@epicmail.com'), 
-('unread', 'osas422@epicmail.com'), 
-('unread', 'osas422@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com'), 
-('unread', 'otaigbe@epicmail.com')`;
+  const insertIntoInbox = `INSERT INTO inbox (messageid, status, receiverusername) VALUES 
+(4,'unread', 'osas422@epicmail.com'),
+(5,'unread', 'osas422@epicmail.com'), 
+(6,'unread', 'osas422@epicmail.com'), 
+(7,'unread', 'osas422@epicmail.com'), 
+(8,'unread', 'osas422@epicmail.com'), 
+(9,'unread', 'otaigbe@epicmail.com'), 
+(10,'unread', 'otaigbe@epicmail.com'), 
+(11,'unread', 'otaigbe@epicmail.com'), 
+(12,'unread', 'otaigbe@epicmail.com'), 
+(13,'unread', 'otaigbe@epicmail.com'), 
+(14,'unread', 'otaigbe@epicmail.com'), 
+(15,'unread', 'otaigbe@epicmail.com'), 
+(16,'unread', 'otaigbe@epicmail.com'), 
+(17,'unread', 'otaigbe@epicmail.com')`;
 
   const insertIntosent = `INSERT INTO sent (messageid, sender, senderid) VALUES 
 (4, 'otaigbe@epicmail.com', 1),

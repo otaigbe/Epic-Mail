@@ -11,7 +11,7 @@ const viewMessages = function (text, mailType, email, looptotal, e){
 	let modal = ``;
 	modal +=`<div id=
 "tabcontentDisplayarea"><div class="tab">
-  <span class="tablinks active"  onclick="openInBox(event, 'inBox');">${text}<i class="fa fa-close close-tab"></i></span>
+  <span class="tablinks active"  onclick="openInBox(event, 'inBox');">${text}</span>
 </div><div class="tabcontent" id="inBox"><div class="mail">
   <div class="displayHeadings"><input type="checkbox" class="check-box-top"> <i class="fa fa-trash" aria-hidden="true"></i> <i class="fa fa-refresh"></i> <i class="fa fa-bell" aria-hidden="true"></i> <span class="pagination"><i class="fa fa-arrow-circle-left custom" ></i><i class="fa fa-arrow-circle-right custom" ></i></span></div>`;
 	for (let i=0; i< looptotal; i++){

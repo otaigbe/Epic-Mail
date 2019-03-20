@@ -35,15 +35,15 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var SigninController =
+var ResetController =
 /*#__PURE__*/
 function () {
-  function SigninController() {
-    _classCallCheck(this, SigninController);
+  function ResetController() {
+    _classCallCheck(this, ResetController);
   }
 
-  _createClass(SigninController, null, [{
-    key: "signin",
+  _createClass(ResetController, null, [{
+    key: "reset",
 
     /**
      * This creates a new account for a user
@@ -52,62 +52,19 @@ function () {
      * @returns {Object} Success or failure message
      */
     value: function () {
-      var _signin = _asyncToGenerator(
+      var _reset = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var result, args, dbOperationResult, validPassword, user, token;
+        var result;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                result = _joi.default.validate(req.body, _schema.default.signinSchema);
+                result = _joi.default.validate(req.body, _schema.default.resetSchema);
 
-                if (!(result.error === null)) {
-                  _context.next = 20;
-                  break;
-                }
+                if (result.error === null) {}
 
-                args = [req.body.email];
-                _context.next = 5;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.searchForEmail, args);
-
-              case 5:
-                dbOperationResult = _context.sent;
-
-                if (!(dbOperationResult.rowCount === 1)) {
-                  _context.next = 18;
-                  break;
-                }
-
-                _context.next = 9;
-                return _bcrypt.default.compare(req.body.password, dbOperationResult.rows[0].password);
-
-              case 9:
-                validPassword = _context.sent;
-                user = {};
-                user.id = dbOperationResult.rows[0].userid;
-                user.username = dbOperationResult.rows[0].username;
-                user.email = dbOperationResult.rows[0].email;
-
-                if (validPassword) {
-                  _context.next = 16;
-                  break;
-                }
-
-                return _context.abrupt("return", res.status(400).json(_responseSchema.default.failure('Invalid username or password.', null, 400)));
-
-              case 16:
-                token = _jsonwebtoken.default.sign(user, process.env.SECRETKEY);
-                return _context.abrupt("return", res.status(200).json(_responseSchema.default.success(token, 200)));
-
-              case 18:
-                _context.next = 21;
-                break;
-
-              case 20:
-                _errorHandler.default.validationError(res, result);
-
-              case 21:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -115,15 +72,15 @@ function () {
         }, _callee);
       }));
 
-      function signin(_x, _x2) {
-        return _signin.apply(this, arguments);
+      function reset(_x, _x2) {
+        return _reset.apply(this, arguments);
       }
 
-      return signin;
+      return reset;
     }()
   }]);
 
-  return SigninController;
+  return ResetController;
 }();
 
-exports.default = SigninController;
+exports.default = ResetController;

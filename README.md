@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/otaigbe/Epic-Mail.svg?branch=ft-create-account-endpoint-164573887)](https://travis-ci.org/otaigbe/Epic-Mail)
-[![Coverage Status](https://coveralls.io/repos/github/otaigbe/Epic-Mail/badge.svg?branch=ft-create-account-endpoint-164573887)](https://coveralls.io/github/otaigbe/Epic-Mail?branch=ft-create-account-endpoint-164573887)
+[![Build Status](https://travis-ci.org/otaigbe/Epic-Mail.svg?branch=develop)](https://travis-ci.org/otaigbe/Epic-Mail)
+[![Coverage Status](https://coveralls.io/repos/github/otaigbe/Epic-Mail/badge.svg?branch=develop)](https://coveralls.io/github/otaigbe/Epic-Mail?branch=develop)
 
 # Epic-Mail
 Epic mail is an email service used for sending messages between users. It is a light weight, easy to use desktop application that runs primarily in a browser. It is built on top of NodeJS and uses javascript to query restful resources from the backend. It is higly responsive and flexible because it provides users with opportunity to:

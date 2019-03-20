@@ -91,6 +91,43 @@ function () {
         }
       });
     }
+  }, {
+    key: "buildSqlStatement",
+    value: function buildSqlStatement(message, argum) {
+      // const argum = [1, 2, 3, 4, 5];
+      var initial = "WITH insertres AS (\nINSERT into users (firstname, lastname, username, password, email, alternateemail)\nVALUES\n";
+
+      for (var i = 0; i < argum.length; i++) {
+        initial += "(".concat(message.subject, " , ").concat(message.messageBody, ", ").concat(message.parentmessageid, ", ").concat(message.status, ", ").concat(message.sender, ", ").concat(argum[i], ")");
+
+        if (i < argum.length - 1) {
+          initial += ",\n        ";
+        }
+      }
+
+      initial += " RETURNING messageid ),\ninsertres2 AS ( insert into inbox (messageid, status, receiverusername) values ";
+
+      for (var _i = 0; _i < argum.length; _i++) {
+        initial += "((SELECT messageid FROM insertres), 'unread', ".concat(argum[_i], ")");
+
+        if (_i < argum.length - 1) {
+          initial += ",\n        ";
+        }
+      }
+
+      initial += ') insert into sent (messageid, sender) values ';
+
+      for (var _i2 = 0; _i2 < argum.length; _i2++) {
+        initial += "((SELECT messageid FROM insertres), ".concat(message.sender, ")");
+
+        if (_i2 < argum.length - 1) {
+          initial += ",\n        ";
+        }
+      }
+
+      initial += ' returning messageid';
+      return initial;
+    }
   }]);
 
   return UsefulFunctions;

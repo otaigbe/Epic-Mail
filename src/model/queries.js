@@ -15,6 +15,7 @@ queries.CheckIfUserIsAlreadyAMember = 'SELECT * FROM groupmembers WHERE groupid 
 queries.deleteUserFromASpecificGroup = 'Delete from groupmembers WHERE groupid = $1 AND memberemail = $2';
 // queries.selectAllMembersOfAPraticularGroup = 'SELECT memberemail FROM groupmembers WHERE groupid = $1';
 // queries.insertIntoMessageInboxOutboxForGroup = ``
+// queries.retractEmail = ``;
 queries.selectEmailById = 'SELECT * FROM messages WHERE messageid = $1';
 queries.selectEmailByIdForParticularUser = 'SELECT * FROM messages WHERE messageid = $1 AND sender = $2';
 queries.deleteQueryById = 'DELETE FROM messages WHERE messageid = $1';

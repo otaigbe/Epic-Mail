@@ -46,9 +46,7 @@ describe('Testing the Epic mail app', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body.data).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -152,8 +150,7 @@ describe('Testing the Epic mail app', function () {
 
               _chai.default.expect(res.body).to.have.property('status');
 
-              _chai.default.expect(res.body).to.have.property('data'); // chai.expect(res.body.data).to.have.property('resource');
-
+              _chai.default.expect(res.body).to.have.property('data');
 
             case 6:
             case "end":
