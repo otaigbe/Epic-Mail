@@ -29,11 +29,10 @@ describe('Testing the messages Endpoint', function () {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _chai.default.request(_index.default).post('/api/v1/messages').type('form').send({
+              return _chai.default.request(_index.default).post('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
                 subject: 'oiiuyizsgrtfhtuyoiuo',
                 message: 'Just created this test message',
-                receiver: 'otaigbe@epicmail.com',
-                sender: 'osas422@epicmail.com'
+                receiver: 'felicitas@epicmail.com'
               });
 
             case 2:
@@ -45,9 +44,7 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body.data).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -65,8 +62,7 @@ describe('Testing the messages Endpoint', function () {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return _chai.default.request(_index.default).post('/api/v1/messages').type('form').send({
-                sender: 'osas422@epicmail.com',
+              return _chai.default.request(_index.default).post('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
                 subject: 'oiiuyizsgrtfhtuyoiuo',
                 message: 'Just created this message'
               });
@@ -80,9 +76,7 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body.data).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context2.stop();
           }
@@ -100,7 +94,7 @@ describe('Testing the messages Endpoint', function () {
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return _chai.default.request(_index.default).post('/api/v1/messages').type('form').send({
+              return _chai.default.request(_index.default).post('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
                 to: 'stanley@epicmail.com',
                 subject: '',
                 message: 'tthyth thn4thnbet thntrhnth t thynthne tne etyne tjne tjntetjnh tjnt eyn'
@@ -115,18 +109,14 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('error');
 
-              _chai.default.expect(res.body.error.message).to.eql('Something wrong with input!');
-
-            case 7:
+            case 6:
             case "end":
               return _context3.stop();
           }
         }
       }, _callee3);
     })));
-  });
-  describe('Testing the get all received email Endpoint', function () {
-    it('should get all emails where status is received',
+    it('should return a unauthorised access error',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -137,20 +127,20 @@ describe('Testing the messages Endpoint', function () {
           switch (_context4.prev = _context4.next) {
             case 0:
               _context4.next = 2;
-              return _chai.default.request(_index.default).get('/api/v1/messages');
+              return _chai.default.request(_index.default).post('/api/v1/messages').type('form').send({
+                subject: 'oiiuyizsgrtfhtuyoiuo',
+                message: 'Just created this test message',
+                receiver: 'osass@epicmail.com'
+              });
 
             case 2:
               res = _context4.sent;
 
-              _chai.default.expect(res).to.have.status(200);
+              _chai.default.expect(res).to.have.status(401); // chai.expect(res.body).to.have.property('status');
+              // chai.expect(res.body).to.have.property('error');
 
-              _chai.default.expect(res.body).to.have.property('status');
 
-              _chai.default.expect(res.body).to.have.property('data');
-
-              _chai.default.expect(res.body.data).to.have.property('message');
-
-            case 7:
+            case 4:
             case "end":
               return _context4.stop();
           }
@@ -158,8 +148,8 @@ describe('Testing the messages Endpoint', function () {
       }, _callee4);
     })));
   });
-  describe('Testing the get all unread emails Endpoint', function () {
-    it('should get all emails where status is unread',
+  describe('Testing the get all received email Endpoint', function () {
+    it('should get all emails where status is received',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -170,7 +160,7 @@ describe('Testing the messages Endpoint', function () {
           switch (_context5.prev = _context5.next) {
             case 0:
               _context5.next = 2;
-              return _chai.default.request(_index.default).get('/api/v1/messages/unread');
+              return _chai.default.request(_index.default).get('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
 
             case 2:
               res = _context5.sent;
@@ -179,11 +169,10 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('status');
 
-              _chai.default.expect(res.body).to.have.property('data');
+              _chai.default.expect(res.body).to.have.property('data'); // chai.expect(res.body.data).to.have.property('message');
 
-              _chai.default.expect(res.body.data).to.have.property('message');
 
-            case 7:
+            case 6:
             case "end":
               return _context5.stop();
           }
@@ -191,8 +180,8 @@ describe('Testing the messages Endpoint', function () {
       }, _callee5);
     })));
   });
-  describe('Testing the get all sent emails Endpoint', function () {
-    it('should get all emails where type is sent',
+  describe('Testing the get all unread emails Endpoint', function () {
+    it('should get all emails where status is unread',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -203,7 +192,7 @@ describe('Testing the messages Endpoint', function () {
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.next = 2;
-              return _chai.default.request(_index.default).get('/api/v1/messages/sent');
+              return _chai.default.request(_index.default).get('/api/v1/messages/unread').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
 
             case 2:
               res = _context6.sent;
@@ -214,9 +203,7 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body.data).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context6.stop();
           }
@@ -224,8 +211,8 @@ describe('Testing the messages Endpoint', function () {
       }, _callee6);
     })));
   });
-  describe('Testing the get specific users email by Id Endpoint', function () {
-    it('should get a specific users email by Id',
+  describe('Testing the get all sent emails Endpoint', function () {
+    it('should get all emails where type is sent',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -236,7 +223,7 @@ describe('Testing the messages Endpoint', function () {
           switch (_context7.prev = _context7.next) {
             case 0:
               _context7.next = 2;
-              return _chai.default.request(_index.default).get('/api/v1/messages/1');
+              return _chai.default.request(_index.default).get('/api/v1/messages/sent').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
 
             case 2:
               res = _context7.sent;
@@ -247,16 +234,14 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body.data).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context7.stop();
           }
         }
       }, _callee7);
     })));
-    it('should return a message not found error message',
+    it('should throw 401 error',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -267,20 +252,14 @@ describe('Testing the messages Endpoint', function () {
           switch (_context8.prev = _context8.next) {
             case 0:
               _context8.next = 2;
-              return _chai.default.request(_index.default).get('/api/v1/messages/19300');
+              return _chai.default.request(_index.default).get('/api/v1/messages/sent');
 
             case 2:
               res = _context8.sent;
 
-              _chai.default.expect(res).to.have.status(404);
+              _chai.default.expect(res).to.have.status(401);
 
-              _chai.default.expect(res.body).to.have.property('status');
-
-              _chai.default.expect(res.body).to.have.property('error');
-
-              _chai.default.expect(res.body.error).to.have.property('message');
-
-            case 7:
+            case 4:
             case "end":
               return _context8.stop();
           }
@@ -288,8 +267,8 @@ describe('Testing the messages Endpoint', function () {
       }, _callee8);
     })));
   });
-  describe('Testing the Delete email by Id Endpoint', function () {
-    it('should delete a specific users email by Id',
+  describe('Testing the get specific users email by Id Endpoint', function () {
+    it('should get a specific users email by Id',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -300,7 +279,7 @@ describe('Testing the messages Endpoint', function () {
           switch (_context9.prev = _context9.next) {
             case 0:
               _context9.next = 2;
-              return _chai.default.request(_index.default).get('/api/v1/messages/1');
+              return _chai.default.request(_index.default).get('/api/v1/messages/5').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
 
             case 2:
               res = _context9.sent;
@@ -311,16 +290,14 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body.data).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context9.stop();
           }
         }
       }, _callee9);
     })));
-    it('should return a message not found error and deletion incomplete message',
+    it('should return a message not found error message',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -331,7 +308,7 @@ describe('Testing the messages Endpoint', function () {
           switch (_context10.prev = _context10.next) {
             case 0:
               _context10.next = 2;
-              return _chai.default.request(_index.default).get('/api/v1/messages/19300');
+              return _chai.default.request(_index.default).get('/api/v1/messages/19300').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
 
             case 2:
               res = _context10.sent;
@@ -342,14 +319,74 @@ describe('Testing the messages Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('error');
 
-              _chai.default.expect(res.body.error).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context10.stop();
           }
         }
       }, _callee10);
+    })));
+  });
+  describe('Testing the Delete email by Id Endpoint', function () {
+    it('should delete a specific users email by Id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee11() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee11$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              _context11.next = 2;
+              return _chai.default.request(_index.default).delete('/api/v1/messages/5').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context11.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('data'); // chai.expect(res.body.data).to.have.property('message');
+
+
+            case 6:
+            case "end":
+              return _context11.stop();
+          }
+        }
+      }, _callee11);
+    })));
+    it('should return a message not found error and deletion incomplete message',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee12() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee12$(_context12) {
+        while (1) {
+          switch (_context12.prev = _context12.next) {
+            case 0:
+              _context12.next = 2;
+              return _chai.default.request(_index.default).get('/api/v1/messages/19300').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context12.sent;
+
+              _chai.default.expect(res).to.have.status(404);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+              _chai.default.expect(res.body).to.have.property('error'); // chai.expect(res.body.error).to.have.property('message');
+
+
+            case 6:
+            case "end":
+              return _context12.stop();
+          }
+        }
+      }, _callee12);
     })));
   });
 });

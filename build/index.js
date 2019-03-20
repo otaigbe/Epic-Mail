@@ -13,7 +13,7 @@ require("@babel/polyfill");
 
 var _v = _interopRequireDefault(require("./routes/v1"));
 
-var _error = _interopRequireDefault(require("./middleware/error"));
+var _auth = _interopRequireDefault(require("./middleware/auth"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

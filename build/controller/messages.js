@@ -69,26 +69,25 @@ function () {
 
                 console.log('joi validated');
                 message = {};
-                message.sender = req.body.sender;
                 message.messageBody = req.body.message;
                 message.subject = req.body.subject;
                 message.parentmessageid = req.body.parentmessageid;
                 message.receiver = req.body.receiver;
-                console.log("reciver:  ".concat(message.receiver));
+                console.log("receiver:  ".concat(message.receiver));
                 console.log('initiliazed message object');
 
-                if (!(message.receiver && message.sender)) {
+                if (!(message.receiver && message.receiver !== req.user.email)) {
                   _context.next = 23;
                   break;
                 }
 
                 message.status = 'sent';
                 console.log('reached inside');
-                args = [message.subject, message.messageBody, message.parentmessageid, message.status, message.sender, message.receiver];
-                _context.next = 18;
+                args = [message.subject, message.messageBody, message.parentmessageid, message.status, req.user.email, message.receiver, Number(req.user.id)];
+                _context.next = 17;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.insertIntoMessageInboxOutbox, args);
 
-              case 18:
+              case 17:
                 dboperationResult = _context.sent;
 
                 if (!(dboperationResult.rowCount === 1)) {
@@ -96,14 +95,15 @@ function () {
                   break;
                 }
 
-                return _context.abrupt("return", res.status(201).json(_responseSchema.default.success('POST', req, message, 'message created and sent successfully', 201)));
+                message.sender = req.user.email;
+                return _context.abrupt("return", res.status(201).json(_responseSchema.default.messageSuccess(message, 201)));
 
               case 21:
                 _context.next = 31;
                 break;
 
               case 23:
-                if (!(message.sender && message.receiver === undefined)) {
+                if (!(message.receiver === undefined || message.receiver === req.user.email)) {
                   _context.next = 31;
                   break;
                 }
@@ -121,7 +121,7 @@ function () {
                   break;
                 }
 
-                return _context.abrupt("return", res.status(201).json(_responseSchema.default.success('POST', req, message, 'message saved successfully', 201)));
+                return _context.abrupt("return", res.status(201).json(_responseSchema.default.messageSuccess(message, 201)));
 
               case 31:
                 _errorHandler.default.validationError(res, result);
@@ -146,20 +146,23 @@ function () {
       var _getAllReceivedEmails = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var dbOperationResult, receivedEmails;
+        var user, args, dbOperationResult, receivedEmails;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllMessagesFromInbox, null);
-
-              case 2:
-                dbOperationResult = _context2.sent;
-                receivedEmails = dbOperationResult.rows;
-                return _context2.abrupt("return", res.status(200).json(_responseSchema.default.success('GET', req, receivedEmails, 'Showing all received emails', 200)));
+                user = req.user;
+                console.log(user);
+                args = [req.user.email];
+                _context2.next = 5;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllMessagesFromInboxBelongingToAParticularUser, args);
 
               case 5:
+                dbOperationResult = _context2.sent;
+                receivedEmails = dbOperationResult.rows;
+                return _context2.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(receivedEmails, 200)));
+
+              case 8:
               case "end":
                 return _context2.stop();
             }
@@ -185,15 +188,16 @@ function () {
             switch (_context3.prev = _context3.next) {
               case 0:
                 console.log('entering get all received emails');
-                args = ['unread'];
-                _context3.next = 4;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllUnreadMessages, args);
+                args = [req.user.email, 'unread'];
+                console.log(req.user.email);
+                _context3.next = 5;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllUnreadMessagesForAParticularUser, args);
 
-              case 4:
+              case 5:
                 dbOperationResult = _context3.sent;
-                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.success('GET', req, dbOperationResult.rows[0], 'Showing all unread emails', 200)));
+                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(dbOperationResult.rows, 200)));
 
-              case 6:
+              case 7:
               case "end":
                 return _context3.stop();
             }
@@ -213,19 +217,20 @@ function () {
       var _getAllSentEmails = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee4(req, res) {
-        var dbOperationResult;
+        var args, dbOperationResult;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllSentEmails, null);
+                args = [req.user.email];
+                _context4.next = 3;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllSentEmailsForAParticularUser, args);
 
-              case 2:
+              case 3:
                 dbOperationResult = _context4.sent;
-                return _context4.abrupt("return", res.status(200).json(_responseSchema.default.success('GET', req, dbOperationResult.rows[0], 'Showing all sent emails', 200)));
+                return _context4.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(dbOperationResult.rows, 200)));
 
-              case 4:
+              case 5:
               case "end":
                 return _context4.stop();
             }
@@ -250,9 +255,9 @@ function () {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                args = [req.params.messageId];
+                args = [req.params.messageId, req.user.email];
                 _context5.next = 3;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.selectEmailById, args);
+                return _dbHelper.default.performTransactionalQuery(_queries.default.selectEmailByIdForParticularUser, args);
 
               case 3:
                 dbOperationResult = _context5.sent;
@@ -262,7 +267,7 @@ function () {
                   break;
                 }
 
-                return _context5.abrupt("return", res.status(200).json(_responseSchema.default.success('GET', req, dbOperationResult.rows[0], "Showing message with id of ".concat(req.params.messageId), 200)));
+                return _context5.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(dbOperationResult.rows[0], 200)));
 
               case 6:
                 return _context5.abrupt("return", res.status(404).json(_responseSchema.default.failure("Couldn't find message with id ".concat(req.params.messageId), null, 404)));
@@ -292,9 +297,9 @@ function () {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                args = [req.params.messageId];
+                args = [req.params.messageId, req.user.email];
                 _context6.next = 3;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.deleteQueryById, args);
+                return _dbHelper.default.performTransactionalQuery(_queries.default.deleteQueryByIdForParticularUser, args);
 
               case 3:
                 dbOperationResult = _context6.sent;
@@ -304,7 +309,7 @@ function () {
                   break;
                 }
 
-                return _context6.abrupt("return", res.status(200).json(_responseSchema.default.success('DELETE', null, null, "Showing message with id of ".concat(req.params.messageId), 200)));
+                return _context6.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(null, 200)));
 
               case 6:
                 if (!(dbOperationResult.rowCount === 0)) {

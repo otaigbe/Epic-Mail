@@ -39,6 +39,11 @@ body {
 	border-style: none;
 }
 
+em{
+	color: red;
+	margin-right: 5px;
+}
+
 #signup > #holder > fieldset > input{
 	width: 100%;
 	padding: 5px;

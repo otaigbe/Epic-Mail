@@ -22,7 +22,6 @@ export default class MessagesController {
     if (result.error === null) {
       console.log('joi validated');
       const message = {};
-      // message.sender = req.body.sender;
       message.messageBody = req.body.message;
       message.subject = req.body.subject;
       message.parentmessageid = req.body.parentmessageid;

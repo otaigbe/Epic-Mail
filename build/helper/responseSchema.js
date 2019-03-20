@@ -30,15 +30,22 @@ function () {
     * @param {string} message - The success message.
     * @param {integer} code - The http status code returned.
     */
-    value: function success(method, req, resource, message, code) {
+    value: function success(token, code) {
       return {
         status: code,
-        data: {
-          message: message,
-          'request-type': method,
-          url: req.originalUrl,
+        data: [{
+          token: token
+        }]
+      };
+    }
+  }, {
+    key: "messageSuccess",
+    value: function messageSuccess(resource, code) {
+      return {
+        status: code,
+        data: [{
           resource: resource
-        }
+        }]
       };
     }
   }, {
@@ -47,7 +54,7 @@ function () {
       return {
         message: message,
         status: code,
-        data: [resource]
+        data: resource
       };
     }
     /**

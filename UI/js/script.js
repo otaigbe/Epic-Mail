@@ -16,7 +16,6 @@ function displayForm(){
 
 
 function toggleSlideUpDown(){
-	console.log("what");
 if (document.getElementById("createGroup").style.display === "block") {
 document.getElementById("createGroup").style.display = "none";
 } else {
@@ -35,19 +34,43 @@ function displayUsers(e){
 
 
 function displayGroups(){
-	document.getElementById('displayarea').innerHTML 
-		= `<div id="dummygroups"><div class="dummy-groups">Group 1<span class="count">0</span></div>
-	<div class="dummy-groups">Group 10<span class="count">5</span></div>
-<div class="dummy-groups">Group 2<span class="count">6</span></div>
-<div class="dummy-groups">Group 3<span class="count">8</span></div>
-<div class="dummy-groups">Group 4<span class="count">2</span></div>
-<div class="dummy-groups">Group 5<span class="count">5</span></div>
-<div class="dummy-groups">Group 6<span class="count">9</span></div></div>`;
-	const groups = document.getElementsByClassName("dummy-groups");
-	for (let i=0; i< groups.length; i++){
-		groups[i].addEventListener("click", displayUsers);
-	}
+//	document.getElementById('displayarea').innerHTML 
+//		= `<div id="dummygroups"><div class="dummy-groups">Group 1<span class="count">0</span></div>
+//	<div class="dummy-groups">Group 10<span class="count">5</span></div>
+//<div class="dummy-groups">Group 2<span class="count">6</span></div>
+//<div class="dummy-groups">Group 3<span class="count">8</span></div>
+//<div class="dummy-groups">Group 4<span class="count">2</span></div>
+//<div class="dummy-groups">Group 5<span class="count">5</span></div>
+//<div class="dummy-groups">Group 6<span class="count">9</span></div></div>`;
+//	const groups = document.getElementsByClassName("dummy-groups");
+//	for (let i=0; i< groups.length; i++){
+//		groups[i].addEventListener("click", displayUsers);
+//	}
+const span = document.createElement('span');
+	span.setAttribute('class', 'tile');
+	const div = document.createElement('div');
+	div.setAttribute('class', 'grid-item');
+	const textNode = document.createTextNode(groupName);
+//	span.setAttribute('class', 'grid-item');
+	const icon = document.createElement('i');
+	icon.setAttribute('class', 'fas fa-plus');
+	const panel = document.createElement('div');
+	panel.setAttribute('class', 'panel');
+	div.appendChild(textNode);
+	div.appendChild(icon);
+	const form = `<form id="addUser">
+        <input placeholder="search user" type="text" name="searchInput" required autofocus>
+<button type="button" id="searchUser-btn" onclick="searchAndCreateAddUserUI(this);"><i class="fas fa-search"></i></button>
+		</form><span class="searchResults"></span>`;
+	const elem = document.createRange().createContextualFragment(form);
+	panel.appendChild(elem);
+	panel.style.display="none";
+	span.appendChild(div);
+	span.appendChild(panel);
 
+	document.getElementsByClassName('grid-container')[0].appendChild(span);
+	document.getElementById('displayarea').style.display = "none";
+	document.getElementsByClassName('grid-container')[0].style.display = "grid";
 }
 
 
@@ -67,10 +90,10 @@ function wrapCreatedGroupInAccordion(groupName){
 	panel.setAttribute('class', 'panel');
 	div.appendChild(textNode);
 	div.appendChild(icon);
-	const form = `<div><form id="addUser">
+	const form = `<form id="addUser">
         <input placeholder="search user" type="text" name="searchInput" required autofocus>
 <button type="button" id="searchUser-btn" onclick="searchAndCreateAddUserUI(this);"><i class="fas fa-search"></i></button>
-		</form><span class="searchResults"></span></div>`;
+		</form><span class="searchResults"></span>`;
 	const elem = document.createRange().createContextualFragment(form);
 	panel.appendChild(elem);
 	panel.style.display="none";

@@ -53,7 +53,7 @@ function () {
       var _signup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var result, password, salt, hashedPassword, userId, userObj, args, dbOperationResult, args2, dbOperationResult2;
+        var result, password, salt, hashedPassword, userObj, args, dbOperationResult, args2, dbOperationResult2;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -61,7 +61,7 @@ function () {
                 result = _joi.default.validate(req.body, _schema.default.userSchema);
 
                 if (!(result.error === null)) {
-                  _context.next = 29;
+                  _context.next = 27;
                   break;
                 }
 
@@ -76,44 +76,42 @@ function () {
 
               case 8:
                 hashedPassword = _context.sent;
-                userId = _usefulFunc.default.generateId();
-                userObj = {};
-                userObj.id = userId;
+                // const userId = usefulFunc.generateId();
+                userObj = {}; // userObj.id = userId;
+
                 userObj.email = _usefulFunc.default.generateFullEmailAddress(req.body.username);
                 userObj.firstName = req.body.firstName;
                 userObj.lastName = req.body.lastName;
                 userObj.password = hashedPassword;
                 userObj.username = req.body.username;
                 userObj.alternateEmail = req.body.alternateEmail;
-                args = [userObj.username]; // const existentUsername = usefulFunc.searchForAlreadyExistingUsername(userObj);
-
-                _context.next = 21;
+                args = [userObj.username];
+                _context.next = 19;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.checkForAlreadyExistentUser, args);
 
-              case 21:
+              case 19:
                 dbOperationResult = _context.sent;
 
                 if (!(dbOperationResult.rowCount === 0)) {
-                  _context.next = 28;
+                  _context.next = 26;
                   break;
                 }
 
-                // const id = usefulFunc.insertIntoStorage(userObj);
                 args2 = [userObj.firstName, userObj.lastName, userObj.username, userObj.password, userObj.email, userObj.alternateEmail];
-                _context.next = 26;
+                _context.next = 24;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.insertNewUser, args2);
 
-              case 26:
+              case 24:
                 dbOperationResult2 = _context.sent;
-                return _context.abrupt("return", res.status(201).json(_responseSchema.default.success('POST', req, userObj, "Account created!Welcome ".concat(req.body.username), 201)));
+                return _context.abrupt("return", res.status(201).json(_responseSchema.default.success(null, 201)));
 
-              case 28:
+              case 26:
                 return _context.abrupt("return", res.status(409).json(_responseSchema.default.failure('chosen username/email already exists, choose a unique username.', null, 409)));
 
-              case 29:
+              case 27:
                 _errorHandler.default.validationError(res, result);
 
-              case 30:
+              case 28:
               case "end":
                 return _context.stop();
             }
