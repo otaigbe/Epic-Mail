@@ -10,19 +10,20 @@ queries.checkIfUserOwnsTheGroupAboutToBeDeleted = 'SELECT * FROM groups WHERE gr
 queries.deleteGroupById = 'DELETE FROM groups WHERE groupid = $1 AND creator = $2';
 queries.selectAllGroupsCreatedByAUser = 'SELECT * FROM groups WHERE creator = $1';
 queries.renameGroup = 'UPDATE groups SET groupname = $1 WHERE groupid = $2 AND creator = $3';
-queries.insertNewMembersIntoGroup = 'INSERT INTO groupmembers (groupid, memberemail) VALUES ($1,$2)';
+queries.insertNewMembersIntoGroup = `WITH selectres AS ( SELECT * FROM users WHERE email = $2)
+insert into groupmembers (groupid, memberemail, memberid) values ($1, $2, (SELECT userid FROM selectres))`;
 queries.CheckIfUserIsAlreadyAMember = 'SELECT * FROM groupmembers WHERE groupid = $1 AND memberemail = $2';
-queries.deleteUserFromASpecificGroup = 'Delete from groupmembers WHERE groupid = $1 AND memberemail = $2';
-// queries.selectAllMembersOfAPraticularGroup = 'SELECT memberemail FROM groupmembers WHERE groupid = $1';
-// queries.insertIntoMessageInboxOutboxForGroup = ``
-// queries.retractEmail = ``;
+queries.CheckIfUserIsAlreadyAMemberDel = 'SELECT * FROM groupmembers WHERE groupid = $1 AND memberid = $2';
+queries.deleteUserFromASpecificGroup = 'Delete from groupmembers WHERE groupid = $1 AND memberid = $2';
+queries.selectAllMembersOfAPraticularGroup = 'SELECT memberemail FROM groupmembers WHERE groupid = $1';
+queries.checkIfUserExists = 'SELECT * FROM users WHERE email = $1 and alternateemail = $2';
 queries.selectEmailById = 'SELECT * FROM messages WHERE messageid = $1';
 queries.selectEmailByIdForParticularUser = 'SELECT * FROM messages WHERE messageid = $1 AND sender = $2';
 queries.deleteQueryById = 'DELETE FROM messages WHERE messageid = $1';
 queries.deleteQueryByIdForParticularUser = 'DELETE FROM messages WHERE messageid = $1 AND sender = $2';
-queries.createGroup = 'INSERT INTO groups (groupname, creator) VALUES ($1, $2) returning groupid';
+queries.createGroup = 'INSERT INTO groups (groupname, creator, creatorid) VALUES ($1, $2, $3) returning groupid';
 queries.checkForAlreadyExistentUser = 'SELECT * FROM users where username = $1';
-queries.insertNewUser = 'INSERT into users (firstname, lastname, username, password, email, alternateemail) VALUES ($1, $2, $3, $4, $5, $6)';
+queries.insertNewUser = 'INSERT into users (firstname, lastname, username, password, email, alternateemail) VALUES ($1, $2, $3, $4, $5, $6) returning userid';
 queries.searchForEmail = 'SELECT * FROM users WHERE email = $1';
 queries.insertIntoMessageInboxOutbox = `WITH insertres AS (
     INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver)
@@ -34,5 +35,7 @@ queries.insertIntoMessageInboxOutbox = `WITH insertres AS (
    insert into sent (messageid, sender, senderid) values ((SELECT messageid FROM insertres), $5, $7) returning messageid`;
 queries.insertMessageAsDraft = 'INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver) VALUES ($1, $2, $3, $4, $5, $6)';
 queries.selectAllMessagesFromInboxBelongingToAParticularUser = 'SELECT * FROM inbox JOIN messages ON (messages.messageid = inbox.messageid) WHERE inbox.receiverusername = $1';
-
+queries.checkIfGroupExists = 'SELECT * FROM groups WHERE groupid = $1';
+queries.searchForUser = 'SELECT * FROM users WHERE email = $1';
+queries.updatePassword = 'UPDATE users SET password = $1 WHERE email = $2 AND userid = $3';
 export default queries;

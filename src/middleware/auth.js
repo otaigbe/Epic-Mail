@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 const auth = (req, res, next) => {
   const token = req.header('x-auth-token');
   if (!token) {
-    return res.status(401).json({ message: 'No access token provided! Unaccessible resource!' });
+    return res.status(401).json({ message: 'No access token provided!' });
   }
   if (token) {
     try {

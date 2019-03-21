@@ -31,7 +31,7 @@ export default class SigninController {
           return res.status(400).json(response.failure('Invalid username or password.', null, 400));
         }
         const token = jwt.sign(user, process.env.SECRETKEY);
-        return res.status(200).json(response.success(token, 200));
+        return res.status(200).json(response.success(token, `Welcome! ${user.username}`, 200));
       }
     } else {
       errorHandler.validationError(res, result);

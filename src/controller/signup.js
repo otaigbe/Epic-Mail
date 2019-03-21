@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import Joi from 'joi';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import usefulFunc from '../helper/usefulFunc';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
@@ -21,9 +22,7 @@ export default class SignupController {
       const { password } = req.body;
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
-      // const userId = usefulFunc.generateId();
       const userObj = {};
-      // userObj.id = userId;
       userObj.email = usefulFunc.generateFullEmailAddress(req.body.username);
       userObj.firstName = req.body.firstName;
       userObj.lastName = req.body.lastName;
@@ -35,7 +34,12 @@ export default class SignupController {
       if (dbOperationResult.rowCount === 0) {
         const args2 = [userObj.firstName, userObj.lastName, userObj.username, userObj.password, userObj.email, userObj.alternateEmail];
         const dbOperationResult2 = await dbhelper.performTransactionalQuery(queries.insertNewUser, args2);
-        return res.status(201).json(response.success(null, 201));
+        const user = {};
+        user.id = dbOperationResult2.rows[0].userid;
+        user.username = userObj.username;
+        user.email = userObj.email;
+        const token = jwt.sign(user, process.env.SECRETKEY);
+        return res.status(201).json(response.success(token, `Signup Successful!Login With your new email ${user.email}`, 201));
       }
       return res.status(409).json(response.failure('chosen username/email already exists, choose a unique username.', null, 409));
     }

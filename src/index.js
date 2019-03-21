@@ -14,7 +14,7 @@ app.use(express.static('./UI'));
 app.use('/', endpoints);
 
 // app.use(error);
-
+/* istanbul ignore next */
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => { console.log(`app running on ${port}...`); });
 export default server;
