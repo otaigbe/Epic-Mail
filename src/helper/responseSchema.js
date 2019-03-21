@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 export default class Response {
   /**
  * @constructor
@@ -8,10 +9,18 @@ export default class Response {
   static success(token, message, code) {
     return {
       status: code,
-      data: [{
+      message,
+      data: {
         token,
-        message,
-      }],
+      },
+    };
+  }
+
+  static successWithEmail(token, message, code, email) {
+    return {
+      status: code,
+      message,
+      data: token,
     };
   }
 
@@ -23,7 +32,7 @@ export default class Response {
       }],
     };
   }
-  
+
   static groupSuccess(resource, message, code) {
     return {
       status: code,
@@ -31,6 +40,21 @@ export default class Response {
         resource,
         message,
       },
+    };
+  }
+
+  static responseWithResource(resource, message, code) {
+    return {
+      status: code,
+      message,
+      data: resource,
+    };
+  }
+
+  static responseWithOutResource(message, code) {
+    return {
+      status: code,
+      message,
     };
   }
 

@@ -30,8 +30,7 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                groupname: 'friends',
-                creator: 'otaigbe@epicmail.com'
+                groupname: 'friends'
               });
 
             case 2:
@@ -43,9 +42,7 @@ describe('Testing the groups Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context.stop();
           }
@@ -64,8 +61,7 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context2.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                groupname: 'buddies',
-                creator: 'otaigbe@epicmail.com'
+                groupname: 'buddies'
               });
 
             case 2:
@@ -77,16 +73,14 @@ describe('Testing the groups Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context2.stop();
           }
         }
       }, _callee2);
     })));
-    it('should successfully create a group call enemies',
+    it('should successfully create a group called enemies',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -98,8 +92,7 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context3.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                groupname: 'enemies',
-                creator: 'otaigbe@epicmail.com'
+                groupname: 'enemies'
               });
 
             case 2:
@@ -111,9 +104,7 @@ describe('Testing the groups Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('data');
 
-              _chai.default.expect(res.body).to.have.property('message');
-
-            case 7:
+            case 6:
             case "end":
               return _context3.stop();
           }
@@ -132,8 +123,7 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context4.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBiuo;pY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                groupname: 'friends',
-                creator: 'otaigbe@epicmail.com'
+                groupname: 'friends'
               });
 
             case 2:
@@ -160,8 +150,7 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context5.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups').type('form').send({
-                groupname: 'friends',
-                creator: 'otaigbe@epicmail.com'
+                groupname: 'friends'
               });
 
             case 2:
@@ -217,20 +206,17 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context7.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                groupname: 'friends',
-                creator: 'osas422@epicmail.com'
+                groupname: 'friends'
               });
 
             case 2:
               res = _context7.sent;
 
-              _chai.default.expect(res).to.have.status(400);
+              _chai.default.expect(res).to.have.status(409);
 
               _chai.default.expect(res.body).to.have.property('status');
 
-              _chai.default.expect(res.body).to.have.property('error');
-
-            case 6:
+            case 5:
             case "end":
               return _context7.stop();
           }
@@ -315,13 +301,11 @@ describe('Testing the groups Endpoint', function () {
             case 2:
               res = _context10.sent;
 
-              _chai.default.expect(res).to.have.status(400);
+              _chai.default.expect(res).to.have.status(409);
 
               _chai.default.expect(res.body).to.have.property('status');
 
-              _chai.default.expect(res.body).to.have.property('error');
-
-            case 6:
+            case 5:
             case "end":
               return _context10.stop();
           }
@@ -381,9 +365,7 @@ describe('Testing the groups Endpoint', function () {
 
               _chai.default.expect(res.body).to.have.property('status');
 
-              _chai.default.expect(res.body).to.have.property('error');
-
-            case 6:
+            case 5:
             case "end":
               return _context12.stop();
           }
@@ -435,13 +417,13 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context14.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups/2/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                userToBeAdded: 'ade@epicmail.com'
+                useremail: 'ade@epicmail.com'
               });
 
             case 2:
               res = _context14.sent;
 
-              _chai.default.expect(res).to.have.status(201);
+              _chai.default.expect(res).to.have.status(200);
 
             case 4:
             case "end":
@@ -450,7 +432,7 @@ describe('Testing the groups Endpoint', function () {
         }
       }, _callee14);
     })));
-    it('should add already a member of a group',
+    it('should add a user successfully add to group',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -462,7 +444,7 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context15.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups/2/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                userToBeAdded: 'ade@epicmail.com'
+                useremail: 'felicitas@epicmail.com'
               });
 
             case 2:
@@ -477,7 +459,7 @@ describe('Testing the groups Endpoint', function () {
         }
       }, _callee15);
     })));
-    it('should add already a member of a group',
+    it('should add a user successfully add to group',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -488,14 +470,14 @@ describe('Testing the groups Endpoint', function () {
           switch (_context16.prev = _context16.next) {
             case 0:
               _context16.next = 2;
-              return _chai.default.request(_index.default).post('/api/v1/groups/200/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                userToBeAdded: 'ade@epicmail.com'
+              return _chai.default.request(_index.default).post('/api/v1/groups/2/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                useremail: 'osas422@epicmail.com'
               });
 
             case 2:
               res = _context16.sent;
 
-              _chai.default.expect(res).to.have.status(404);
+              _chai.default.expect(res).to.have.status(200);
 
             case 4:
             case "end":
@@ -504,7 +486,7 @@ describe('Testing the groups Endpoint', function () {
         }
       }, _callee16);
     })));
-    it('should throw a validation error',
+    it('should add a user successfully add to group',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -516,13 +498,13 @@ describe('Testing the groups Endpoint', function () {
             case 0:
               _context17.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/groups/2/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
-                userToBeAdded: 1234
+                useremail: 'george@epicmail.com'
               });
 
             case 2:
               res = _context17.sent;
 
-              _chai.default.expect(res).to.have.status(400);
+              _chai.default.expect(res).to.have.status(200);
 
             case 4:
             case "end":
@@ -531,9 +513,7 @@ describe('Testing the groups Endpoint', function () {
         }
       }, _callee17);
     })));
-  });
-  describe('Testing the delete users from group endpoint', function () {
-    it('should delete a group with provided id',
+    it('should add already a member of a group',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -544,24 +524,23 @@ describe('Testing the groups Endpoint', function () {
           switch (_context18.prev = _context18.next) {
             case 0:
               _context18.next = 2;
-              return _chai.default.request(_index.default).delete('/api/v1/groups/2/users/ade').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+              return _chai.default.request(_index.default).post('/api/v1/groups/2/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                useremail: 'ade@epicmail.com'
+              });
 
             case 2:
               res = _context18.sent;
 
               _chai.default.expect(res).to.have.status(200);
 
-              _chai.default.expect(res.body).to.have.property('status'); // chai.expect(res.body).to.have.property('message');
-
-
-            case 5:
+            case 4:
             case "end":
               return _context18.stop();
           }
         }
       }, _callee18);
     })));
-    it('shouldn\'t find message with supplied id',
+    it('should not find group',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -572,25 +551,23 @@ describe('Testing the groups Endpoint', function () {
           switch (_context19.prev = _context19.next) {
             case 0:
               _context19.next = 2;
-              return _chai.default.request(_index.default).delete('/api/v1/groups/18989898/users/ade').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+              return _chai.default.request(_index.default).post('/api/v1/groups/200/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                useremail: 'ade@epicmail.com'
+              });
 
             case 2:
               res = _context19.sent;
 
               _chai.default.expect(res).to.have.status(404);
 
-              _chai.default.expect(res.body).to.have.property('status');
-
-            case 5:
+            case 4:
             case "end":
               return _context19.stop();
           }
         }
       }, _callee19);
     })));
-  });
-  describe('Testing the delete group by id endpoint', function () {
-    it('should delete a group with provided id',
+    it('should throw a validation error',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -601,23 +578,25 @@ describe('Testing the groups Endpoint', function () {
           switch (_context20.prev = _context20.next) {
             case 0:
               _context20.next = 2;
-              return _chai.default.request(_index.default).delete('/api/v1/groups/1').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+              return _chai.default.request(_index.default).post('/api/v1/groups/2/users').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                useremail: 1234
+              });
 
             case 2:
               res = _context20.sent;
 
-              _chai.default.expect(res).to.have.status(200);
+              _chai.default.expect(res).to.have.status(400);
 
-              _chai.default.expect(res.body).to.have.property('status');
-
-            case 5:
+            case 4:
             case "end":
               return _context20.stop();
           }
         }
       }, _callee20);
     })));
-    it('shouldn\'t find message with supplied id',
+  });
+  describe('Testing the send mail to all members in a group endpoint', function () {
+    it('should send messages to all members in a group',
     /*#__PURE__*/
     _asyncToGenerator(
     /*#__PURE__*/
@@ -628,12 +607,15 @@ describe('Testing the groups Endpoint', function () {
           switch (_context21.prev = _context21.next) {
             case 0:
               _context21.next = 2;
-              return _chai.default.request(_index.default).delete('/api/v1/groups/1898').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+              return _chai.default.request(_index.default).post('/api/v1/groups/2/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                subject: 'oiiuyizsgrtfhtuyoiuo',
+                message: 'Just created this test to be sent to multiple folks'
+              });
 
             case 2:
               res = _context21.sent;
 
-              _chai.default.expect(res).to.have.status(404);
+              _chai.default.expect(res).to.have.status(201);
 
               _chai.default.expect(res.body).to.have.property('status');
 
@@ -644,21 +626,253 @@ describe('Testing the groups Endpoint', function () {
         }
       }, _callee21);
     })));
-  }); // describe('Testing the send mail to all members in a group endpoint', () => {
-  //   it('should send messages to all members in a group', async () => {
-  //     const res = await chai.request(app).post('/api/v1/groups/2/message').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
-  //       .send({
-  //         subject: 'oiiuyizsgrtfhtuyoiuo',
-  //         message: 'Just created this test message',
-  //       });
-  //     chai.expect(res).to.have.status(201);
-  //     chai.expect(res.body).to.have.property('status');
-  //   });
-  //   // it('shouldn\'t find message with supplied id', async () => {
-  //   //   const res = await chai.request(app).delete('/api/v1/groups/1898')
-  //   //     .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-  //   //   chai.expect(res).to.have.status(404);
-  //   //   chai.expect(res.body).to.have.property('status');
-  //   // });
-  // });
+    it('shouldn\'t find message with supplied id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee22() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee22$(_context22) {
+        while (1) {
+          switch (_context22.prev = _context22.next) {
+            case 0:
+              _context22.next = 2;
+              return _chai.default.request(_index.default).post('/api/v1/groups/70/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                subject: 'oiiuyizsgrtfhtuyoiuo',
+                message: 'Just created this test to be sent to multiple folks'
+              });
+
+            case 2:
+              res = _context22.sent;
+
+              _chai.default.expect(res).to.have.status(404);
+
+            case 4:
+            case "end":
+              return _context22.stop();
+          }
+        }
+      }, _callee22);
+    })));
+    it('should return a not found error because no members in the group',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee23() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee23$(_context23) {
+        while (1) {
+          switch (_context23.prev = _context23.next) {
+            case 0:
+              _context23.next = 2;
+              return _chai.default.request(_index.default).post('/api/v1/groups/6/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                subject: 'oiiuyizsgrtfhtuyoiuo',
+                message: 'Just created this test to be sent to multiple folks'
+              });
+
+            case 2:
+              res = _context23.sent;
+
+              _chai.default.expect(res).to.have.status(404);
+
+            case 4:
+            case "end":
+              return _context23.stop();
+          }
+        }
+      }, _callee23);
+    })));
+    it('should return a validation error',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee24() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee24$(_context24) {
+        while (1) {
+          switch (_context24.prev = _context24.next) {
+            case 0:
+              _context24.next = 2;
+              return _chai.default.request(_index.default).post('/api/v1/groups/6/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form').send({
+                subject: 'o',
+                message: 'Ju'
+              });
+
+            case 2:
+              res = _context24.sent;
+
+              _chai.default.expect(res).to.have.status(400);
+
+            case 4:
+            case "end":
+              return _context24.stop();
+          }
+        }
+      }, _callee24);
+    })));
+  });
+  describe('Testing the delete users from group endpoint', function () {
+    it('should delete a group with provided id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee25() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee25$(_context25) {
+        while (1) {
+          switch (_context25.prev = _context25.next) {
+            case 0:
+              _context25.next = 2;
+              return _chai.default.request(_index.default).delete('/api/v1/groups/2/users/5').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context25.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+            case 5:
+            case "end":
+              return _context25.stop();
+          }
+        }
+      }, _callee25);
+    })));
+    it('should throw a validation error',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee26() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee26$(_context26) {
+        while (1) {
+          switch (_context26.prev = _context26.next) {
+            case 0:
+              _context26.next = 2;
+              return _chai.default.request(_index.default).delete('/api/v1/groups/bad/users/5').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context26.sent;
+
+              _chai.default.expect(res).to.have.status(400);
+
+            case 4:
+            case "end":
+              return _context26.stop();
+          }
+        }
+      }, _callee26);
+    })));
+    it('shouldn\'t find message with supplied id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee27() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee27$(_context27) {
+        while (1) {
+          switch (_context27.prev = _context27.next) {
+            case 0:
+              _context27.next = 2;
+              return _chai.default.request(_index.default).delete('/api/v1/groups/18989898/users/5').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context27.sent;
+
+              _chai.default.expect(res).to.have.status(404);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+            case 5:
+            case "end":
+              return _context27.stop();
+          }
+        }
+      }, _callee27);
+    })));
+  });
+  describe('Testing the delete group by id endpoint', function () {
+    it('should delete a group with provided id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee28() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee28$(_context28) {
+        while (1) {
+          switch (_context28.prev = _context28.next) {
+            case 0:
+              _context28.next = 2;
+              return _chai.default.request(_index.default).delete('/api/v1/groups/1').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context28.sent;
+
+              _chai.default.expect(res).to.have.status(200);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+            case 5:
+            case "end":
+              return _context28.stop();
+          }
+        }
+      }, _callee28);
+    })));
+    it('should throw a bad request error ',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee29() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee29$(_context29) {
+        while (1) {
+          switch (_context29.prev = _context29.next) {
+            case 0:
+              _context29.next = 2;
+              return _chai.default.request(_index.default).delete('/api/v1/groups/bar').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context29.sent;
+
+              _chai.default.expect(res).to.have.status(400);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+            case 5:
+            case "end":
+              return _context29.stop();
+          }
+        }
+      }, _callee29);
+    })));
+    it('shouldn\'t find message with supplied id',
+    /*#__PURE__*/
+    _asyncToGenerator(
+    /*#__PURE__*/
+    regeneratorRuntime.mark(function _callee30() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee30$(_context30) {
+        while (1) {
+          switch (_context30.prev = _context30.next) {
+            case 0:
+              _context30.next = 2;
+              return _chai.default.request(_index.default).delete('/api/v1/groups/1898').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+
+            case 2:
+              res = _context30.sent;
+
+              _chai.default.expect(res).to.have.status(404);
+
+              _chai.default.expect(res.body).to.have.property('status');
+
+            case 5:
+            case "end":
+              return _context30.stop();
+          }
+        }
+      }, _callee30);
+    })));
+  });
 });

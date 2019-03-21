@@ -24,11 +24,11 @@ export default class SignupController {
       const hashedPassword = await bcrypt.hash(password, salt);
       const userObj = {};
       userObj.email = usefulFunc.generateFullEmailAddress(req.body.username);
-      userObj.firstName = req.body.firstName;
-      userObj.lastName = req.body.lastName;
+      userObj.firstName = req.body.firstname;
+      userObj.lastName = req.body.lastname;
       userObj.password = hashedPassword;
       userObj.username = req.body.username;
-      userObj.alternateEmail = req.body.alternateEmail;
+      userObj.alternateEmail = req.body.alternateemail;
       const args = [userObj.username];
       const dbOperationResult = await dbhelper.performTransactionalQuery(queries.checkForAlreadyExistentUser, args);
       if (dbOperationResult.rowCount === 0) {
@@ -39,9 +39,10 @@ export default class SignupController {
         user.username = userObj.username;
         user.email = userObj.email;
         const token = jwt.sign(user, process.env.SECRETKEY);
-        return res.status(201).json(response.success(token, `Signup Successful!Login With your new email ${user.email}`, 201));
+        user.token = token;
+        return res.status(201).json(response.successWithEmail(user, 'Signup Successful!Login With your new email', 'Success', user.email));
       }
-      return res.status(409).json(response.failure('chosen username/email already exists, choose a unique username.', null, 409));
+      return res.status(409).json(response.responseWithOutResource('chosen username/email already exists, choose a unique username.', 'Already Existent'));
     }
     errorHandler.validationError(res, result);
   }

@@ -41,7 +41,7 @@ CREATE TABLE sent (
    );
 
    CREATE TABLE inbox (
-        messageid BIGINT REFERENCES messages(messageid),
+        messageid BIGINT REFERENCES messages(messageid) ON DELETE CASCADE,
         createdon TIMESTAMP(6) DEFAULT now(),
         status messagestatus NOT NULL,
         receiverusername VARCHAR(200) REFERENCES users(email) ON DELETE RESTRICT,
@@ -63,10 +63,7 @@ CREATE TABLE groups (
   addedon TIMESTAMP(6) DEFAULT now()
 );
 
--- INSERT into users (firstname, lastname, username, password, email, alternateemail) 
---   VALUES ('otaigbe', 'okhueleigbe', 'otaigbe','$2b$10$y26i0lpO492wmyy53QG58uMlbtMYNz7gem5PoNgpxbZ4wmo7.HQbe', 'otaigbe@epicmail.com', 'otaigbe@gmail.com'),
---   ('osas', 'okhueleigbe', 'osas422','$2b$10$y26i0lpO492wmyy53QG58uMlbtMYNz7gem5PoNgpxbZ4wmo7.HQbe', 'osas422@epicmail.com', 'otaigbe@gmail.com'),
---   ('felicia', 'okhueleigbe', 'felicitas','$2b$10$y26i0lpO492wmyy53QG58uMlbtMYNz7gem5PoNgpxbZ4wmo7.HQbe', 'felicitas@epicmail.com', 'otaigbe@gmail.com');
+
  INSERT into users (firstname, lastname, username, password, email, alternateemail) 
   VALUES ('otaigbe', 'okhueleigbe', 'otaigbe','$2b$10$y26i0lpO492wmyy53QG58uMlbtMYNz7gem5PoNgpxbZ4wmo7.HQbe', 'otaigbe@epicmail.com', 'stanlex4400@gmail.com'),
   ('osas', 'okhueleigbe', 'osas422','$2b$10$y26i0lpO492wmyy53QG58uMlbtMYNz7gem5PoNgpxbZ4wmo7.HQbe', 'osas422@epicmail.com', 'otaigbe@gmail.com'),

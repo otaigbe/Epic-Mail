@@ -126,6 +126,7 @@ function () {
       }
 
       initial += ' returning messageid';
+      console.log(initial);
       return initial;
     }
   }]);

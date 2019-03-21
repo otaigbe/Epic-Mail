@@ -15,7 +15,8 @@ var auth = function auth(req, res, next) {
 
   if (!token) {
     return res.status(401).json({
-      message: 'No access token provided! Unaccessible resource!'
+      status: 'Unauthoutrized',
+      message: 'No access token provided!'
     });
   }
 
@@ -26,7 +27,10 @@ var auth = function auth(req, res, next) {
       req.user = decoded;
       next();
     } catch (error) {
-      return res.status(400).send('Invalid Token');
+      return res.status(400).send({
+        status: 'Bad Request',
+        message: 'Invalid Token!'
+      });
     }
   }
 };

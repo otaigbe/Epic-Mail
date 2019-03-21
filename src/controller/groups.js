@@ -1,6 +1,6 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 import Joi from 'joi';
-import usefulFunc from '../helper/usefulFunc';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
@@ -23,11 +23,12 @@ export default class GroupsController {
       const args = [group.groupName, group.creator];
       const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args);
       if (dbOperationResult1.rowCount > 0) {
-        return res.status(400).json(response.groupFailure(`You Already have a group with name ${group.groupName}! Chooose a different group name`, 400));
+        return res.status(409).json(response.responseWithOutResource(`You Already have a group with name ${group.groupName}! Chooose a different group name`, 'Conflict'));
       }
       const args1 = [group.groupName, group.creator, Number(req.user.id)];
       const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.createGroup, args1);
-      return res.status(201).json(response.groupSuccess(group, `Group ${group.groupName} has been created!`, 201));
+      group.id = dbOperationResult.rows[0].groupid;
+      return res.status(201).json(response.responseWithResource(group, `Group ${group.groupName} has been created!`, 'Success'));
     }
     errorHandler.validationError(res, result);
   }
@@ -40,15 +41,17 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async deleteGroupById(req, res) {
+    // eslint-disable-next-line no-restricted-globals
+    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const args = [req.params.groupId, req.user.email];
     const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
     if (dbOperationResult.rowCount === 1) {
       const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.deleteGroupById, args);
-      return res.status(200).json(response.groupSuccess(null, `Deleted group with id of ${req.params.groupId}`, 200));
+      return res.status(200).json(response.responseWithOutResource('Deletion Successful', 'Success'));
     }
     /* istanbul ignore next */
     if (dbOperationResult.rowCount === 0) {
-      return res.status(404).json(response.groupFailure(`Couldn't find group with id ${req.params.groupId} belonging to you`, 404));
+      return res.status(404).json(response.responseWithOutResource('Couldn\'t Delete the group you requested', 'Unsuccessful Operation'));
     }
   }
 
@@ -61,7 +64,13 @@ export default class GroupsController {
   static async getAllGroups(req, res) {
     const args = [req.user.email];
     const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllGroupsCreatedByAUser, args);
-    return res.status(200).json(response.groupsAll(dbOperationResult.rows, `Showing all groups created by ${req.user.email}`, 200));
+    let groups = dbOperationResult.rows;
+    /* istanbul ignore next */
+    if (dbOperationResult.rows.length === 0) {
+      groups = 'You have not created any groups yet';
+      return res.status(200).json(response.responseWithOutResource(groups, 'Success'));
+    }
+    return res.status(200).json(response.responseWithResource(groups, `Showing all groups created by ${req.user.email}`, 'Success'));
   }
 
   /**
@@ -71,6 +80,8 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async renameAGroup(req, res) {
+    /* istanbul ignore next */
+    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const result = Joi.validate(req.body, schema.rename);
     if (result.error === null) {
       const args = [req.params.groupId, req.user.email];
@@ -80,18 +91,18 @@ export default class GroupsController {
       if (dbOperationResult.rowCount === 1) {
         const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args1);
         if (dbOperationResult1.rowCount > 0) {
-          return res.status(400).json(response.groupFailure(`You Already have a group with name ${req.body.groupname}! Chooose a different group name`, 400));
+          return res.status(409).json(response.responseWithOutResource(`You Already have a group with name ${req.body.groupname}! Chooose a different group name`, 'Conflict'));
         }
         /* istanbul ignore next */
         if (dbOperationResult1.rowCount === 0) {
           const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.renameGroup, args2);
           return res.status(200).json({
+            status: 'Success',
             message: `Group with id ${req.params.groupId} has been renamed to ${req.body.groupname}!`,
-            status: 200,
           });
         }
       } else if (dbOperationResult.rowCount === 0) {
-        return res.status(404).json(response.groupFailure(`Group with id ${req.params.groupId} doesnt exist for the creator`, 404));
+        return res.status(404).json(response.responseWithOutResource('Can\'t find the group you were looking for', 'Not Found'));
       }
     }
     errorHandler.validationError(res, result);
@@ -104,22 +115,28 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async addUserToGroup(req, res) {
+    /* istanbul ignore next */
+    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
+    if (!req.body.useremail.includes('@epicmail.com')) return res.status(400).json(response.responseWithOutResource('Please Insert a valid email', 'Bad Request'));
     const result = Joi.validate(req.body, schema.addToGroup);
     if (result.error === null) {
+      /* istanbul ignore next */
+      if (req.body.useremail === req.user.email) return res.status(400).json({ status: 'Bad Request', message: 'You cannot add yourself to a group you own!'});
       const args = [req.params.groupId, req.user.email];
       const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
       if (dbOperationResult.rowCount === 1) {
         const args2 = [req.params.groupId, req.body.useremail];
         const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMember, args2);
         if (dbOperationResult3.rowCount > 0) {
-          return res.status(200).json({ message: 'You are already a member of the Group!', status: 'conflict' });
+          return res.status(200).json({ status: 'conflict', message: 'You are already a member of the Group!'});
         }
         const args3 = [req.params.groupId, req.body.useremail];
         const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.insertNewMembersIntoGroup, args3);
-        return res.status(200).json({ message: 'User added to Group!', status: 'Success' });
+        return res.status(200).json({ status: 'Success', message: 'User added to Group!' });
       }
+      /* istanbul ignore next */
       if (dbOperationResult.rowCount === 0) {
-        return res.status(404).json(response.groupFailure(`Non existent Group with id ${req.params.groupId} for this user!`, 404));
+        return res.status(404).json(response.responseWithOutResource('The Group wasn\'t found!', 'Not found'));
       }
     } else {
       errorHandler.validationError(res, result);
@@ -133,6 +150,7 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async deleteUserFromParticularGroup(req, res) {
+    if (isNaN(req.params.groupId) === true || isNaN(req.params.userId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const args = [req.params.groupId, Number(req.params.userId)];
     const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMemberDel, args);
     if (dbOperationResult3.rowCount > 0) {
@@ -146,7 +164,7 @@ export default class GroupsController {
     }
     /* istanbul ignore next */
     if (dbOperationResult3.rowCount === 0) {
-      return res.status(404).json(response.groupFailure('You are not a member of Group', 404));
+      return res.status(404).json(response.groupFailure('You are not a member of Group', 'Not found'));
     }
   }
 
@@ -157,6 +175,8 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async sendMailToAllMembersInAGroup(req, res) {
+    /* istanbul ignore next */
+    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const result = Joi.validate(req.body, schema.groupMessage);
     if (result.error === null) {
       const message = {};
@@ -181,10 +201,8 @@ export default class GroupsController {
       });
       return res.status(201).json({
         status: 'success',
-        data: {
-          message: 'Successfully sent the mails to all members in the group',
-          resource: message,
-        },
+        message: 'Successfully sent the mails to all members in the group',
+        data: message,
       });
     }
     errorHandler.validationError(res, result);

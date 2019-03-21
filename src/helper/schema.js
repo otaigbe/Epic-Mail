@@ -4,11 +4,11 @@ const schemas = {};
 
 schemas.userSchema = Joi.object({
   username: Joi.string().min(2).required(),
-  firstName: Joi.string().min(2).required(),
-  lastName: Joi.string().min(2).required(),
+  firstname: Joi.string().min(2).required(),
+  lastname: Joi.string().min(2).required(),
   password: Joi.string().alphanum().min(4).max(50)
     .required(),
-  alternateEmail: Joi.string().min(5).required(),
+  alternateemail: Joi.string().min(5).required(),
 });
 
 schemas.signinSchema = Joi.object({

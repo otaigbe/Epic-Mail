@@ -33,9 +33,11 @@ queries.insertIntoMessageInboxOutbox = `WITH insertres AS (
    insert into inbox (messageid, status, receiverusername) values ((SELECT messageid FROM insertres), 'unread', $6)
    )
    insert into sent (messageid, sender, senderid) values ((SELECT messageid FROM insertres), $5, $7) returning messageid`;
-queries.insertMessageAsDraft = 'INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver) VALUES ($1, $2, $3, $4, $5, $6)';
+queries.insertMessageAsDraft = 'INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver) VALUES ($1, $2, $3, $4, $5, $6) returning messageid';
 queries.selectAllMessagesFromInboxBelongingToAParticularUser = 'SELECT * FROM inbox JOIN messages ON (messages.messageid = inbox.messageid) WHERE inbox.receiverusername = $1';
 queries.checkIfGroupExists = 'SELECT * FROM groups WHERE groupid = $1';
 queries.searchForUser = 'SELECT * FROM users WHERE email = $1';
 queries.updatePassword = 'UPDATE users SET password = $1 WHERE email = $2 AND userid = $3';
+queries.checkIfEmailExists = 'SELECT * FROM users WHERE email = $1';
+queries.checkIfMessageExists = 'SELECT * FROM messages WHERE messageid = $1';
 export default queries;

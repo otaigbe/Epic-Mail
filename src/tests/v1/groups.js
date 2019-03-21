@@ -79,9 +79,8 @@ describe('Testing the groups Endpoint', () => {
         .send({
           groupname: 'friends',
         });
-      chai.expect(res).to.have.status(400);
+      chai.expect(res).to.have.status(409);
       chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('error');
     });
   });
 
@@ -111,6 +110,7 @@ describe('Testing the groups Endpoint', () => {
         );
       chai.expect(res).to.have.status(401);
     });
+
     it('should throw an error because buddies group already exists', async () => {
       const res = await chai.request(app).patch('/api/v1/groups/1/name')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
@@ -120,9 +120,8 @@ describe('Testing the groups Endpoint', () => {
             groupname: 'buddies',
           },
         );
-      chai.expect(res).to.have.status(400);
+      chai.expect(res).to.have.status(409);
       chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('error');
     });
     it('should throw validation error', async () => {
       const res = await chai.request(app).patch('/api/v1/groups/1/name')
@@ -149,7 +148,6 @@ describe('Testing the groups Endpoint', () => {
         );
       chai.expect(res).to.have.status(404);
       chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('error');
     });
   });
 
@@ -268,7 +266,6 @@ describe('Testing the groups Endpoint', () => {
           message: 'Just created this test to be sent to multiple folks',
         });
       chai.expect(res).to.have.status(404);
-      // chai.expect(res.body).to.have.property('status');
     });
 
     it('should return a not found error because no members in the group', async () => {
@@ -279,7 +276,6 @@ describe('Testing the groups Endpoint', () => {
           message: 'Just created this test to be sent to multiple folks',
         });
       chai.expect(res).to.have.status(404);
-      // chai.expect(res.body).to.have.property('status');
     });
 
     it('should return a validation error', async () => {
@@ -290,7 +286,6 @@ describe('Testing the groups Endpoint', () => {
           message: 'Ju',
         });
       chai.expect(res).to.have.status(400);
-      // chai.expect(res.body).to.have.property('status');
     });
   });
 
@@ -301,6 +296,13 @@ describe('Testing the groups Endpoint', () => {
       chai.expect(res).to.have.status(200);
       chai.expect(res.body).to.have.property('status');
     });
+
+    it('should throw a validation error', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/bad/users/5')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(400);
+    });
+
 
     it('shouldn\'t find message with supplied id', async () => {
       const res = await chai.request(app).delete('/api/v1/groups/18989898/users/5')
@@ -315,6 +317,13 @@ describe('Testing the groups Endpoint', () => {
       const res = await chai.request(app).delete('/api/v1/groups/1')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
       chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+    });
+
+    it('should throw a bad request error ', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/bar')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(400);
       chai.expect(res.body).to.have.property('status');
     });
 

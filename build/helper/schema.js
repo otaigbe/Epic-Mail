@@ -11,11 +11,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var schemas = {};
 schemas.userSchema = _joi.default.object({
-  username: _joi.default.string().min(5).required(),
-  firstName: _joi.default.string().min(5).required(),
-  lastName: _joi.default.string().min(5).required(),
+  username: _joi.default.string().min(2).required(),
+  firstname: _joi.default.string().min(2).required(),
+  lastname: _joi.default.string().min(2).required(),
   password: _joi.default.string().alphanum().min(4).max(50).required(),
-  alternateEmail: _joi.default.string().min(5).required()
+  alternateemail: _joi.default.string().min(5).required()
 });
 schemas.signinSchema = _joi.default.object({
   email: _joi.default.string().email().required(),
@@ -29,17 +29,25 @@ schemas.message = _joi.default.object({
 });
 schemas.groupMessage = _joi.default.object({
   subject: _joi.default.string().min(4).trim().required(),
-  message: _joi.default.string().min(5).trim().required()
+  message: _joi.default.string().min(4).trim().required()
 });
 schemas.createGroup = _joi.default.object({
-  groupname: _joi.default.string().alphanum().min(4).max(30).required(),
-  creator: _joi.default.string().required()
+  groupname: _joi.default.string().alphanum().min(4).max(30).required()
 });
 schemas.rename = _joi.default.object({
   groupname: _joi.default.string().alphanum().min(4).max(30).trim().required()
 });
+schemas.newpass = _joi.default.object({
+  password: _joi.default.string().alphanum().min(4).max(50).required(),
+  confirmpassword: _joi.default.string().alphanum().min(4).max(50).required()
+});
 schemas.addToGroup = _joi.default.object({
-  userToBeAdded: _joi.default.string().email({
+  useremail: _joi.default.string().email({
+    minDomainAtoms: 2
+  }).max(256).trim().required()
+});
+schemas.resetSchema = _joi.default.object({
+  email: _joi.default.string().email({
     minDomainAtoms: 2
   }).max(256).trim().required()
 });

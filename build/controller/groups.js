@@ -7,8 +7,6 @@ exports.default = void 0;
 
 var _joi = _interopRequireDefault(require("joi"));
 
-var _usefulFunc = _interopRequireDefault(require("../helper/usefulFunc"));
-
 var _schema = _interopRequireDefault(require("../helper/schema"));
 
 var _errorHandler = _interopRequireDefault(require("../helper/errorHandler"));
@@ -42,16 +40,16 @@ function () {
     key: "createGroup",
 
     /**
-     * This creates a new account for a user
+     * This creates a group for a user.
      * @param {Object} req - client request Object
      * @param {Object} res - Server response Object
-     * @returns {Object} Success or failure message
+     * @returns {JSON} - containing the status message and any addition data required if any
      */
     value: function () {
       var _createGroup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var result, group, args, dbOperationResult1, dbOperationResult;
+        var result, group, args, dbOperationResult1, args1, dbOperationResult;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -59,7 +57,7 @@ function () {
                 result = _joi.default.validate(req.body, _schema.default.createGroup);
 
                 if (!(result.error === null)) {
-                  _context.next = 15;
+                  _context.next = 17;
                   break;
                 }
 
@@ -78,20 +76,22 @@ function () {
                   break;
                 }
 
-                return _context.abrupt("return", res.status(400).json(_responseSchema.default.groupFailure("You Already have a group with name ".concat(group.groupName, "! Chooose a different group name"), 400)));
+                return _context.abrupt("return", res.status(409).json(_responseSchema.default.responseWithOutResource("You Already have a group with name ".concat(group.groupName, "! Chooose a different group name"), 'Conflict')));
 
               case 11:
-                _context.next = 13;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.createGroup, args);
+                args1 = [group.groupName, group.creator, Number(req.user.id)];
+                _context.next = 14;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.createGroup, args1);
 
-              case 13:
+              case 14:
                 dbOperationResult = _context.sent;
-                return _context.abrupt("return", res.status(201).json(_responseSchema.default.groupSuccess(group, "Group with id ".concat(dbOperationResult.rows[0].groupid, " has been created!"), 200)));
+                group.id = dbOperationResult.rows[0].groupid;
+                return _context.abrupt("return", res.status(201).json(_responseSchema.default.responseWithResource(group, "Group ".concat(group.groupName, " has been created!"), 'Success')));
 
-              case 15:
+              case 17:
                 _errorHandler.default.validationError(res, result);
 
-              case 16:
+              case 18:
               case "end":
                 return _context.stop();
             }
@@ -105,6 +105,13 @@ function () {
 
       return createGroup;
     }()
+    /**
+     * This deletes a group created by a particular user. A user can only delete a group he created
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "deleteGroupById",
     value: function () {
@@ -116,34 +123,42 @@ function () {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                args = [req.params.groupId, req.user.email];
-                _context2.next = 3;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
-
-              case 3:
-                dbOperationResult = _context2.sent;
-
-                if (!(dbOperationResult.rowCount === 1)) {
-                  _context2.next = 9;
+                if (!(isNaN(req.params.groupId) === true)) {
+                  _context2.next = 2;
                   break;
                 }
 
-                _context2.next = 7;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.deleteGroupById, args);
+                return _context2.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert only numbers', 'Bad Request')));
 
-              case 7:
-                dbOperationResult2 = _context2.sent;
-                return _context2.abrupt("return", res.status(200).json(_responseSchema.default.groupSuccess(null, "Deleted group with id of ".concat(req.params.groupId), 200)));
+              case 2:
+                args = [req.params.groupId, req.user.email];
+                _context2.next = 5;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
 
-              case 9:
-                if (!(dbOperationResult.rowCount === 0)) {
+              case 5:
+                dbOperationResult = _context2.sent;
+
+                if (!(dbOperationResult.rowCount === 1)) {
                   _context2.next = 11;
                   break;
                 }
 
-                return _context2.abrupt("return", res.status(404).json(_responseSchema.default.groupFailure("Couldn't find group with id ".concat(req.params.groupId, " belonging to you"), 404)));
+                _context2.next = 9;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.deleteGroupById, args);
+
+              case 9:
+                dbOperationResult2 = _context2.sent;
+                return _context2.abrupt("return", res.status(200).json(_responseSchema.default.responseWithOutResource('Deletion Successful', 'Success')));
 
               case 11:
+                if (!(dbOperationResult.rowCount === 0)) {
+                  _context2.next = 13;
+                  break;
+                }
+
+                return _context2.abrupt("return", res.status(404).json(_responseSchema.default.responseWithOutResource('Couldn\'t Delete the group you requested', 'Unsuccessful Operation')));
+
+              case 13:
               case "end":
                 return _context2.stop();
             }
@@ -157,13 +172,20 @@ function () {
 
       return deleteGroupById;
     }()
+    /**
+     * This gets all groups created by a particular user
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "getAllGroups",
     value: function () {
       var _getAllGroups = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3(req, res) {
-        var args, dbOperationResult;
+        var args, dbOperationResult, groups;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -174,9 +196,21 @@ function () {
 
               case 3:
                 dbOperationResult = _context3.sent;
-                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.groupSuccess(dbOperationResult.rows, 'Showing all groups created by User ---', 200)));
+                groups = dbOperationResult.rows;
+                /* istanbul ignore next */
 
-              case 5:
+                if (!(dbOperationResult.rows.length === 0)) {
+                  _context3.next = 8;
+                  break;
+                }
+
+                groups = 'You have not created any groups yet';
+                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.responseWithOutResource(groups, 'Success')));
+
+              case 8:
+                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(groups, "Showing all groups created by ".concat(req.user.email), 'Success')));
+
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -190,6 +224,13 @@ function () {
 
       return getAllGroups;
     }()
+    /**
+     * This renames a group
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "renameAGroup",
     value: function () {
@@ -201,69 +242,80 @@ function () {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
+                if (!(isNaN(req.params.groupId) === true)) {
+                  _context4.next = 2;
+                  break;
+                }
+
+                return _context4.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert only numbers', 'Bad Request')));
+
+              case 2:
                 result = _joi.default.validate(req.body, _schema.default.rename);
 
                 if (!(result.error === null)) {
+                  _context4.next = 25;
+                  break;
+                }
+
+                args = [req.params.groupId, req.user.email];
+                args1 = [req.body.groupname, req.user.email];
+                args2 = [req.body.groupname, req.params.groupId, req.user.email];
+                _context4.next = 9;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+
+              case 9:
+                dbOperationResult = _context4.sent;
+
+                if (!(dbOperationResult.rowCount === 1)) {
                   _context4.next = 23;
                   break;
                 }
 
-                args = [req.params.groupId, 'otaigbe@epicmail.com'];
-                args1 = [req.body.groupname, 'otaigbe@epicmail.com'];
-                args2 = [req.body.groupname, req.params.groupId, 'otaigbe@epicmail.com'];
-                _context4.next = 7;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+                _context4.next = 13;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfUserAlreadyHasGroupWithGroupName, args1);
 
-              case 7:
-                dbOperationResult = _context4.sent;
+              case 13:
+                dbOperationResult1 = _context4.sent;
 
-                if (!(dbOperationResult.rowCount === 1)) {
+                if (!(dbOperationResult1.rowCount > 0)) {
+                  _context4.next = 16;
+                  break;
+                }
+
+                return _context4.abrupt("return", res.status(409).json(_responseSchema.default.responseWithOutResource("You Already have a group with name ".concat(req.body.groupname, "! Chooose a different group name"), 'Conflict')));
+
+              case 16:
+                if (!(dbOperationResult1.rowCount === 0)) {
                   _context4.next = 21;
                   break;
                 }
 
-                _context4.next = 11;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfUserAlreadyHasGroupWithGroupName, args1);
-
-              case 11:
-                dbOperationResult1 = _context4.sent;
-
-                if (!(dbOperationResult1.rowCount > 0)) {
-                  _context4.next = 14;
-                  break;
-                }
-
-                return _context4.abrupt("return", res.status(400).json(_responseSchema.default.groupFailure("You Already have a group with name ".concat(req.body.groupname, "! Chooose a different group name"), 400)));
-
-              case 14:
-                if (!(dbOperationResult1.rowCount === 0)) {
-                  _context4.next = 19;
-                  break;
-                }
-
-                _context4.next = 17;
+                _context4.next = 19;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.renameGroup, args2);
 
-              case 17:
-                dbOperationResult2 = _context4.sent;
-                return _context4.abrupt("return", res.status(200).json(_responseSchema.default.groupSuccess(null, "Group with id ".concat(req.params.groupId, " has been renamed to ").concat(req.body.groupname, "!"), 200)));
-
               case 19:
-                _context4.next = 23;
-                break;
+                dbOperationResult2 = _context4.sent;
+                return _context4.abrupt("return", res.status(200).json({
+                  status: 'Success',
+                  message: "Group with id ".concat(req.params.groupId, " has been renamed to ").concat(req.body.groupname, "!")
+                }));
 
               case 21:
+                _context4.next = 25;
+                break;
+
+              case 23:
                 if (!(dbOperationResult.rowCount === 0)) {
-                  _context4.next = 23;
+                  _context4.next = 25;
                   break;
                 }
 
-                return _context4.abrupt("return", res.status(404).json(_responseSchema.default.groupFailure("Group with id ".concat(req.params.groupId, " doesnt exist for the creator"), 404)));
+                return _context4.abrupt("return", res.status(404).json(_responseSchema.default.responseWithOutResource('Can\'t find the group you were looking for', 'Not Found')));
 
-              case 23:
+              case 25:
                 _errorHandler.default.validationError(res, result);
 
-              case 24:
+              case 26:
               case "end":
                 return _context4.stop();
             }
@@ -277,74 +329,115 @@ function () {
 
       return renameAGroup;
     }()
+    /**
+     * This adds a user to a group
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "addUserToGroup",
     value: function () {
       var _addUserToGroup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee5(req, res) {
-        var result, args, dbOperationResult, args2, dbOperationResult3, dbOperationResult2;
+        var result, args, dbOperationResult, args2, dbOperationResult3, args3, dbOperationResult2;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                if (!(isNaN(req.params.groupId) === true)) {
+                  _context5.next = 2;
+                  break;
+                }
+
+                return _context5.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert only numbers', 'Bad Request')));
+
+              case 2:
+                if (req.body.useremail.includes('@epicmail.com')) {
+                  _context5.next = 4;
+                  break;
+                }
+
+                return _context5.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert a valid email', 'Bad Request')));
+
+              case 4:
                 result = _joi.default.validate(req.body, _schema.default.addToGroup);
 
                 if (!(result.error === null)) {
-                  _context5.next = 21;
+                  _context5.next = 28;
                   break;
                 }
 
+                if (!(req.body.useremail === req.user.email)) {
+                  _context5.next = 8;
+                  break;
+                }
+
+                return _context5.abrupt("return", res.status(400).json({
+                  status: 'Bad Request',
+                  message: 'You cannot add yourself to a group you own!'
+                }));
+
+              case 8:
                 args = [req.params.groupId, req.user.email];
-                _context5.next = 5;
+                _context5.next = 11;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
 
-              case 5:
+              case 11:
                 dbOperationResult = _context5.sent;
 
                 if (!(dbOperationResult.rowCount === 1)) {
-                  _context5.next = 17;
+                  _context5.next = 24;
                   break;
                 }
 
-                args2 = [req.params.groupId, req.body.userToBeAdded];
-                _context5.next = 10;
+                args2 = [req.params.groupId, req.body.useremail];
+                _context5.next = 16;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.CheckIfUserIsAlreadyAMember, args2);
 
-              case 10:
+              case 16:
                 dbOperationResult3 = _context5.sent;
 
                 if (!(dbOperationResult3.rowCount > 0)) {
-                  _context5.next = 13;
-                  break;
-                }
-
-                return _context5.abrupt("return", res.status(200).json(_responseSchema.default.groupSuccess(null, 'You are already a member of the Group!', 200)));
-
-              case 13:
-                _context5.next = 15;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.insertNewMembersIntoGroup, args2);
-
-              case 15:
-                dbOperationResult2 = _context5.sent;
-                return _context5.abrupt("return", res.status(201).json(_responseSchema.default.groupSuccess(null, 'User added to Group!', 201)));
-
-              case 17:
-                if (!(dbOperationResult.rowCount === 0)) {
                   _context5.next = 19;
                   break;
                 }
 
-                return _context5.abrupt("return", res.status(404).json(_responseSchema.default.groupFailure("Non existent Group with id ".concat(req.params.groupId, " for this user!"), 404)));
+                return _context5.abrupt("return", res.status(200).json({
+                  status: 'conflict',
+                  message: 'You are already a member of the Group!'
+                }));
 
               case 19:
+                args3 = [req.params.groupId, req.body.useremail];
                 _context5.next = 22;
-                break;
-
-              case 21:
-                _errorHandler.default.validationError(res, result);
+                return _dbHelper.default.performTransactionalQuery(_queries.default.insertNewMembersIntoGroup, args3);
 
               case 22:
+                dbOperationResult2 = _context5.sent;
+                return _context5.abrupt("return", res.status(200).json({
+                  status: 'Success',
+                  message: 'User added to Group!'
+                }));
+
+              case 24:
+                if (!(dbOperationResult.rowCount === 0)) {
+                  _context5.next = 26;
+                  break;
+                }
+
+                return _context5.abrupt("return", res.status(404).json(_responseSchema.default.responseWithOutResource('The Group wasn\'t found!', 'Not found')));
+
+              case 26:
+                _context5.next = 29;
+                break;
+
+              case 28:
+                _errorHandler.default.validationError(res, result);
+
+              case 29:
               case "end":
                 return _context5.stop();
             }
@@ -358,46 +451,65 @@ function () {
 
       return addUserToGroup;
     }()
+    /**
+     * This deletes a particular user from  a particular group
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "deleteUserFromParticularGroup",
     value: function () {
       var _deleteUserFromParticularGroup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee6(req, res) {
-        var epicmail, args, dbOperationResult3, dbOperationResult;
+        var args, dbOperationResult3, dbOperationResult;
         return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                epicmail = _usefulFunc.default.generateFullEmailAddress(req.params.email);
-                args = [req.params.groupId, epicmail];
-                _context6.next = 4;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.CheckIfUserIsAlreadyAMember, args);
+                if (!(isNaN(req.params.groupId) === true || isNaN(req.params.userId) === true)) {
+                  _context6.next = 2;
+                  break;
+                }
 
-              case 4:
+                return _context6.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert only numbers', 'Bad Request')));
+
+              case 2:
+                args = [req.params.groupId, Number(req.params.userId)];
+                _context6.next = 5;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.CheckIfUserIsAlreadyAMemberDel, args);
+
+              case 5:
                 dbOperationResult3 = _context6.sent;
 
                 if (!(dbOperationResult3.rowCount > 0)) {
-                  _context6.next = 10;
+                  _context6.next = 11;
                   break;
                 }
 
-                _context6.next = 8;
+                _context6.next = 9;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.deleteUserFromASpecificGroup, args);
 
-              case 8:
+              case 9:
                 dbOperationResult = _context6.sent;
-                return _context6.abrupt("return", res.status(200).json(_responseSchema.default.groupSuccess(null, "user with email ".concat(req.params.email, " deleted from group"), 200)));
+                return _context6.abrupt("return", res.status(200).json({
+                  status: 'Success',
+                  data: {
+                    message: 'user deleted from group'
+                  }
+                }));
 
-              case 10:
+              case 11:
                 if (!(dbOperationResult3.rowCount === 0)) {
-                  _context6.next = 12;
+                  _context6.next = 13;
                   break;
                 }
 
-                return _context6.abrupt("return", res.status(404).json(_responseSchema.default.groupFailure("You are not a member of Group with id ".concat(req.params.groupId, "! Nothing to delete"), 404)));
+                return _context6.abrupt("return", res.status(404).json(_responseSchema.default.groupFailure('You are not a member of Group', 'Not found')));
 
-              case 12:
+              case 13:
               case "end":
                 return _context6.stop();
             }
@@ -411,23 +523,36 @@ function () {
 
       return deleteUserFromParticularGroup;
     }()
-    /* istanbul ignore next */
+    /**
+     * This sends a mail to all members in a group
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
 
   }, {
     key: "sendMailToAllMembersInAGroup",
     value: function () {
       var _sendMailToAllMembersInAGroup = _asyncToGenerator(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee7(req, res) {
-        var result, message, args, dbOperationResult, preparedSqlStatement, dbOperationResult1;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      regeneratorRuntime.mark(function _callee8(req, res) {
+        var result, message, args, dbOperationResult;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                result = _joi.default.validate(req.body, _schema.default.addToGroup);
+                if (!(isNaN(req.params.groupId) === true)) {
+                  _context8.next = 2;
+                  break;
+                }
+
+                return _context8.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert only numbers', 'Bad Request')));
+
+              case 2:
+                result = _joi.default.validate(req.body, _schema.default.groupMessage);
 
                 if (!(result.error === null)) {
-                  _context7.next = 16;
+                  _context8.next = 17;
                   break;
                 }
 
@@ -435,31 +560,73 @@ function () {
                 message.sender = req.user.email;
                 message.messageBody = req.body.message;
                 message.subject = req.body.subject;
-                message.parentmessageid = req.body.parentmessageid; // message.receiver = req.body.receiver;
-
-                args = [req.params.groupId, req.user.email];
-                _context7.next = 10;
+                message.parentmessageid = req.body.parentmessageid;
+                args = [req.params.groupId];
+                _context8.next = 12;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllMembersOfAPraticularGroup, args);
 
-              case 10:
-                dbOperationResult = _context7.sent;
-                preparedSqlStatement = _usefulFunc.default.buildSqlStatement(message, dbOperationResult.rows[0]);
-                _context7.next = 14;
-                return _dbHelper.default.performTransactionalQuery(preparedSqlStatement, null);
+              case 12:
+                dbOperationResult = _context8.sent;
 
-              case 14:
-                dbOperationResult1 = _context7.sent;
-                return _context7.abrupt("return", res.status(200).json(_responseSchema.default.groupSuccess(null, 'message sent successfully to everyone in the group', 200)));
+                if (!(dbOperationResult.rowCount === 0)) {
+                  _context8.next = 15;
+                  break;
+                }
 
-              case 16:
-                _errorHandler.default.validationError(res, result);
+                return _context8.abrupt("return", res.status(404).json({
+                  status: 'failure',
+                  error: {
+                    message: 'Group non existent or has no members'
+                  }
+                }));
+
+              case 15:
+                dbOperationResult.rows.map(
+                /*#__PURE__*/
+                function () {
+                  var _ref = _asyncToGenerator(
+                  /*#__PURE__*/
+                  regeneratorRuntime.mark(function _callee7(element) {
+                    var args2, dboperationResult;
+                    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                      while (1) {
+                        switch (_context7.prev = _context7.next) {
+                          case 0:
+                            message.status = 'sent';
+                            args2 = [message.subject, message.messageBody, message.parentmessageid, message.status, req.user.email, element.memberemail, Number(req.user.id)];
+                            _context7.next = 4;
+                            return _dbHelper.default.performTransactionalQuery(_queries.default.insertIntoMessageInboxOutbox, args2);
+
+                          case 4:
+                            dboperationResult = _context7.sent;
+
+                          case 5:
+                          case "end":
+                            return _context7.stop();
+                        }
+                      }
+                    }, _callee7);
+                  }));
+
+                  return function (_x15) {
+                    return _ref.apply(this, arguments);
+                  };
+                }());
+                return _context8.abrupt("return", res.status(201).json({
+                  status: 'success',
+                  message: 'Successfully sent the mails to all members in the group',
+                  data: message
+                }));
 
               case 17:
+                _errorHandler.default.validationError(res, result);
+
+              case 18:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7);
+        }, _callee8);
       }));
 
       function sendMailToAllMembersInAGroup(_x13, _x14) {

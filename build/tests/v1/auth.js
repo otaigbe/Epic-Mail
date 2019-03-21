@@ -31,10 +31,10 @@ describe('Testing the Epic mail app', function () {
               _context.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/auth/signup/').type('form').send({
                 username: 'stanley',
-                firstName: 'stanley',
-                lastName: 'okhueleigbe',
+                firstname: 'stanley',
+                lastname: 'okhueleigbe',
                 password: 'piloting',
-                alternateEmail: 'stanlex4400@gmail.com'
+                alternateemail: 'stanlex4400@gmail.com'
               });
 
             case 2:
@@ -66,10 +66,10 @@ describe('Testing the Epic mail app', function () {
               _context2.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/auth/signup/').type('form').send({
                 username: Number(34564),
-                firstName: 'otaigbe',
-                lastName: 'okhueleigbe',
+                firstname: 'otaigbe',
+                lastname: 'okhueleigbe',
                 password: '',
-                alternateEmail: 'stanlex4400@gmail.com'
+                alternateemail: 'stanlex4400@gmail.com'
               });
 
             case 2:
@@ -77,13 +77,12 @@ describe('Testing the Epic mail app', function () {
 
               _chai.default.expect(res).to.have.status(400);
 
-              _chai.default.expect(res.body).to.have.property('status');
+              _chai.default.expect(res.body).to.have.property('status'); // chai.expect(res.body).to.have.property('error');
 
-              _chai.default.expect(res.body).to.have.property('error');
 
               _chai.default.expect(res.body.error.message).to.eql('Something wrong with input!');
 
-            case 7:
+            case 6:
             case "end":
               return _context2.stop();
           }
@@ -103,10 +102,10 @@ describe('Testing the Epic mail app', function () {
               _context3.next = 2;
               return _chai.default.request(_index.default).post('/api/v1/auth/signup/').type('form').send({
                 username: 'otaigbe',
-                firstName: 'otaigbe',
-                lastName: 'okhueleigbe',
+                firstname: 'otaigbe',
+                lastname: 'okhueleigbe',
                 password: 'piloting',
-                alternateEmail: 'stanlex4400@gmail.com'
+                alternateemail: 'stanlex4400@gmail.com'
               });
 
             case 2:
@@ -114,11 +113,10 @@ describe('Testing the Epic mail app', function () {
 
               _chai.default.expect(res).to.have.status(409);
 
-              _chai.default.expect(res.body).to.have.property('status');
+              _chai.default.expect(res.body).to.have.property('status'); // chai.expect(res.body).to.have.property('error');
 
-              _chai.default.expect(res.body).to.have.property('error');
 
-            case 6:
+            case 5:
             case "end":
               return _context3.stop();
           }
@@ -180,11 +178,10 @@ describe('Testing the Epic mail app', function () {
 
               _chai.default.expect(res).to.have.status(400);
 
-              _chai.default.expect(res.body).to.have.property('status');
+              _chai.default.expect(res.body).to.have.property('status'); // chai.expect(res.body).to.have.property('error');
 
-              _chai.default.expect(res.body).to.have.property('error');
 
-            case 6:
+            case 5:
             case "end":
               return _context5.stop();
           }
@@ -212,11 +209,10 @@ describe('Testing the Epic mail app', function () {
 
               _chai.default.expect(res).to.have.status(400);
 
-              _chai.default.expect(res.body).to.have.property('status');
+              _chai.default.expect(res.body).to.have.property('status'); // chai.expect(res.body).to.have.property('error');
 
-              _chai.default.expect(res.body).to.have.property('error');
 
-            case 6:
+            case 5:
             case "end":
               return _context6.stop();
           }

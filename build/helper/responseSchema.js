@@ -11,6 +11,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/* istanbul ignore file */
 var Response =
 /*#__PURE__*/
 function () {
@@ -22,20 +23,27 @@ function () {
     key: "success",
 
     /**
-    * Represents a book.
     * @constructor
-    * @param {string} method - The http method.
-    * @param {object} req - The request object.
-    * @param {object} resource - The resource just created.
+    * @param {object} token - The resource just created.
     * @param {string} message - The success message.
-    * @param {integer} code - The http status code returned.
+    * @param {string} code - The http status code returned.
     */
-    value: function success(token, code) {
+    value: function success(token, message, code) {
       return {
         status: code,
-        data: [{
+        message: message,
+        data: {
           token: token
-        }]
+        }
+      };
+    }
+  }, {
+    key: "successWithEmail",
+    value: function successWithEmail(token, message, code, email) {
+      return {
+        status: code,
+        message: message,
+        data: token
       };
     }
   }, {
@@ -52,13 +60,40 @@ function () {
     key: "groupSuccess",
     value: function groupSuccess(resource, message, code) {
       return {
-        message: message,
         status: code,
+        data: {
+          resource: resource,
+          message: message
+        }
+      };
+    }
+  }, {
+    key: "responseWithResource",
+    value: function responseWithResource(resource, message, code) {
+      return {
+        status: code,
+        message: message,
+        data: resource
+      };
+    }
+  }, {
+    key: "responseWithOutResource",
+    value: function responseWithOutResource(message, code) {
+      return {
+        status: code,
+        message: message
+      };
+    }
+  }, {
+    key: "groupsAll",
+    value: function groupsAll(resource, message, code) {
+      return {
+        status: code,
+        message: message,
         data: resource
       };
     }
     /**
-    * Represents a book.
     * @constructor
     * @param {string} message - The failure message.
     * @param {object} errorObj - The error object
@@ -67,12 +102,11 @@ function () {
 
   }, {
     key: "failure",
-    value: function failure(message, errorObj, code) {
+    value: function failure(message, code) {
       return {
         status: code,
         error: {
-          message: message,
-          error: errorObj
+          message: message
         }
       };
     }

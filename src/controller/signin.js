@@ -17,6 +17,7 @@ export default class SigninController {
    * @returns {Object} Success or failure message
    */
   static async signin(req, res) {
+    if (!req.body.email.includes('@epicmail.com')) return res.status(400).json({ status: 'Bad Request', message: 'The inputted email address is in valid' });
     const result = Joi.validate(req.body, schema.signinSchema);
     if (result.error === null) {
       const args = [req.body.email];
@@ -28,10 +29,11 @@ export default class SigninController {
         user.username = dbOperationResult.rows[0].username;
         user.email = dbOperationResult.rows[0].email;
         if (!validPassword) {
-          return res.status(400).json(response.failure('Invalid username or password.', null, 400));
+          return res.status(400).json(response.responseWithOutResource('Invalid username or password.', 'Bad Request'));
         }
         const token = jwt.sign(user, process.env.SECRETKEY);
-        return res.status(200).json(response.success(token, `Welcome! ${user.username}`, 200));
+        user.token = token;
+        return res.status(200).json(response.responseWithResource(user, `Welcome! ${user.username}`, 200));
       }
     } else {
       errorHandler.validationError(res, result);
