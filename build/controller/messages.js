@@ -7,13 +7,9 @@ exports.default = void 0;
 
 var _joi = _interopRequireDefault(require("joi"));
 
-var _usefulFunc = _interopRequireDefault(require("../helper/usefulFunc"));
-
 var _schema = _interopRequireDefault(require("../helper/schema"));
 
 var _errorHandler = _interopRequireDefault(require("../helper/errorHandler"));
-
-var _messages = _interopRequireDefault(require("../fixtures/messages"));
 
 var _responseSchema = _interopRequireDefault(require("../helper/responseSchema"));
 
@@ -44,89 +40,112 @@ function () {
     key: "sendMail",
 
     /**
-     * This creates a new account for a user
+     * This sends a message created by a user or saves it as draft
      * @param {Object} req - client request Object
      * @param {Object} res - Server response Object
-     * @returns {Object} Success or failure message
+     * @returns {JSON} - containing the status message and any addition data required if any
      */
     value: function () {
       var _sendMail = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var result, message, args, dboperationResult, _args, _dboperationResult;
+        var result, message, args2, dboperationResult2, args, dboperationResult, _args, _dboperationResult;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log('entering sendmail function');
-                result = _joi.default.validate(req.body, _schema.default.message);
-
-                if (!(result.error === null)) {
-                  _context.next = 31;
+                if (!(req.body.receiver && !req.body.receiver.includes('@epicmail.com'))) {
+                  _context.next = 2;
                   break;
                 }
 
-                console.log('joi validated');
+                return _context.abrupt("return", res.status(400).json({
+                  message: 'Your receiver address is in valid'
+                }));
+
+              case 2:
+                result = _joi.default.validate(req.body, _schema.default.message);
+
+                if (!(result.error === null)) {
+                  _context.next = 36;
+                  break;
+                }
+
                 message = {};
                 message.messageBody = req.body.message;
                 message.subject = req.body.subject;
                 message.parentmessageid = req.body.parentmessageid;
                 message.receiver = req.body.receiver;
-                console.log("receiver:  ".concat(message.receiver));
-                console.log('initiliazed message object');
+                /* istanbul ignore next */
 
                 if (!(message.receiver && message.receiver !== req.user.email)) {
-                  _context.next = 23;
+                  _context.next = 27;
                   break;
                 }
 
+                args2 = [req.body.receiver];
+                _context.next = 13;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.checkIfEmailExists, args2);
+
+              case 13:
+                dboperationResult2 = _context.sent;
+
+                if (!(dboperationResult2.rowCount === 0)) {
+                  _context.next = 16;
+                  break;
+                }
+
+                return _context.abrupt("return", res.status(404).json(_responseSchema.default.responseWithOutResource('Receiver does not exists', 'Not Found')));
+
+              case 16:
                 message.status = 'sent';
-                console.log('reached inside');
                 args = [message.subject, message.messageBody, message.parentmessageid, message.status, req.user.email, message.receiver, Number(req.user.id)];
-                _context.next = 17;
+                _context.next = 20;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.insertIntoMessageInboxOutbox, args);
 
-              case 17:
+              case 20:
                 dboperationResult = _context.sent;
 
                 if (!(dboperationResult.rowCount === 1)) {
-                  _context.next = 21;
+                  _context.next = 25;
                   break;
                 }
 
                 message.sender = req.user.email;
-                return _context.abrupt("return", res.status(201).json(_responseSchema.default.messageSuccess(message, 201)));
+                message.id = dboperationResult.rows[0].messageid;
+                return _context.abrupt("return", res.status(201).json(_responseSchema.default.responseWithResource(message, 'Message sent successfully', 'Success')));
 
-              case 21:
-                _context.next = 31;
+              case 25:
+                _context.next = 36;
                 break;
 
-              case 23:
+              case 27:
                 if (!(message.receiver === undefined || message.receiver === req.user.email)) {
-                  _context.next = 31;
+                  _context.next = 36;
                   break;
                 }
 
                 message.status = 'draft';
                 _args = [message.subject, message.messageBody, message.parentmessageid, message.status, message.sender, message.receiver];
-                _context.next = 28;
+                _context.next = 32;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.insertMessageAsDraft, _args);
 
-              case 28:
+              case 32:
                 _dboperationResult = _context.sent;
 
                 if (!(_dboperationResult.rowCount === 1)) {
-                  _context.next = 31;
+                  _context.next = 36;
                   break;
                 }
 
-                return _context.abrupt("return", res.status(201).json(_responseSchema.default.messageSuccess(message, 201)));
+                message.id = _dboperationResult.rows[0].messageid;
+                return _context.abrupt("return", res.status(201).json(_responseSchema.default.responseWithResource(message, 'Message saved as draft', 'Success')));
 
-              case 31:
+              case 36:
                 _errorHandler.default.validationError(res, result);
 
-              case 32:
+              case 37:
               case "end":
                 return _context.stop();
             }
@@ -140,29 +159,46 @@ function () {
 
       return sendMail;
     }()
+    /**
+     * This fetches all received emails
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "getAllReceivedEmails",
     value: function () {
       var _getAllReceivedEmails = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee2(req, res) {
-        var user, args, dbOperationResult, receivedEmails;
+        var user, args, dbOperationResult, received;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 user = req.user;
-                console.log(user);
                 args = [req.user.email];
-                _context2.next = 5;
+                _context2.next = 4;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllMessagesFromInboxBelongingToAParticularUser, args);
 
-              case 5:
+              case 4:
                 dbOperationResult = _context2.sent;
-                receivedEmails = dbOperationResult.rows;
-                return _context2.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(receivedEmails, 200)));
+                received = dbOperationResult.rows;
+                /* istanbul ignore next */
 
-              case 8:
+                if (!(dbOperationResult.rows.length === 0)) {
+                  _context2.next = 9;
+                  break;
+                }
+
+                received = 'You have no received emails currently';
+                return _context2.abrupt("return", res.status(200).json(_responseSchema.default.responseWithOutResource(received, 'Success')));
+
+              case 9:
+                return _context2.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(received, 'Received Emails', 'Success')));
+
+              case 10:
               case "end":
                 return _context2.stop();
             }
@@ -176,28 +212,45 @@ function () {
 
       return getAllReceivedEmails;
     }()
+    /**
+     * This gets all unread messages for a particular user
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "getAllUnreadEmails",
     value: function () {
       var _getAllUnreadEmails = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee3(req, res) {
-        var args, dbOperationResult;
+        var args, dbOperationResult, unread;
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                console.log('entering get all received emails');
                 args = [req.user.email, 'unread'];
-                console.log(req.user.email);
-                _context3.next = 5;
+                _context3.next = 3;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.selectAllUnreadMessagesForAParticularUser, args);
 
-              case 5:
+              case 3:
                 dbOperationResult = _context3.sent;
-                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(dbOperationResult.rows, 200)));
+                unread = dbOperationResult.rows;
+                /* istanbul ignore next */
 
-              case 7:
+                if (!(dbOperationResult.rows.length === 0)) {
+                  _context3.next = 8;
+                  break;
+                }
+
+                unread = 'You have no unread emails currently';
+                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(unread, 'Success')));
+
+              case 8:
+                return _context3.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(unread, 'Unread Messages', 'Success')));
+
+              case 9:
               case "end":
                 return _context3.stop();
             }
@@ -211,13 +264,20 @@ function () {
 
       return getAllUnreadEmails;
     }()
+    /**
+     * This gets all sent messages sent by a user
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "getAllSentEmails",
     value: function () {
       var _getAllSentEmails = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee4(req, res) {
-        var args, dbOperationResult;
+        var args, dbOperationResult, sent;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -228,9 +288,21 @@ function () {
 
               case 3:
                 dbOperationResult = _context4.sent;
-                return _context4.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(dbOperationResult.rows, 200)));
+                sent = dbOperationResult.rows;
+                /* istanbul ignore next */
 
-              case 5:
+                if (!(dbOperationResult.rows.length === 0)) {
+                  _context4.next = 8;
+                  break;
+                }
+
+                sent = 'You have no sent emails currently';
+                return _context4.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(sent, 'Success')));
+
+              case 8:
+                return _context4.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(sent, 'Sent Messages', 'Success')));
+
+              case 9:
               case "end":
                 return _context4.stop();
             }
@@ -244,6 +316,13 @@ function () {
 
       return getAllSentEmails;
     }()
+    /**
+     * This fetches a message by id
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "getMessageById",
     value: function () {
@@ -255,24 +334,32 @@ function () {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                args = [req.params.messageId, req.user.email];
-                _context5.next = 3;
-                return _dbHelper.default.performTransactionalQuery(_queries.default.selectEmailByIdForParticularUser, args);
-
-              case 3:
-                dbOperationResult = _context5.sent;
-
-                if (!(dbOperationResult.rowCount === 1)) {
-                  _context5.next = 6;
+                if (!(isNaN(req.params.messageId) === true)) {
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context5.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(dbOperationResult.rows[0], 200)));
+                return _context5.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert only numbers', 'Bad Request')));
 
-              case 6:
-                return _context5.abrupt("return", res.status(404).json(_responseSchema.default.failure("Couldn't find message with id ".concat(req.params.messageId), null, 404)));
+              case 2:
+                args = [req.params.messageId, req.user.email];
+                _context5.next = 5;
+                return _dbHelper.default.performTransactionalQuery(_queries.default.selectEmailByIdForParticularUser, args);
 
-              case 7:
+              case 5:
+                dbOperationResult = _context5.sent;
+
+                if (!(dbOperationResult.rowCount === 1)) {
+                  _context5.next = 8;
+                  break;
+                }
+
+                return _context5.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(dbOperationResult.rows[0], 'Message Found', 'Success')));
+
+              case 8:
+                return _context5.abrupt("return", res.status(404).json(_responseSchema.default.responseWithOutResource('Could not find the message you were looking for', 'failure')));
+
+              case 9:
               case "end":
                 return _context5.stop();
             }
@@ -286,6 +373,13 @@ function () {
 
       return getMessageById;
     }()
+    /**
+     * This deletes a message by id
+     * @param {Object} req - client request Object
+     * @param {Object} res - Server response Object
+     * @returns {JSON} - containing the status message and any addition data required if any
+     */
+
   }, {
     key: "deleteMessageById",
     value: function () {
@@ -297,29 +391,35 @@ function () {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
+                if (!(isNaN(req.params.messageId) === true)) {
+                  _context6.next = 2;
+                  break;
+                }
+
+                return _context6.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Please Insert only numbers', 'Bad Request')));
+
+              case 2:
                 args = [req.params.messageId, req.user.email];
-                _context6.next = 3;
+                _context6.next = 5;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.deleteQueryByIdForParticularUser, args);
 
-              case 3:
+              case 5:
                 dbOperationResult = _context6.sent;
 
                 if (!(dbOperationResult.rowCount === 1)) {
-                  _context6.next = 6;
+                  _context6.next = 10;
                   break;
                 }
 
-                return _context6.abrupt("return", res.status(200).json(_responseSchema.default.messageSuccess(null, 200)));
+                return _context6.abrupt("return", res.status(200).json({
+                  status: 'Sucess',
+                  message: 'The message was deleted successfully'
+                }));
 
-              case 6:
-                if (!(dbOperationResult.rowCount === 0)) {
-                  _context6.next = 8;
-                  break;
-                }
+              case 10:
+                return _context6.abrupt("return", res.status(404).json(_responseSchema.default.responseWithOutResource('Could not delete the message', 'Not Found')));
 
-                return _context6.abrupt("return", res.status(404).json(_responseSchema.default.failure("Couldn't find message with id ".concat(req.params.messageId), null, 404)));
-
-              case 8:
+              case 11:
               case "end":
                 return _context6.stop();
             }

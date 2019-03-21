@@ -20,7 +20,7 @@ router.delete('/:groupId', _auth.default, _groups.default.deleteGroupById);
 router.get('/', _auth.default, _groups.default.getAllGroups);
 router.patch('/:groupId/name', _auth.default, _groups.default.renameAGroup);
 router.post('/:groupId/users', _auth.default, _groups.default.addUserToGroup);
-router.delete('/:groupId/users/:email', _auth.default, _groups.default.deleteUserFromParticularGroup);
+router.delete('/:groupId/users/:userId', _auth.default, _groups.default.deleteUserFromParticularGroup);
 router.post('/:groupId/messages', _auth.default, _groups.default.sendMailToAllMembersInAGroup);
 var _default = router;
 exports.default = _default;

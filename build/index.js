@@ -27,6 +27,8 @@ app.use(_express.default.json());
 app.use(_express.default.static('./UI'));
 app.use('/', _v.default); // app.use(error);
 
+/* istanbul ignore next */
+
 var port = process.env.PORT || 3000;
 var server = app.listen(port, function () {
   console.log("app running on ".concat(port, "..."));

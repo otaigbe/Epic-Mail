@@ -9,6 +9,8 @@ var _joi = _interopRequireDefault(require("joi"));
 
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 
+var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
+
 var _usefulFunc = _interopRequireDefault(require("../helper/usefulFunc"));
 
 var _schema = _interopRequireDefault(require("../helper/schema"));
@@ -53,7 +55,7 @@ function () {
       var _signup = _asyncToGenerator(
       /*#__PURE__*/
       regeneratorRuntime.mark(function _callee(req, res) {
-        var result, password, salt, hashedPassword, userObj, args, dbOperationResult, args2, dbOperationResult2;
+        var result, password, salt, hashedPassword, userObj, args, dbOperationResult, args2, dbOperationResult2, user, token;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -61,7 +63,7 @@ function () {
                 result = _joi.default.validate(req.body, _schema.default.userSchema);
 
                 if (!(result.error === null)) {
-                  _context.next = 27;
+                  _context.next = 33;
                   break;
                 }
 
@@ -76,15 +78,13 @@ function () {
 
               case 8:
                 hashedPassword = _context.sent;
-                // const userId = usefulFunc.generateId();
-                userObj = {}; // userObj.id = userId;
-
+                userObj = {};
                 userObj.email = _usefulFunc.default.generateFullEmailAddress(req.body.username);
-                userObj.firstName = req.body.firstName;
-                userObj.lastName = req.body.lastName;
+                userObj.firstName = req.body.firstname;
+                userObj.lastName = req.body.lastname;
                 userObj.password = hashedPassword;
                 userObj.username = req.body.username;
-                userObj.alternateEmail = req.body.alternateEmail;
+                userObj.alternateEmail = req.body.alternateemail;
                 args = [userObj.username];
                 _context.next = 19;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.checkForAlreadyExistentUser, args);
@@ -93,7 +93,7 @@ function () {
                 dbOperationResult = _context.sent;
 
                 if (!(dbOperationResult.rowCount === 0)) {
-                  _context.next = 26;
+                  _context.next = 32;
                   break;
                 }
 
@@ -103,15 +103,21 @@ function () {
 
               case 24:
                 dbOperationResult2 = _context.sent;
-                return _context.abrupt("return", res.status(201).json(_responseSchema.default.success(null, 201)));
+                user = {};
+                user.id = dbOperationResult2.rows[0].userid;
+                user.username = userObj.username;
+                user.email = userObj.email;
+                token = _jsonwebtoken.default.sign(user, process.env.SECRETKEY);
+                user.token = token;
+                return _context.abrupt("return", res.status(201).json(_responseSchema.default.successWithEmail(user, 'Signup Successful!Login With your new email', 'Success', user.email)));
 
-              case 26:
-                return _context.abrupt("return", res.status(409).json(_responseSchema.default.failure('chosen username/email already exists, choose a unique username.', null, 409)));
+              case 32:
+                return _context.abrupt("return", res.status(409).json(_responseSchema.default.responseWithOutResource('chosen username/email already exists, choose a unique username.', 'Already Existent')));
 
-              case 27:
+              case 33:
                 _errorHandler.default.validationError(res, result);
 
-              case 28:
+              case 34:
               case "end":
                 return _context.stop();
             }

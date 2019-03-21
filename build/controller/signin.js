@@ -60,29 +60,40 @@ function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (req.body.email.includes('@epicmail.com')) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt("return", res.status(400).json({
+                  status: 'Bad Request',
+                  message: 'The inputted email address is in valid'
+                }));
+
+              case 2:
                 result = _joi.default.validate(req.body, _schema.default.signinSchema);
 
                 if (!(result.error === null)) {
-                  _context.next = 20;
+                  _context.next = 23;
                   break;
                 }
 
                 args = [req.body.email];
-                _context.next = 5;
+                _context.next = 7;
                 return _dbHelper.default.performTransactionalQuery(_queries.default.searchForEmail, args);
 
-              case 5:
+              case 7:
                 dbOperationResult = _context.sent;
 
                 if (!(dbOperationResult.rowCount === 1)) {
-                  _context.next = 18;
+                  _context.next = 21;
                   break;
                 }
 
-                _context.next = 9;
+                _context.next = 11;
                 return _bcrypt.default.compare(req.body.password, dbOperationResult.rows[0].password);
 
-              case 9:
+              case 11:
                 validPassword = _context.sent;
                 user = {};
                 user.id = dbOperationResult.rows[0].userid;
@@ -90,24 +101,25 @@ function () {
                 user.email = dbOperationResult.rows[0].email;
 
                 if (validPassword) {
-                  _context.next = 16;
+                  _context.next = 18;
                   break;
                 }
 
-                return _context.abrupt("return", res.status(400).json(_responseSchema.default.failure('Invalid username or password.', null, 400)));
-
-              case 16:
-                token = _jsonwebtoken.default.sign(user, process.env.SECRETKEY);
-                return _context.abrupt("return", res.status(200).json(_responseSchema.default.success(token, 200)));
+                return _context.abrupt("return", res.status(400).json(_responseSchema.default.responseWithOutResource('Invalid username or password.', 'Bad Request')));
 
               case 18:
-                _context.next = 21;
-                break;
-
-              case 20:
-                _errorHandler.default.validationError(res, result);
+                token = _jsonwebtoken.default.sign(user, process.env.SECRETKEY);
+                user.token = token;
+                return _context.abrupt("return", res.status(200).json(_responseSchema.default.responseWithResource(user, "Welcome! ".concat(user.username), 200)));
 
               case 21:
+                _context.next = 24;
+                break;
+
+              case 23:
+                _errorHandler.default.validationError(res, result);
+
+              case 24:
               case "end":
                 return _context.stop();
             }
