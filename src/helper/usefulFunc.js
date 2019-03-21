@@ -95,6 +95,7 @@ insertres2 AS ( insert into inbox (messageid, status, receiverusername) values `
       }
     }
     initial += ' returning messageid';
+    console.log(initial);
     return initial;
   }
 }

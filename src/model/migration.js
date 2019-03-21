@@ -47,11 +47,13 @@ async function createSchema() {
     groupid bigserial PRIMARY KEY UNIQUE NOT NULL,
     groupname VARCHAR(200) NOT NULL,
     createdon TIMESTAMP(8) DEFAULT now(),
-    creator VARCHAR(200) REFERENCES users(email)
+    creator VARCHAR(200) REFERENCES users(email),
+    creatorid bigint
 )`;
   const groupMembers = `CREATE TABLE IF NOT EXISTS groupmembers (
   groupid bigserial REFERENCES groups(groupid) NOT NULL,
   memberemail VARCHAR(200) REFERENCES users(email),
+  memberid bigint,
   addedon TIMESTAMP(8) DEFAULT now()
 )`;
 
@@ -59,7 +61,7 @@ async function createSchema() {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash('password', salt);
   const addUserToUserTable = `INSERT into users (firstname, lastname, username, password, email, alternateemail) 
-  VALUES ('otaigbe', 'okhueleigbe', 'otaigbe','${hashedPassword}', 'otaigbe@epicmail.com', 'otaigbe@gmail.com'),
+  VALUES ('otaigbe', 'okhueleigbe', 'otaigbe','${hashedPassword}', 'otaigbe@epicmail.com', 'stanlex4400@gmail.com'),
   ('osas', 'okhueleigbe', 'osas422','${hashedPassword}', 'osas422@epicmail.com', 'otaigbe@gmail.com'),
   ('emmakhun', 'gearge', 'george','${hashedPassword}', 'george@epicmail.com', 'otaigbe@gmail.com'),
   ('omo', 'osahon', 'osahon','${hashedPassword}', 'osahon@epicmail.com', 'otaigbe@gmail.com'),
@@ -119,12 +121,12 @@ async function createSchema() {
 (16, 'felicitas@epicmail.com', 3),
 (17, 'felicitas@epicmail.com', 3)`;
 
-  const insertIntoGroup = `INSERT into groups (groupname, creator) VALUES ('team', 'otaigbe@epicmail.com'),
-                                                                         ('pals', 'otaigbe@epicmail.com'), 
-                                                                         ('acquaintances', 'otaigbe@epicmail.com')`;
+  const insertIntoGroup = `INSERT into groups (groupname, creator, creatorid) VALUES ('team', 'otaigbe@epicmail.com', 1),
+                                                                         ('pals', 'otaigbe@epicmail.com', 1), 
+                                                                         ('acquaintances', 'otaigbe@epicmail.com', 1)`;
 
-  const insertIntoGroupMembers = `INSERT into groupmembers (groupid, memberemail) VALUES (2, 'felicitas@epicmail.com'), 
-                                                                                         (2, 'osas422@epicmail.com')`;
+  const insertIntoGroupMembers = `INSERT into groupmembers (groupid, memberemail, memberid) VALUES (2, 'felicitas@epicmail.com', 7), 
+                                                                                         (2, 'osas422@epicmail.com', 2)`;
   pool.connect(async (err, client) => {
     if (err) console.log(err);
     try {

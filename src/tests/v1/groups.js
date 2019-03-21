@@ -13,12 +13,10 @@ describe('Testing the groups Endpoint', () => {
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
         .send({
           groupname: 'friends',
-          creator: 'otaigbe@epicmail.com',
         });
       chai.expect(res).to.have.status(201);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('data');
-      chai.expect(res.body).to.have.property('message');
     });
 
     it('should successfully create a group buddies', async () => {
@@ -26,26 +24,22 @@ describe('Testing the groups Endpoint', () => {
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
         .send({
           groupname: 'buddies',
-          creator: 'otaigbe@epicmail.com',
         });
       chai.expect(res).to.have.status(201);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('data');
-      chai.expect(res.body).to.have.property('message');
     });
 
 
-    it('should successfully create a group call enemies', async () => {
+    it('should successfully create a group called enemies', async () => {
       const res = await chai.request(app).post('/api/v1/groups')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
         .send({
           groupname: 'enemies',
-          creator: 'otaigbe@epicmail.com',
         });
       chai.expect(res).to.have.status(201);
       chai.expect(res.body).to.have.property('status');
       chai.expect(res.body).to.have.property('data');
-      chai.expect(res.body).to.have.property('message');
     });
 
 
@@ -54,7 +48,6 @@ describe('Testing the groups Endpoint', () => {
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBiuo;pY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
         .send({
           groupname: 'friends',
-          creator: 'otaigbe@epicmail.com',
         });
       chai.expect(res).to.have.status(400);
     });
@@ -64,7 +57,6 @@ describe('Testing the groups Endpoint', () => {
         .type('form')
         .send({
           groupname: 'friends',
-          creator: 'otaigbe@epicmail.com',
         });
       chai.expect(res).to.have.status(401);
     });
@@ -86,7 +78,6 @@ describe('Testing the groups Endpoint', () => {
         .type('form')
         .send({
           groupname: 'friends',
-          creator: 'osas422@epicmail.com',
         });
       chai.expect(res).to.have.status(400);
       chai.expect(res.body).to.have.property('status');
@@ -179,11 +170,48 @@ describe('Testing the groups Endpoint', () => {
         .type('form')
         .send(
           {
-            userToBeAdded: 'ade@epicmail.com',
+            useremail: 'ade@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(201);
+      chai.expect(res).to.have.status(200);
     });
+
+    it('should add a user successfully add to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'felicitas@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
+
+    it('should add a user successfully add to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'osas422@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
+
+    it('should add a user successfully add to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'george@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
+
 
     it('should add already a member of a group', async () => {
       const res = await chai.request(app).post('/api/v1/groups/2/users')
@@ -191,19 +219,19 @@ describe('Testing the groups Endpoint', () => {
         .type('form')
         .send(
           {
-            userToBeAdded: 'ade@epicmail.com',
+            useremail: 'ade@epicmail.com',
           },
         );
       chai.expect(res).to.have.status(200);
     });
 
-    it('should add already a member of a group', async () => {
+    it('should not find group', async () => {
       const res = await chai.request(app).post('/api/v1/groups/200/users')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
         .type('form')
         .send(
           {
-            userToBeAdded: 'ade@epicmail.com',
+            useremail: 'ade@epicmail.com',
           },
         );
       chai.expect(res).to.have.status(404);
@@ -214,25 +242,68 @@ describe('Testing the groups Endpoint', () => {
         .type('form')
         .send(
           {
-            userToBeAdded: 1234,
+            useremail: 1234,
           },
         );
       chai.expect(res).to.have.status(400);
     });
   });
 
-
-  describe('Testing the delete users from group endpoint', () => {
-    it('should delete a group with provided id', async () => {
-      const res = await chai.request(app).delete('/api/v1/groups/2/users/ade')
-        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(200);
+  describe('Testing the send mail to all members in a group endpoint', () => {
+    it('should send messages to all members in a group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          subject: 'oiiuyizsgrtfhtuyoiuo',
+          message: 'Just created this test to be sent to multiple folks',
+        });
+      chai.expect(res).to.have.status(201);
       chai.expect(res.body).to.have.property('status');
-      // chai.expect(res.body).to.have.property('message');
     });
 
     it('shouldn\'t find message with supplied id', async () => {
-      const res = await chai.request(app).delete('/api/v1/groups/18989898/users/ade')
+      const res = await chai.request(app).post('/api/v1/groups/70/messages')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          subject: 'oiiuyizsgrtfhtuyoiuo',
+          message: 'Just created this test to be sent to multiple folks',
+        });
+      chai.expect(res).to.have.status(404);
+      // chai.expect(res.body).to.have.property('status');
+    });
+
+    it('should return a not found error because no members in the group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/6/messages')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          subject: 'oiiuyizsgrtfhtuyoiuo',
+          message: 'Just created this test to be sent to multiple folks',
+        });
+      chai.expect(res).to.have.status(404);
+      // chai.expect(res.body).to.have.property('status');
+    });
+
+    it('should return a validation error', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/6/messages')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          subject: 'o',
+          message: 'Ju',
+        });
+      chai.expect(res).to.have.status(400);
+      // chai.expect(res.body).to.have.property('status');
+    });
+  });
+
+  describe('Testing the delete users from group endpoint', () => {
+    it('should delete a group with provided id', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/2/users/5')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+    });
+
+    it('shouldn\'t find message with supplied id', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/18989898/users/5')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
       chai.expect(res).to.have.status(404);
       chai.expect(res.body).to.have.property('status');
@@ -254,24 +325,4 @@ describe('Testing the groups Endpoint', () => {
       chai.expect(res.body).to.have.property('status');
     });
   });
-
-  // describe('Testing the send mail to all members in a group endpoint', () => {
-  //   it('should send messages to all members in a group', async () => {
-  //     const res = await chai.request(app).post('/api/v1/groups/2/message').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
-  //       .send({
-  //         subject: 'oiiuyizsgrtfhtuyoiuo',
-  //         message: 'Just created this test message',
-  //       });
-  //     chai.expect(res).to.have.status(201);
-  //     chai.expect(res.body).to.have.property('status');
-  //   });
-
-  //   // it('shouldn\'t find message with supplied id', async () => {
-  //   //   const res = await chai.request(app).delete('/api/v1/groups/1898')
-  //   //     .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-  //   //   chai.expect(res).to.have.status(404);
-  //   //   chai.expect(res.body).to.have.property('status');
-  //   // });
-  // });
-
 });

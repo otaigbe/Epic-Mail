@@ -12,13 +12,16 @@ export default class Dbhelpers {
           await client.query('COMMIT');
           return rows;
         } catch (e) {
+          /* istanbul ignore next */
           await client.query('ROLLBACK');
+          /* istanbul ignore next */
           throw e;
         } finally {
           client.release();
         }
       })();
     } catch (error) {
+      /* istanbul ignore next */
       return console.error(error.stack);
     }
   }
