@@ -142,7 +142,7 @@ body {
 	background-color: steelblue;
 /*	float: right;*/
 	padding: 10px;
-	margin-right: 5px;
+	margin-left: 10px;
 	margin-bottom: 20px;
 	font-size: 14pt;
 	border-radius: 2px;
@@ -193,6 +193,15 @@ div.content {
   float:right;
 }
 
+.count-brown{
+  background-color: #D36768;
+  border-radius: 3px;
+  color: white;
+  padding: 3px 3px;
+  font-size: 10px;
+  float:right;
+}
+
 .retract-mail-btn, .reply-to-mail-btn{
 	background-color: steelblue;
 	padding: 10px;
@@ -216,11 +225,19 @@ div.content {
 
 #signout{
 	float: right;
-	margin-top: 65px;
+	margin-top: 40px;
 	margin-right: 10px;
 	z-index: 1;
 	position: relative;
 	background-color: steelblue;
+	display: block;
+	color: black;
+	padding: 10px;
+	text-decoration: none;
+	font-size: 14pt;
+	border-radius: 2px;
+	line-height: 1.4em;
+	border: none;
 }
 
 .receivedMails:hover{
@@ -252,7 +269,7 @@ border-right: thin rgba(9,95,227,1.00) solid;
 }
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto;
 	grid-gap: 5px;
 }
 
@@ -261,9 +278,6 @@ border-right: thin rgba(9,95,227,1.00) solid;
   border: 2px solid rgba(0, 0, 0);
   padding: 10px;
   font-size: 30px;
-  margin-right: 5px;
-margin-bottom: 5px;
-	margin-left: 5px;
 }
 
 .grid-item:hover{
@@ -288,12 +302,9 @@ margin-bottom: 5px;
 
 #addUser{
 	border-bottom: thick steelblue solid;
+	display: flex;
 }
 
-#addUser > input{
-  width: 90%;
-	padding: 5px;
-}
 
 .addUser-btn{
 	background-color: steelblue;
@@ -303,8 +314,24 @@ margin-bottom: 5px;
 }
 
 #addUser > button{
-	float: right;
-	padding: 4px;
+	background-color: steelblue;
+	font-size: 14pt;
+	border-radius: 2px;
+	line-height: 1.4em;
+	border: none;
+	border: thin black solid;
+	
+}
+
+#addUser > input {
+/*	width: 93%;*/
+	flex-grow: 8;
+	padding: 5px;
+	line-height: 1.4em;
+	background-color: transparent;
+	border: thin black solid;
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	font-size: 14pt;
 }
 
 @media screen and (max-width: 700px) {
