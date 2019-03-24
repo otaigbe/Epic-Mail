@@ -4,7 +4,7 @@
 <title>signin</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 	<link href="css/style.css" rel="stylesheet" type="text/css">
 	<link href="css/logo.css" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -48,11 +48,13 @@
 			<i class="fa fa-times-circle" onClick="closeModal(this)"></i>
 		<form id="alternate">
 			<div id="maillogo"><img src="images/envelope(resized).png" width="150" height="113" alt=""/></div>
-			<span>To Reset Your Password, Enter Email</span>
+			<span>Enter Alternate Email</span>
 		<fieldset>
-        <input placeholder="email" type="text" tabindex="1" name="username" required>
+        <input placeholder="username" type="text" tabindex="1" name="username" required>
       </fieldset>
-		
+			<fieldset>
+        <input placeholder="alternate email" type="text" tabindex="2" name="alternateEmail" required>
+      </fieldset>
 			<fieldset>
         <button name="submit" type="button" id="request-submit" data-submit="...Sending" onclick="location.href='passwordReset.html';">Send Mail</button>
       </fieldset>
