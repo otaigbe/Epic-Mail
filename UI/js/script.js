@@ -34,24 +34,11 @@ function displayUsers(e){
 
 
 function displayGroups(){
-//	document.getElementById('displayarea').innerHTML 
-//		= `<div id="dummygroups"><div class="dummy-groups">Group 1<span class="count">0</span></div>
-//	<div class="dummy-groups">Group 10<span class="count">5</span></div>
-//<div class="dummy-groups">Group 2<span class="count">6</span></div>
-//<div class="dummy-groups">Group 3<span class="count">8</span></div>
-//<div class="dummy-groups">Group 4<span class="count">2</span></div>
-//<div class="dummy-groups">Group 5<span class="count">5</span></div>
-//<div class="dummy-groups">Group 6<span class="count">9</span></div></div>`;
-//	const groups = document.getElementsByClassName("dummy-groups");
-//	for (let i=0; i< groups.length; i++){
-//		groups[i].addEventListener("click", displayUsers);
-//	}
 const span = document.createElement('span');
 	span.setAttribute('class', 'tile');
 	const div = document.createElement('div');
 	div.setAttribute('class', 'grid-item');
 	const textNode = document.createTextNode(groupName);
-//	span.setAttribute('class', 'grid-item');
 	const icon = document.createElement('i');
 	icon.setAttribute('class', 'fas fa-plus');
 	const panel = document.createElement('div');

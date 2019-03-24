@@ -1,9 +1,4 @@
 const createComposeWindow = function (e){
-//	if(document.querySelector('.content')[0].style.display === "none" ){
-//		document.querySelector('.content')[0].style.display= "block";
-//	}
-//			document.querySelector('.modal').style.display= "block";
-
 		on();
 	let modal = `<div id="myModal" class="modal">
 <div class="bar"><button type="button" class="close-btn">
@@ -13,15 +8,10 @@ const createComposeWindow = function (e){
 modal = document.createRange().createContextualFragment(modal);
 document.getElementById('composeWindow').appendChild(modal);
 e.target.disabled = true;
-//var editor = new Quill('#editor', {
-//		theme: 'snow'
-//	});
 	if (e.target.classList.contains('draftMail')){
 	console.log(e.target);
-//	const mailbody = e.target.querySelector('.mailbody').textContent;
 	const mailtitle = e.target.querySelector('.title').textContent;
 	const sender = e.target.querySelector('.sender').textContent;
-	//editor.setText(`${mailbody}\n`);
 	document.querySelector('.to').value = sender;
 	document.querySelector('.topic').value = mailtitle;
 	}

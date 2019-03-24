@@ -1,9 +1,5 @@
 "use strict";
 const viewMessages = function (text, mailType, email, looptotal, e){
-//	e.stopPropagation();
-//	if (document.querySelector('.grid-container').style.display === "block"){
-//		document.querySelector('.grid-container').style.display = "none";
-//	}
 	e.target.parentElement.parentElement.querySelector('.grid-container').style.display = "none";
 		document.getElementById('displayarea').style.display = "block";
 
@@ -85,23 +81,17 @@ e.target.parentElement.parentElement.removeChild(e.target.parentElement);
 
 
 const messageDisplayTab = function(button, e){
-//	console.log(e);
 	const topic = e.target.querySelector('.title').textContent;
 	const sender = e.target.querySelector('.sender').textContent;
-//	const mailbody = e.target.querySelector('.mailbody').textContent;
 	const mailId =e.target.querySelector('.mailId').textContent;
 const mail = {};
 	mail.id = mailId;
-//	mail.topic = topic;
-//	mail.sender = sender;
-//	mail.body = mailbody;
-//console.log(mail);
 	const tablinks = document.getElementsByClassName("tablinks");
 	for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
 	const id = e.target.querySelector('.mailId').textContent;
-	let tabButton = `<span class="tablinks active ${id}"  onclick="openMail(event, '${id}')">${topic}<i class="fa fa-close close-tab"></i></span>`;
+	let tabButton = `<span class="tablinks active ${id}"  onclick="openMail(event, '${id}')">${topic}<i class="fa fa-close close-tab" ></i></span>`;
 	tabButton = document.createRange().createContextualFragment(tabButton);
 	document.getElementsByClassName('tab')[0].appendChild(tabButton);
 	let tabContent = `<div id=${id} class="tabcontent ${id}"><p>{Tokyo is the capital of Japan.}</p><hr>
@@ -169,13 +159,9 @@ function createReplySection(evt){
 let ui = createReply();
 ui = document.createRange().createContextualFragment(ui);
 evt.currentTarget.parentElement.querySelector('.replyArea').appendChild(ui);
-//document.getElementById('reply').appendChild(ui);
 evt.target.disabled= true;
 const node = evt.currentTarget.parentElement.querySelector('.replyeditor');
-//var editor = new Quill(node, {theme: 'snow'});
 evt.currentTarget.parentElement.querySelector('.send').addEventListener('click', function(e){
-//	console.log(editor.getText());
-//const text = document.createTextNode(editor.getText());
 const hr = document.createElement('hr');
 const replyButton = e.target.parentElement.querySelector('.close-btn-reply');
 const replyArea = e.target.parentElement.parentElement.parentElement.querySelector('.replyArea').appendChild(hr);
@@ -228,9 +214,17 @@ if (e.target.checked === false){
 
 }
 
-
+function closethis(){
+	console.log("close this");
+}
 document.getElementById("inbox").addEventListener("click", viewMessages.bind(this, "Inbox", "receivedMails", "me@epicmail.com",10));
 document.getElementById("draft").addEventListener("click", viewMessages.bind(this, "Draft", "draftMail", "Draft", 4));
-$('body').on('click', '.close-tab', closeCurrentTab);
+
+document.addEventListener('click', function (event) {
+	if (event.target.matches('.close-tab')) {
+		closeCurrentTab(event);
+	}
+
+}, false);
 document.getElementById('sent').addEventListener("click", viewMessages.bind(this, "Sent Mail", "sentMails","them@epicmail.com",7));
 document.getElementById('inbox').click();
