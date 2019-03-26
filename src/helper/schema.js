@@ -3,12 +3,13 @@ import Joi from 'joi';
 const schemas = {};
 
 schemas.userSchema = Joi.object({
-  username: Joi.string().min(2).required(),
-  firstname: Joi.string().min(2).required(),
-  lastname: Joi.string().min(2).required(),
-  password: Joi.string().alphanum().min(4).max(50)
+  username: Joi.string().trim().min(2).required(),
+  firstname: Joi.string().min(2).trim().required(),
+  lastname: Joi.string().trim().min(2).required(),
+  password: Joi.string().alphanum().min(4).trim()
+    .max(50)
     .required(),
-  alternateemail: Joi.string().min(5).required(),
+  alternateemail: Joi.string().email().min(5).trim().required(),
 });
 
 schemas.signinSchema = Joi.object({

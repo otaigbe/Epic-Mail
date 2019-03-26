@@ -1,10 +1,9 @@
 export default class ErrorHandler {
   static validationError(res, result) {
     return res.status(400).json({
-      status: 400,
+      status: 'failure',
       error: {
-        message: 'Something wrong with input!',
-        errorObj: result.error,
+        message: result.error.message,
       },
     });
   }
