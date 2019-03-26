@@ -17,7 +17,7 @@ export default class SignupController {
    * @returns {Object} Success or failure message
    */
   static async signup(req, res) {
-    const result = Joi.validate(req.body, schema.userSchema);
+    const result = Joi.validate(req.body, schema.userSchema, { convert: false });
     if (result.error === null) {
       const { password } = req.body;
       const salt = await bcrypt.genSalt(10);
@@ -40,6 +40,7 @@ export default class SignupController {
         user.email = userObj.email;
         const token = jwt.sign(user, process.env.SECRETKEY);
         user.token = token;
+        res.set('x-auth-token', token);
         return res.status(201).json(response.successWithEmail(user, 'Signup Successful!Login With your new email', 'Success', user.email));
       }
       return res.status(409).json(response.responseWithOutResource('chosen username/email already exists, choose a unique username.', 'Already Existent'));
