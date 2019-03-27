@@ -41,9 +41,9 @@ export default class SignupController {
         const token = jwt.sign(user, process.env.SECRETKEY);
         user.token = token;
         res.set('x-auth-token', token);
-        return res.status(201).json(response.successWithEmail(user, 'Signup Successful!Login With your new email', 'Success', user.email));
+        return res.status(201).json(response.success('Signup Successful!Login With your new email', user));
       }
-      return res.status(409).json(response.responseWithOutResource('chosen username/email already exists, choose a unique username.', 'Already Existent'));
+      return res.status(409).json(response.failure('chosen username/email already exists, choose a unique username.', {}));
     }
     errorHandler.validationError(res, result);
   }
