@@ -2,7 +2,6 @@
 import Joi from 'joi';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import usefulFunc from '../helper/usefulFunc';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
@@ -17,10 +16,9 @@ export default class SigninController {
    * @returns {Object} Success or failure message
    */
   static async signin(req, res) {
-    if (!req.body.email.includes('@epicmail.com')) return res.status(400).json({ status: 'Bad Request', message: 'The inputted email address is in valid' });
-    const result = Joi.validate(req.body, schema.signinSchema);
+    const result = Joi.validate(req.body, schema.signinSchema, { convert: false });
     if (result.error === null) {
-      const args = [req.body.email];
+      const args = [req.body.email.trim()];
       const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.searchForEmail, args);
       if (dbOperationResult.rowCount === 1) {
         const validPassword = await bcrypt.compare(req.body.password, dbOperationResult.rows[0].password);
@@ -29,11 +27,11 @@ export default class SigninController {
         user.username = dbOperationResult.rows[0].username;
         user.email = dbOperationResult.rows[0].email;
         if (!validPassword) {
-          return res.status(400).json(response.responseWithOutResource('Invalid username or password.', 'Bad Request'));
+          return res.status(400).json(response.failure('Invalid username or password.', {}));
         }
         const token = jwt.sign(user, process.env.SECRETKEY);
         user.token = token;
-        return res.status(200).json(response.responseWithResource(user, `Welcome! ${user.username}`, 200));
+        return res.status(200).json(response.success(`Welcome! ${user.username}`, user));
       }
     } else {
       errorHandler.validationError(res, result);

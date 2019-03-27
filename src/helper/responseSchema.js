@@ -6,87 +6,21 @@ export default class Response {
  * @param {string} message - The success message.
  * @param {string} code - The http status code returned.
  */
-  static success(token, message, code) {
+  static success(message, resource) {
+    const data = resource;
+    data.message = message;
     return {
-      status: code,
-      message,
-      data: {
-        token,
-      },
+      status: 'Success',
+      data,
     };
   }
 
-  static successWithEmail(token, message, code, email) {
+  static failure(message, error) {
+    const errorObj = error;
+    errorObj.message = message;
     return {
-      status: code,
-      message,
-      data: token,
-    };
-  }
-
-  static messageSuccess(resource, code) {
-    return {
-      status: code,
-      data: [{
-        resource,
-      }],
-    };
-  }
-
-  static groupSuccess(resource, message, code) {
-    return {
-      status: code,
-      data: {
-        resource,
-        message,
-      },
-    };
-  }
-
-  static responseWithResource(resource, message, code) {
-    return {
-      status: code,
-      message,
-      data: resource,
-    };
-  }
-
-  static responseWithOutResource(message, code) {
-    return {
-      status: code,
-      message,
-    };
-  }
-
-  static groupsAll(resource, message, code) {
-    return {
-      status: code,
-      message,
-      data: resource,
-    };
-  }
-
-  /**
- * @constructor
- * @param {string} message - The failure message.
- * @param {object} errorObj - The error object
- * @param {integer} code - The http status code returned.
- */
-  static failure(message, code) {
-    return {
-      status: code,
-      error: {
-        message,
-      },
-    };
-  }
-
-  static groupFailure(message, code) {
-    return {
-      status: code,
-      error: {
-        message,
-      },
+      status: 'Failed',
+      error: errorObj,
     };
   }
 }

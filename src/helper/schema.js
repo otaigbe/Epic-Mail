@@ -9,12 +9,15 @@ schemas.userSchema = Joi.object({
   password: Joi.string().alphanum().min(4).trim()
     .max(50)
     .required(),
-  alternateemail: Joi.string().email().min(5).trim().required(),
+  alternateemail: Joi.string().email().min(5).trim()
+    .required(),
 });
 
 schemas.signinSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().alphanum().min(4).max(50)
+  email: Joi.string().email().regex(/epicmail\.com$/).min(13).trim()
+    .required(),
+  password: Joi.string().alphanum().trim().min(4)
+    .max(50)
     .required(),
 });
 
