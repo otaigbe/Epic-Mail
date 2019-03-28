@@ -1,11 +1,9 @@
-// /* eslint-disable prefer-destructuring */
-// /* istanbul ignore file */
-// import chai from 'chai';
-// import chaiHttp from 'chai-http';
-// import app from '../../index';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../../index';
 
-// const expect = chai.expect;
-// chai.use(chaiHttp);
+const { expect } = chai;
+chai.use(chaiHttp);
 
 // describe('Testing the messages Endpoint', () => {
 //   describe('Testing the save/send mail Endpoint', () => {
@@ -80,15 +78,23 @@
 
 //   });
 
-//   describe('Testing the get all received email Endpoint', () => {
-//     it('should get all emails where status is received', async () => {
-//       const res = await chai.request(app).get('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-//       chai.expect(res).to.have.status(200);
-//       chai.expect(res.body).to.have.property('status');
-//       chai.expect(res.body).to.have.property('data');
-//       // chai.expect(res.body.data).to.have.property('message');
-//     });
-//   });
+describe('Testing the get all received email Endpoint', () => {
+  it('should get all emails where status is received', async () => {
+    const res = await chai.request(app).get('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+    chai.expect(res).to.have.status(200);
+    chai.expect(res.body).to.have.property('status');
+    chai.expect(res.body).to.have.property('data');
+    chai.expect(res.body.data).to.be.an('array');
+  });
+
+  it('should check if email array is 0', async () => {
+    const res = await chai.request(app).get('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUiLCJ1c2VybmFtZSI6ImFkZSIsImVtYWlsIjoiYWRlQGVwaWNtYWlsLmNvbSIsImlhdCI6MTU1MzgwMzczOH0.7JVBYAsF6NlzUsFAN7JoBjc5BtP0O1OyNm48tbfjFVo');
+    chai.expect(res).to.have.status(200);
+    chai.expect(res.body).to.have.property('status');
+    chai.expect(res.body).to.have.property('data');
+    chai.expect(res.body.data).to.have.property('message');
+  });
+});
 
 //   describe('Testing the get all unread emails Endpoint', () => {
 //     it('should get all emails where status is unread', async () => {

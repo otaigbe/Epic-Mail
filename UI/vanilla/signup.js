@@ -14,6 +14,8 @@ async function gatherFormDetails() {
   const fetchResult = await customFetchWithBody(baseUrl, 'POST', null, JSON.parse(formdata));
   if (fetchResult.status === 'Success') {
     window.location.replace('/activities.html');
+    const header = new Headers();
+    header.set('x-auth-token', fetchResult.data.token);
   }
   if (fetchResult.status === 'failure') {
     document.getElementById('reply').style.color = 'red';
