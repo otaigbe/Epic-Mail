@@ -31,6 +31,7 @@ export default class SigninController {
         }
         const token = jwt.sign(user, process.env.SECRETKEY);
         user.token = token;
+        res.set('x-auth-token', token);
         return res.status(200).json(response.success(`Welcome! ${user.username}`, user));
       }
     } else {

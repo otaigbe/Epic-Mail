@@ -95,7 +95,7 @@ async function createSchema() {
 (6,'unread', 'osas422@epicmail.com'), 
 (7,'unread', 'osas422@epicmail.com'), 
 (8,'unread', 'osas422@epicmail.com'), 
-(9,'unread', 'otaigbe@epicmail.com'), 
+(9,'unread', 'osas422@epicmail.com'), 
 (10,'unread', 'otaigbe@epicmail.com'), 
 (11,'unread', 'otaigbe@epicmail.com'), 
 (12,'unread', 'otaigbe@epicmail.com'), 

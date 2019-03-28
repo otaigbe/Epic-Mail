@@ -29,6 +29,7 @@ function customFetchWithBody(url, methodType, token, jsonObj) {
           'Content-Type': 'application/json',
           'x-auth-token': token,
         },
+        redirect: 'follow',
         body: JSON.stringify(jsonObj),
       });
       json = await response.json();

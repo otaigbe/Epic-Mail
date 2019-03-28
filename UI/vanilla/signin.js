@@ -14,8 +14,9 @@ async function gatherFormDetails() {
   const formData = new FormData(form);
   const formdata = convertFormDataToJson(formData);
   const fetchResult = await customFetchWithBody(baseUrl, 'POST', null, JSON.parse(formdata));
+  // console.log(fetchResult);
   if (fetchResult.status === 'Success') {
-    window.location.replace('/activities.html');
+    window.location.replace(`/activities.html?token=${fetchResult.data.token}`);
   } 
   if (fetchResult.status === 'failure') {
     document.getElementById('reply').style.color = 'red';
