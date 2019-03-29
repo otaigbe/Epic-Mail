@@ -103,13 +103,11 @@ export default class MessagesController {
     const args = [req.user.email];
     const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectAllSentEmailsForAParticularUser, args);
     let sent = dbOperationResult.rows;
-    /* istanbul ignore next */
     if (dbOperationResult.rows.length === 0) {
       sent = 'You have no sent emails currently';
-      return res.status(200).json(response.responseWithResource(sent, 'Success'));
-
+      return res.status(200).json(response.success(sent, {}));
     }
-    return res.status(200).json(response.responseWithResource(sent, 'Sent Messages', 'Success'));
+    return res.status(200).json(response.success('Sent Messages', sent));
   }
 
   /**

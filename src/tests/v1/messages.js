@@ -105,20 +105,23 @@ describe('Testing the get all received email Endpoint', () => {
 //     });
 //   });
 
-//   describe('Testing the get all sent emails Endpoint', () => {
-//     it('should get all emails where type is sent', async () => {
-//       const res = await chai.request(app).get('/api/v1/messages/sent').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-//       chai.expect(res).to.have.status(200);
-//       chai.expect(res.body).to.have.property('status');
-//       chai.expect(res.body).to.have.property('data');
-//     });
+describe('Testing the get all sent emails Endpoint', () => {
+  it('should get all emails where type is sent', async () => {
+    const res = await chai.request(app).get('/api/v1/messages/sent').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+    chai.expect(res).to.have.status(200);
+    chai.expect(res.body).to.have.property('status');
+    chai.expect(res.body).to.have.property('data');
+    chai.expect(res.body.data).to.be.an('array');
+  });
 
-//     it('should throw 401 error', async () => {
-//       const res = await chai.request(app).get('/api/v1/messages/sent');
-//       chai.expect(res).to.have.status(401);
-//     });
-
-//   });
+  it('should check if email array is 0', async () => {
+    const res = await chai.request(app).get('/api/v1/messages/sent').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUiLCJ1c2VybmFtZSI6ImFkZSIsImVtYWlsIjoiYWRlQGVwaWNtYWlsLmNvbSIsImlhdCI6MTU1MzgwMzczOH0.7JVBYAsF6NlzUsFAN7JoBjc5BtP0O1OyNm48tbfjFVo');
+    chai.expect(res).to.have.status(200);
+    chai.expect(res.body).to.have.property('status');
+    chai.expect(res.body).to.have.property('data');
+    chai.expect(res.body.data).to.have.property('message');
+  });
+});
 
 //   describe('Testing the get specific users email by Id Endpoint', () => {
 //     it('should get a specific users email by Id', async () => {

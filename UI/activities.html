@@ -47,7 +47,7 @@
 </div>
   <div id="displayarea"> </div>
 </div>
-<script src="js/activities.js"></script>
+<!-- <script src="js/activities.js"></script> -->
 <!-- <script src="js/inbox.js"></script> -->
 	<script>
 function myFunction(elem) {
@@ -64,12 +64,11 @@ function myFunction(elem) {
 	<script src="./js/script.js"></script>
  <script src="vanilla/fetch.js"></script>
  <script src="vanilla/myscript.js"></script>
- <script type="module">
-  import activities from './vanilla/activities.js';
-  const params = new URLSearchParams(window.location.search);
-  const tokenParam = params.get('token');
-  document.getElementById('inbox').addEventListener('click', activities.getAllReceivedMessages(tokenParam));
-
+ 
+ <script type="module" src="vanilla/activities.js">
+  
  </script>
+ <script>
+</script>
 </body>
 </html>
