@@ -61,4 +61,9 @@ schemas.resetSchema = Joi.object({
   email: Joi.string().email({ minDomainAtoms: 2 }).max(256).trim()
     .required(),
 });
+
+schemas.messageId = Joi.object({
+  messageId: Joi.number().integer().required(),
+});
+
 export default schemas;
