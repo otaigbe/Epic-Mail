@@ -1,8 +1,6 @@
-function wrapResultWithHtml(text, mailType, fetchResult, e) {
-  e.target.parentElement.parentElement.querySelector('.grid-container').style.display = 'none';
+function wrapResultWithHtml(text, mailType, fetchResult) {
+  document.querySelector('.grid-container').style.display = 'none';
   document.getElementById('displayarea').style.display = 'block';
-
-  console.log(e.target.parentElement.parentElement.querySelector('.grid-container'));
   let modal = '';
   modal += `<div id=
     "tabcontentDisplayarea"><div class="tab">
