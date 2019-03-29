@@ -117,14 +117,17 @@ export default class MessagesController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async getMessageById(req, res) {
-    if (isNaN(req.params.messageId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
-    const args = [req.params.messageId, req.user.email];
-    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectEmailByIdForParticularUser, args);
-    /* istanbul ignore next */
-    if (dbOperationResult.rowCount === 1) {
-      return res.status(200).json(response.responseWithResource(dbOperationResult.rows[0], 'Message Found', 'Success'));
-    }
-    return res.status(404).json(response.responseWithOutResource('Could not find the message you were looking for', 'failure'));
+    const result = Joi.validate(req.params, schema.messageId, { convert: true });
+    if (result.error === null) {
+      const args = [Number(req.params.messageId), String(req.user.email)];
+      const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectEmailByIdForParticularUser, args);
+      if (dbOperationResult.rowCount === 1) {
+        return res.status(200).json(response.success('Message Found', dbOperationResult.rows[0]));
+      }
+      return res.status(404).json(response.failure('Could not find the message you were looking for', {}));
+    } else {
+      errorHandler.validationError(res, result);
+    } 
   }
 
   /**

@@ -23,7 +23,7 @@ async function createSchema() {
         messageid bigserial PRIMARY KEY UNIQUE NOT NULL,
         createdon TIMESTAMP DEFAULT NOW() NOT NULL,
         subject text NOT NULL,
-        message TEXT NOT NULL,
+        messagebody TEXT NOT NULL,
         parentmessageid BIGINT,
         status messagestatus NOT NULL,
         sender VARCHAR(200) REFERENCES users(email) ON DELETE RESTRICT,
@@ -69,7 +69,7 @@ async function createSchema() {
   ('fidelis', 'christmas', 'fidelis','${hashedPassword}', 'fidelis@epicmail.com', 'otaigbe@gmail.com'),
   ('felicia', 'okhueleigbe', 'felicitas','${hashedPassword}', 'felicitas@epicmail.com', 'otaigbe@gmail.com')`;
 
-  const addMessagesToMessageTable = `INSERT INTO messages (subject, message, parentmessageid, status, sender, receiver)
+  const addMessagesToMessageTable = `INSERT INTO messages (subject, messagebody, parentmessageid, status, sender, receiver)
   VALUES 
   ('subject', 'messagebody', null, 'draft', 'felicitas@epicmail.com', null),
   ('subject of mail', 'body of mail', null, 'sent', 'osas422@epicmail.com', 'felicitas@epicmail.com'),

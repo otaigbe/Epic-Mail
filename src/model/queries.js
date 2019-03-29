@@ -2,9 +2,9 @@ const queries = {};
 
 queries.selectAllMessagesFromInbox = 'SELECT * FROM inbox';
 queries.selectAllUnreadMessages = 'SELECT * FROM inbox WHERE status = $1';
-queries.selectAllUnreadMessagesForAParticularUser = 'SELECT messages.messageid, inbox.status, inbox.receiverusername, messages.sender, messages.createdon, messages.subject, messages.message, messages.parentmessageid FROM inbox JOIN messages ON (messages.messageid = inbox.messageid) WHERE inbox.receiverusername = $1 AND inbox.status = $2';
+queries.selectAllUnreadMessagesForAParticularUser = 'SELECT messages.messageid, inbox.status, inbox.receiverusername, messages.sender, messages.createdon, messages.subject, messages.messagebody, messages.parentmessageid FROM inbox JOIN messages ON (messages.messageid = inbox.messageid) WHERE inbox.receiverusername = $1 AND inbox.status = $2';
 queries.selectAllSentEmails = 'SELECT * FROM sent';
-queries.selectAllSentEmailsForAParticularUser = 'SELECT sent.messageid, messages.status, messages.receiver, messages.sender, messages.createdon, messages.subject, messages.message, messages.parentmessageid FROM sent JOIN messages ON (messages.messageid = sent.messageid) WHERE sent.sender = $1;';
+queries.selectAllSentEmailsForAParticularUser = 'SELECT sent.messageid, messages.status, messages.receiver, messages.sender, messages.createdon, messages.subject, messages.messagebody, messages.parentmessageid FROM sent JOIN messages ON (messages.messageid = sent.messageid) WHERE sent.sender = $1;';
 queries.checkIfUserAlreadyHasGroupWithGroupName = 'SELECT * FROM groups WHERE groupname = $1 AND creator = $2';
 queries.checkIfUserOwnsTheGroupAboutToBeDeleted = 'SELECT * FROM groups WHERE groupid = $1 AND creator = $2';
 queries.deleteGroupById = 'DELETE FROM groups WHERE groupid = $1 AND creator = $2';
@@ -18,7 +18,7 @@ queries.deleteUserFromASpecificGroup = 'Delete from groupmembers WHERE groupid =
 queries.selectAllMembersOfAPraticularGroup = 'SELECT memberemail FROM groupmembers WHERE groupid = $1';
 queries.checkIfUserExists = 'SELECT * FROM users WHERE email = $1 and alternateemail = $2';
 queries.selectEmailById = 'SELECT * FROM messages WHERE messageid = $1';
-queries.selectEmailByIdForParticularUser = 'SELECT * FROM messages WHERE messageid = $1 AND sender = $2';
+queries.selectEmailByIdForParticularUser = 'SELECT * FROM messages WHERE (messageid = $1 AND receiver = $2) OR (messageid = $1 AND sender = $2)';
 queries.deleteQueryById = 'DELETE FROM messages WHERE messageid = $1';
 queries.deleteQueryByIdForParticularUser = 'DELETE FROM messages WHERE messageid = $1 AND sender = $2';
 queries.createGroup = 'INSERT INTO groups (groupname, creator, creatorid) VALUES ($1, $2, $3) returning groupid';

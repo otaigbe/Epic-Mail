@@ -123,27 +123,24 @@ describe('Testing the get all sent emails Endpoint', () => {
   });
 });
 
-//   describe('Testing the get specific users email by Id Endpoint', () => {
-//     it('should get a specific users email by Id', async () => {
-//       const res = await chai.request(app).get('/api/v1/messages/5').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-//       chai.expect(res).to.have.status(200);
-//       chai.expect(res.body).to.have.property('status');
-//       chai.expect(res.body).to.have.property('data');
-//     });
+describe('Testing the get specific users email by Id Endpoint', () => {
+  it('should get a specific users email by Id', async () => {
+    const res = await chai.request(app).get('/api/v1/messages/11').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+    chai.expect(res).to.have.status(200);
+    chai.expect(res.body).to.have.property('status');
+    chai.expect(res.body).to.have.property('data');
+  });
 
-//     it('should throw a 400 error bad url', async () => {
-//       const res = await chai.request(app).get('/api/v1/messages/_').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-//       chai.expect(res).to.have.status(400);
-//       chai.expect(res.body).to.have.property('status');
-//     });
+  it('should throw a 400 validation error', async () => {
+    const res = await chai.request(app).get('/api/v1/messages/adc').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+    chai.expect(res).to.have.status(400);
+  });
 
-//     it('should return a message not found error message', async () => {
-//       const res = await chai.request(app).get('/api/v1/messages/19300').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-//       chai.expect(res).to.have.status(404);
-//       chai.expect(res.body).to.have.property('status');
-//       // chai.expect(res.body).to.have.property('error');
-//     });
-//   });
+  it('should throw a 404 not found error', async () => {
+    const res = await chai.request(app).get('/api/v1/messages/1123343').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+    chai.expect(res).to.have.status(404);
+  });
+});
 
 //   describe('Testing the Delete email by Id Endpoint', () => {
 //     it('should delete a specific users email by Id', async () => {
