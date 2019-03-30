@@ -68,6 +68,64 @@ function closeCurrentTab(e) {
   }
 }
 
+function on() {
+  document.getElementById('overlay').style.display = 'block';
+}
+
+function off() {
+  document.getElementById('overlay').style.display = 'none';
+}
+
+function closeComposeWindow(e) {
+  off();
+  e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+  document.getElementById('compose').disabled = false;
+}
+
+
+const createComposeWindow = (e) => {
+  on();
+  let modal = `<div id="myModal" class="modal">
+<div class="bar"><button type="button" class="close-btn">
+</button></div>
+<form id="create-message">
+<div id="details">
+<input type="text" class="to" name="receiver" placeholder="To"><br>
+<input type="text" name="subject" class="topic" placeholder="Subject">
+</div>
+<textarea class="message-compose"></textarea>
+</form>
+<button type="button" class="save">Save As Draft</button>
+<button type="button" class="send">Send</button></div>`;
+  modal = document.createRange().createContextualFragment(modal);
+  document.getElementById('composeWindow').appendChild(modal);
+  e.target.disabled = true;
+  if (e.target.classList.contains('draftMail')) {
+    // console.log(e.target);
+    const mailtitle = e.target.querySelector('.title').textContent;
+    const sender = e.target.querySelector('.sender').textContent;
+    document.querySelector('.to').value = sender;
+    document.querySelector('.topic').value = mailtitle;
+  }
+  document.querySelector('.close-btn').addEventListener('click', closeComposeWindow);
+};
+
+const sendMail = async (e, token) => {
+  console.log(e.target.parentElement);
+  const form = e.target.parentElement.querySelector('#create-message');
+  const messagebody = e.target.parentElement.querySelector('.message-compose').value;
+  let formdata = new FormData(form);
+  formdata.append('message', messagebody);
+  formdata = convertFormDataToJson(formdata);
+  const baseUrl = '/api/v1/messages';
+  const fetchResult = await customFetchWithBody(baseUrl, 'POST', token, JSON.parse(formdata));
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
+};
 
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
@@ -84,5 +142,11 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('.sentMails')) {
     messageDisplayTab(event, '<button type="button" onclick="retractMail(event);" class="retract-mail-btn">Retract Mail</button>', tokenParam);
+  }
+  if (event.target.matches('#compose')) {
+    createComposeWindow(event);
+  }
+  if (event.target.matches('.send')) {
+    sendMail(event, tokenParam);
   }
 }, false);
