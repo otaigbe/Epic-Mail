@@ -16,21 +16,18 @@ export default class MessagesController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async sendMail(req, res) {
-    if (req.body.receiver && !req.body.receiver.includes('@epicmail.com')) return res.status(400).json({ message: 'Your receiver address is in valid' });
-    const result = Joi.validate(req.body, schema.message);
+    const result = Joi.validate(req.body, schema.message, { convert: true });
     if (result.error === null) {
       const message = {};
-      message.messageBody = req.body.message;
-      message.subject = req.body.subject;
+      message.messageBody = req.body.message.trim();
+      message.subject = req.body.subject.trim();
       message.parentmessageid = req.body.parentmessageid;
       message.receiver = req.body.receiver;
-
-      /* istanbul ignore next */
       if (message.receiver && message.receiver !== req.user.email) {
-        const args2 = [req.body.receiver];
+        const args2 = [req.body.receiver.trim()];
         const dboperationResult2 = await dbhelper.performTransactionalQuery(queries.checkIfEmailExists, args2);
         if (dboperationResult2.rowCount === 0) {
-          return res.status(404).json(response.responseWithOutResource('Receiver does not exists', 'Not Found'));
+          return res.status(404).json(response.failure('Receiver does not exists', {}));
         }
         message.status = 'sent';
         const args = [message.subject, message.messageBody, message.parentmessageid, message.status, req.user.email, message.receiver, Number(req.user.id)];
@@ -38,16 +35,15 @@ export default class MessagesController {
         if (dboperationResult.rowCount === 1) {
           message.sender = req.user.email;
           message.id = dboperationResult.rows[0].messageid;
-          return res.status(201).json(response.responseWithResource(message, 'Message sent successfully', 'Success'));
+          return res.status(201).json(response.success('Message sent successfully', message));
         }
-        /* istanbul ignore next */
       } else if (message.receiver === undefined || message.receiver === req.user.email) {
         message.status = 'draft';
         const args = [message.subject, message.messageBody, message.parentmessageid, message.status, message.sender, message.receiver];
         const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertMessageAsDraft, args);
         if (dboperationResult.rowCount === 1) {
           message.id = dboperationResult.rows[0].messageid;
-          return res.status(201).json(response.responseWithResource(message, 'Message saved as draft', 'Success'));
+          return res.status(201).json(response.success('Message saved as draft', message));
         }
       }
     }
@@ -87,7 +83,6 @@ export default class MessagesController {
     if (dbOperationResult.rows.length === 0) {
       unread = 'You have no unread emails currently';
       return res.status(200).json(response.responseWithResource(unread, 'Success'));
-
     }
     return res.status(200).json(response.responseWithResource(unread, 'Unread Messages', 'Success'));
   }
@@ -127,7 +122,7 @@ export default class MessagesController {
       return res.status(404).json(response.failure('Could not find the message you were looking for', {}));
     } else {
       errorHandler.validationError(res, result);
-    } 
+    }
   }
 
   /**

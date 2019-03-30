@@ -25,7 +25,8 @@ schemas.message = Joi.object({
   parentmessageid: Joi.number().integer().max(1000000),
   subject: Joi.string().min(4).trim().required(),
   message: Joi.string().min(5).trim().required(),
-  receiver: Joi.string().email().max(256),
+  receiver: Joi.string().email().regex(/epicmail\.com$/).min(13)
+    .trim(),
 });
 
 
