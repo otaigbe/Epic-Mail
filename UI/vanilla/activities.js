@@ -111,7 +111,6 @@ const createComposeWindow = (e) => {
 };
 
 const sendMail = async (e, token) => {
-  console.log(e.target.parentElement);
   const form = e.target.parentElement.querySelector('#create-message');
   const messagebody = e.target.parentElement.querySelector('.message-compose').value;
   let formdata = new FormData(form);
@@ -124,6 +123,15 @@ const sendMail = async (e, token) => {
   }
   if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
     console.log(fetchResult);
+  }
+};
+
+const getAllGroups = async (e, token) => {
+  const baseUrl = '/api/v1/groups';
+  const fetchResult = await customFetch(baseUrl, 'GET', token);
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+    wrapInAccordion(fetchResult);
   }
 };
 
@@ -148,5 +156,11 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('.send')) {
     sendMail(event, tokenParam);
+  }
+  if (event.target.matches('#viewGroup-btn')) {
+    getAllGroups(event, tokenParam);
+  }
+  if (event.target.matches('.grid-item')) {
+    toggleAccordion(event);
   }
 }, false);
