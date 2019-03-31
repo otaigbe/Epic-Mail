@@ -1,10 +1,9 @@
-// /* eslint-disable prefer-destructuring */
-// import chai from 'chai';
-// import chaiHttp from 'chai-http';
-// import app from '../../index';
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../../index';
 
-// const expect = chai.expect;
-// chai.use(chaiHttp);
+const { expect } = chai;
+chai.use(chaiHttp);
 
 // describe('Testing the groups Endpoint', () => {
 //   describe('Testing the create and own group by user otaigbe Endpoint', () => {
@@ -151,15 +150,21 @@
 //     });
 //   });
 
-//   describe('Testing the group all groups created by a particular user endpoint', () => {
-//     it('should get all groups', async () => {
-//       const res = await chai.request(app).get('/api/v1/groups')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-//       chai.expect(res).to.have.status(200);
-//       chai.expect(res.body).to.have.property('status');
-//       chai.expect(res.body).to.have.property('message');
-//     });
-//   });
+describe('Testing the group all groups created by a particular user endpoint', () => {
+  it('should get all groups', async () => {
+    const res = await chai.request(app).get('/api/v1/groups')
+      .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+    chai.expect(res).to.have.status(200);
+    chai.expect(res.body).to.have.property('status');
+  });
+
+  it('should get all groups', async () => {
+    const res = await chai.request(app).get('/api/v1/groups')
+      .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6Im9zYXM0MjIiLCJlbWFpbCI6Im9zYXM0MjJAZXBpY21haWwuY29tIiwiaWF0IjoxNTU0MDI4NzQxfQ.8aCYtKjj3rDAhzprgLWCrap-RDk2-SSFkqXKkR9tKww');
+    chai.expect(res).to.have.status(200);
+    chai.expect(res.body).to.have.property('status');
+  });
+});
 
 //   describe('Testing the add User to group Endpoint', () => {
 //     it('should add a user successfully add to group', async () => {

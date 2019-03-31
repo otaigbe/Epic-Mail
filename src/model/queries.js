@@ -84,4 +84,8 @@ export default class Queries {
   static get selectEmailByIdForParticularUser() {
     return 'SELECT * FROM messages WHERE (messageid = $1 AND receiver = $2) OR (messageid = $1 AND sender = $2)';
   }
+
+  static get selectAllGroupsCreatedByAUser() {
+    return 'SELECT * FROM groups WHERE creator = $1';
+  }
 }

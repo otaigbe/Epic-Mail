@@ -65,12 +65,11 @@ export default class GroupsController {
     const args = [req.user.email];
     const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllGroupsCreatedByAUser, args);
     let groups = dbOperationResult.rows;
-    /* istanbul ignore next */
     if (dbOperationResult.rows.length === 0) {
       groups = 'You have not created any groups yet';
-      return res.status(200).json(response.responseWithOutResource(groups, 'Success'));
+      return res.status(200).json(response.success(groups, {}));
     }
-    return res.status(200).json(response.responseWithResource(groups, `Showing all groups created by ${req.user.email}`, 'Success'));
+    return res.status(200).json(response.success(`Showing all groups created by ${req.user.email}`, groups));
   }
 
   /**

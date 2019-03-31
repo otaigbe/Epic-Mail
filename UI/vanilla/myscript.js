@@ -26,8 +26,6 @@ function openInBox(evt, inbox) {
 }
 
 
-
-
 function wrapResultWithHtml(text, mailType, fetchResult) {
   document.querySelector('.grid-container').style.display = 'none';
   document.getElementById('displayarea').style.display = 'block';
@@ -48,4 +46,52 @@ function wrapResultWithHtml(text, mailType, fetchResult) {
   }
   modal += '</div></div></div>';
   document.getElementById('displayarea').innerHTML = modal;
+}
+
+function wrapInAccordion(fetchResult) {
+  let groupHtml = '<span id="reply"><h2>Groups</h2></span>';
+  for (let i = 0; i < fetchResult.data.length; i++) {
+    const span = document.createElement('span');
+    span.setAttribute('class', 'tile');
+    const div = document.createElement('div');
+    div.setAttribute('class', 'grid-item');
+    const textNode = document.createTextNode(fetchResult.data[i].groupname);
+    const icon = document.createElement('i');
+    icon.setAttribute('class', 'fas fa-plus');
+    const panel = document.createElement('div');
+    panel.setAttribute('class', 'panel');
+    div.appendChild(textNode);
+    div.appendChild(icon);
+    const form = `<form id="addUser">
+          <input placeholder="search user" type="text" name="searchInput" required autofocus>
+          <button type="button" id="searchUser-btn" onclick="searchAndCreateAddUserUI(this);"><i class="fas fa-search"></i></button>
+          </form><span class="searchResults"></span>`;
+    const elem = document.createRange().createContextualFragment(form);
+    panel.appendChild(elem);
+    panel.style.display = 'none';
+    span.appendChild(div);
+    span.appendChild(panel);
+    groupHtml += span.innerHTML;
+    document.getElementById('displayarea').style.display = 'none';
+    document.getElementsByClassName('grid-container')[0].style.display = 'grid';
+  }
+  document.getElementsByClassName('grid-container')[0].innerHTML = groupHtml;
+  document.getElementsByClassName('grid-container')[0].style.display = 'grid';
+  document.getElementById('displayarea').style.display = 'none';
+}
+
+function toggleAccordion(e) {
+  // if (e.target && e.target.matches('.grid-item')) {
+  console.log(e.target);
+  const panel = e.target.nextElementSibling;
+  e.target.classList.toggle('active');
+  const caret = e.target.querySelector('.fas');
+  if (panel.style.display === 'block') {
+    caret.setAttribute('class', 'fas fa-plus');
+    panel.style.display = 'none';
+  } else {
+    caret.setAttribute('class', 'fas fa-minus');
+    panel.style.display = 'block';
+  // }
+  }
 }
