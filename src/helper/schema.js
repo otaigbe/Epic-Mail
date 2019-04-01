@@ -36,7 +36,7 @@ schemas.groupMessage = Joi.object({
 });
 
 schemas.createGroup = Joi.object({
-  groupname: Joi.string().alphanum().min(4).max(30)
+  groupname: Joi.string().trim().alphanum().min(4).max(30)
     .required(),
 });
 

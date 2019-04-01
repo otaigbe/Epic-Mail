@@ -13,53 +13,76 @@
 </head>
 <body>
 <button type="button" id="signout" onclick="location.href='signIn.html';"><i class="fas fa-power-off"></i></button>
-<div>
+<div id="top">
   <div id="logo">
     <h1> <a href="#">EpicM@il</a> </h1>
   </div>
 </div>
+
 <div class="sidebar" id="sidenav">
+  <span id="close-min"><i class="fas fa-times"></i>
+  </span>
   <button id="compose">Compose</button>
   <button id="inbox" type="button">Inbox <span class="count">10</span></button>
   <button id="sent" type="button">Sent</button>
 	<button id="draft" type="button">Draft</button>
 	<button id="viewGroup-btn" type="button">Groups</button>
-
 	<div>
 		<button id="createGroup-btn" type="button">Add Group</button>
 		<div id="createGroup">
 	<form id="groupForm">
-<input type="text" name="groupName" placeholder="Enter group name"><button type="button" id="submit-btn"><i class="fas fa-check-circle fa-2x"></i></button>
+<input type="text" name="groupname" placeholder="Enter group name"><button type="button" id="submit-btn"></button>
 	</form>
 			</div>
 	</div>
 </div>
-
-	<a href="javascript:void(0);" class="icon" onclick="myFunction(this)">
+<a href="javascript:void(0);" class="icon" onclick="myFunction(this)">
     <i class="fa fa-bars"></i>
   </a>
 	<div id="overlay"></div>
   <div id="composeWindow"> </div>
-
 <div class="content">
-	 <div class="grid-container">
-
-</div>
+    <div class="grid-container"></div>	 
   <div id="displayarea"> </div>
 </div>
+
 <!-- <script src="js/activities.js"></script> -->
 <!-- <script src="js/inbox.js"></script> -->
 	<script>
+// function myFunction(elem) {
+//   var x = document.getElementById("sidenav");
+//   const d = document.getElementById("close-min");
+//   if (x.className === "sidebar") {
+//     x.className += " responsive";
+// 	  x.style.display= "block";
+//     elem.style.display = "none";
+//     d.style.display = "block";
+//   } else {
+//     x.className = "sidebar";
+//   }
+// }
 function myFunction(elem) {
-  var x = document.getElementById("sidenav");
-  if (x.className === "sidebar") {
-    x.className += " responsive";
-	  x.style.display= "block";
-	  elem.style.display = "none";
-  } else {
-    x.className = "sidebar";
-  }
+  const x = document.getElementById("sidenav");
+  x.style.display= "block";
+    document.getElementsByClassName('icon')[0].style.display = 'none';
+
 }
+document.getElementById('close-min').addEventListener('click', function(e){
+  document.getElementById("sidenav").style.display = 'none';
+  document.getElementsByClassName('icon')[0].style.display = 'block';
+});
+
+function showSideBar(e) {
+  if (window.matchMedia("(max-width: 700px)").matches) {
+  /* The viewport is less than, or equal to, 700 pixels wide */
+} else {
+  document.getElementById("sidenav").style.display = 'block';
+  document.getElementsByClassName('icon')[0].style.display = 'none';
+
+}
+}
+
+window.addEventListener('resize', showSideBar);
 </script>
 	<!-- <script src="./js/script.js"></script> -->
  <script src="vanilla/fetch.js"></script>

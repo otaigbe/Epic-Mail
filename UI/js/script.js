@@ -1,15 +1,15 @@
 "use strict";
-function displayModal(){
+function displayModal() {
      document.getElementById("overlay").style.display = "block";
   document.getElementById("forgotPassword").style.display = "block";
 }
 
-function closeModal(element){
+function closeModal(element) {
 	document.getElementById("overlay").style.display = "none";
 	  document.getElementById("forgotPassword").style.display = "none";
 }
 
-function displayForm(){
+function displayForm() {
 	console.log("Clicked");
 	displayModal();
 }
@@ -92,7 +92,7 @@ function wrapCreatedGroupInAccordion(groupName){
 	document.getElementsByClassName('grid-container')[0].style.display = "grid";
 }
 
-function createNewGroup(){
+function createNewGroup() {
   const createGroupForm = document.getElementById('groupForm');
 	const formData = new FormData(createGroupForm);
 	console.log(formData.get('groupName'));
@@ -126,7 +126,7 @@ function toggleAccordion(e) {
 }
 
 
-function searchAndCreateAddUserUI(target){
+function searchAndCreateAddUserUI(target) {
 	const form = target.parentElement;
 	const formData = new FormData(form);
 	const searchParam = formData.get('searchInput');

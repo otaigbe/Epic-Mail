@@ -88,4 +88,12 @@ export default class Queries {
   static get selectAllGroupsCreatedByAUser() {
     return 'SELECT * FROM groups WHERE creator = $1';
   }
+
+  static get checkIfUserAlreadyHasGroupWithGroupName() {
+    return 'SELECT * FROM groups WHERE groupname = $1 AND creator = $2';
+  }
+
+  static get createGroup() {
+    return 'INSERT INTO groups (groupname, creator, creatorid) VALUES ($1, $2, $3) returning groupid';
+  }
 }

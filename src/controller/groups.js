@@ -15,7 +15,7 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async createGroup(req, res) {
-    const result = Joi.validate(req.body, schema.createGroup);
+    const result = Joi.validate(req.body, schema.createGroup, { convert: false });
     if (result.error === null) {
       const group = {};
       group.groupName = req.body.groupname;
@@ -23,12 +23,12 @@ export default class GroupsController {
       const args = [group.groupName, group.creator];
       const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args);
       if (dbOperationResult1.rowCount > 0) {
-        return res.status(409).json(response.responseWithOutResource(`You Already have a group with name ${group.groupName}! Chooose a different group name`, 'Conflict'));
+        return res.status(409).json(response.failure(`You Already have a group with name ${group.groupName}! Chooose a different group name`, {}));
       }
       const args1 = [group.groupName, group.creator, Number(req.user.id)];
       const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.createGroup, args1);
       group.id = dbOperationResult.rows[0].groupid;
-      return res.status(201).json(response.responseWithResource(group, `Group ${group.groupName} has been created!`, 'Success'));
+      return res.status(201).json(response.success(`Group ${group.groupName} has been created!`, group));
     }
     errorHandler.validationError(res, result);
   }
