@@ -5,83 +5,83 @@ import app from '../../index';
 const { expect } = chai;
 chai.use(chaiHttp);
 
-// describe('Testing the groups Endpoint', () => {
-//   describe('Testing the create and own group by user otaigbe Endpoint', () => {
-//     it('should successfully create a group', async () => {
-//       const res = await chai.request(app).post('/api/v1/groups')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
-//         .send({
-//           groupname: 'friends',
-//         });
-//       chai.expect(res).to.have.status(201);
-//       chai.expect(res.body).to.have.property('status');
-//       chai.expect(res.body).to.have.property('data');
-//     });
+describe('Testing the groups Endpoint', () => {
+  describe('Testing the create and own group by user otaigbe Endpoint', () => {
+    it('should successfully create a group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          groupname: 'friends',
+        });
+      chai.expect(res).to.have.status(201);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+    });
 
-//     it('should successfully create a group buddies', async () => {
-//       const res = await chai.request(app).post('/api/v1/groups')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
-//         .send({
-//           groupname: 'buddies',
-//         });
-//       chai.expect(res).to.have.status(201);
-//       chai.expect(res.body).to.have.property('status');
-//       chai.expect(res.body).to.have.property('data');
-//     });
-
-
-//     it('should successfully create a group called enemies', async () => {
-//       const res = await chai.request(app).post('/api/v1/groups')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
-//         .send({
-//           groupname: 'enemies',
-//         });
-//       chai.expect(res).to.have.status(201);
-//       chai.expect(res.body).to.have.property('status');
-//       chai.expect(res.body).to.have.property('data');
-//     });
+    it('should successfully create a group buddies', async () => {
+      const res = await chai.request(app).post('/api/v1/groups')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          groupname: 'buddies',
+        });
+      chai.expect(res).to.have.status(201);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+    });
 
 
-//     it('should an invalid token error', async () => {
-//       const res = await chai.request(app).post('/api/v1/groups')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBiuo;pY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
-//         .send({
-//           groupname: 'friends',
-//         });
-//       chai.expect(res).to.have.status(400);
-//     });
+    it('should successfully create a group called enemies', async () => {
+      const res = await chai.request(app).post('/api/v1/groups')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          groupname: 'enemies',
+        });
+      chai.expect(res).to.have.status(201);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+    });
 
-//     it('should throw an unauthorised error message', async () => {
-//       const res = await chai.request(app).post('/api/v1/groups')
-//         .type('form')
-//         .send({
-//           groupname: 'friends',
-//         });
-//       chai.expect(res).to.have.status(401);
-//     });
 
-//     it('should throw validation error', async () => {
-//       const res = await chai.request(app).post('/api/v1/groups')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-//         .type('form')
-//         .send({
-//           groupname: '',
-//           creator: 'osas422@epicmail.com',
-//         });
-//       chai.expect(res).to.have.status(400);
-//     });
-//     // eslint-disable-next-line no-template-curly-in-string
-//     it('should return a "You Already have a group with name this group name! Chooose a different group name" message', async () => {
-//       const res = await chai.request(app).post('/api/v1/groups')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-//         .type('form')
-//         .send({
-//           groupname: 'friends',
-//         });
-//       chai.expect(res).to.have.status(409);
-//       chai.expect(res.body).to.have.property('status');
-//     });
-//   });
+    it('should an invalid token error', async () => {
+      const res = await chai.request(app).post('/api/v1/groups')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBiuo;pY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          groupname: 'friends',
+        });
+      chai.expect(res).to.have.status(400);
+    });
+
+    it('should throw an unauthorised error message', async () => {
+      const res = await chai.request(app).post('/api/v1/groups')
+        .type('form')
+        .send({
+          groupname: 'friends',
+        });
+      chai.expect(res).to.have.status(401);
+    });
+
+    it('should throw validation error', async () => {
+      const res = await chai.request(app).post('/api/v1/groups')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send({
+          groupname: '',
+          creator: 'osas422@epicmail.com',
+        });
+      chai.expect(res).to.have.status(400);
+    });
+    // eslint-disable-next-line no-template-curly-in-string
+    it('should return a "You Already have a group with name this group name! Chooose a different group name" message', async () => {
+      const res = await chai.request(app).post('/api/v1/groups')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send({
+          groupname: 'friends',
+        });
+      chai.expect(res).to.have.status(409);
+      chai.expect(res.body).to.have.property('status');
+    });
+  });
 
 //   describe('Testing the rename a group endpoint', () => {
 //     it('should rename a group successfully', async () => {
@@ -339,4 +339,4 @@ describe('Testing the group all groups created by a particular user endpoint', (
 //       chai.expect(res.body).to.have.property('status');
 //     });
 //   });
-// });
+});

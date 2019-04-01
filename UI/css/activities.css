@@ -3,8 +3,7 @@ body {
 	font-family: "Lato", sans-serif;
 	box-sizing: border-box;
 	background-color: lightblue;
-	font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, "serif";
-	overflow: hidden;
+	/* overflow: hidden; */
 }
 
 #overlay {
@@ -21,20 +20,15 @@ body {
   cursor: pointer;
 }
 
-.sidebar .icon {
-  display: none;
-}
-
 .sidebar {
-	margin: 0;
+	/* margin-top: 90px; */
 	padding: 0;
-/*	width: 250px;*/
 	background-color: lightblue;
-	border: thick black solid;
+	border: thin black solid;
 	position: fixed;
 	height: 100%;
-	overflow: auto;
 }
+
 .modal {
 	position: absolute;
 	bottom: 0px;
@@ -50,7 +44,6 @@ body {
 	background-color: steelblue;
 	padding: 1px;
 	margin-right: 20px;
-
 }
 
 #composeWindow{
@@ -59,6 +52,11 @@ body {
 .close-btn {
 	margin-left: 95%;
 	color: red;
+}
+
+.icon{
+	position: absolute;
+	display: none;
 }
 
 .close-btn-reply {
@@ -74,12 +72,6 @@ body {
 .close-btn-reply:before{
 	font-family: "Font Awesome 5 Free";
 	content:'\f410';
-}
-
-/*customizing the text editor*/
-.ql-container {
-	height: 140px;
-	background-color: white;
 }
 
 #details input {
@@ -138,9 +130,9 @@ body {
 	background-color: #555;
 	color: white;
 }
+
 .save{
 	background-color: steelblue;
-/*	float: right;*/
 	padding: 10px;
 	margin-left: 10px;
 	margin-bottom: 20px;
@@ -155,6 +147,7 @@ body {
 	text-decoration: none;
 	cursor: pointer;
 }
+
 .sidebar button {
 	display: block;
 	color: black;
@@ -166,6 +159,7 @@ body {
 	line-height: 1.4em;
 	border: none;
 }
+
 .sidebar button.active {
 	background-color: #4CAF50;
 	color: white;
@@ -178,11 +172,22 @@ body {
 #sidenav2{
 	display: none;
 }
+
+
 div.content {
 	margin-left: 250px;
-	padding: 1px 16px;
-	height: 1000px;
+	padding: 1px 10px;
+	overflow: auto;
+	margin-top: 90px;
 }
+
+#close-min{
+	float: right;
+	font-size: 18pt;
+	display: none;
+	border-bottom: thin black solid;
+}
+
 
 .count{
   background-color: #fa3e3e;
@@ -217,18 +222,14 @@ div.content {
 	
 }
 
-#tabcontentDisplayarea{
-	border: thick black solid;
-	background-color: white;
-/*	height: 500px;*/
-}
 
 #signout{
 	float: right;
-	margin-top: 40px;
-	margin-right: 10px;
+	/* margin-top: 40px; */
+	top: 25px;
+	margin-left: 95%;
 	z-index: 1;
-	position: relative;
+	position: fixed;
 	background-color: steelblue;
 	display: block;
 	color: black;
@@ -253,9 +254,13 @@ div.content {
 #submit-btn{
 	width: 15%;
 	font-size: 10pt;
-	padding: 0px;
 	float:right;
-/*	border-radius: 15px*/
+	padding: 5px;
+}
+
+#submit-btn::before{
+	content: '\f058';
+	font-family: "Font Awesome 5 Free";
 }
 
 #groupForm > input{
@@ -335,24 +340,22 @@ border-right: thin rgba(9,95,227,1.00) solid;
 }
 
 @media screen and (max-width: 700px) {
-.sidebar{
-display:  none;
-}
-
-
-.sidebar button {
-    float: left;
-    display: block;
-	margin:2px;
-	font-size: 10pt;
-}
-	div.content {margin-left: 0;}
-.sidebar.responsive {
-	position: relative;
+.icon{
+	margin-left: 10px;
 	display: block;
-	border: none;
-	}
+	position: fixed;
+}
 
+#close-min{
+	display: block;
+}
+
+	div.content {margin-left: 0;}
+ .sidebar{
+	 position: absolute;
+	 display: none;
+ }
+/*
   .sidebar.responsive a {
     float: none;
     display: block;
@@ -362,10 +365,16 @@ display:  none;
    width: 18%;
 float: left;
 		padding: 5px;
-	}
+	} */
 
-	.sidebar.responsive button:after{
-	}
+#close-min{
+	padding: 0px;
+}
+
+
+#signout{
+	margin-left: 90%;
+}
 	.count{
 		display: none;
 	}
@@ -379,12 +388,13 @@ float: left;
 	margin-right: 10px;
 }
 	#displayarea{
-		margin-left: 10px;
+		margin-left: 20px;
 	margin-right: 10px;
 	}
 	.mailbody, .mailId{
 		display: none;
 	}
+
 	.pagination{
 		float:none;
 	}
@@ -405,9 +415,16 @@ float: left;
 .grid-container {
   display: grid;
   grid-template-columns: auto;
-  background-color: #2196F3;
+	background-color: #2196F3;
+	margin-left: 20px;
 }
 	#submit-btn{
 		font-size: 9pt;
+	}
+
+	#submit-btn::before{
+		content: '\f058';
+		font-family: "Font Awesome 5 Free";
+
 	}
 }

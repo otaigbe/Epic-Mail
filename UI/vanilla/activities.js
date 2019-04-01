@@ -135,6 +135,29 @@ const getAllGroups = async (e, token) => {
   }
 };
 
+const toggleSlideUpDown = () => {
+  if (document.getElementById('createGroup').style.display === 'block') {
+    document.getElementById('createGroup').style.display = 'none';
+  } else {
+    document.getElementById('createGroup').style.display = 'block';
+  }
+};
+
+const createGroup = async (e, token) => {
+  const baseUrl = '/api/v1/groups';
+  const form = document.getElementById('groupForm');
+  let formData = new FormData(form);
+  formData = convertFormDataToJson(formData);
+  const fetchResult = await customFetchWithBody(baseUrl, 'POST', token, JSON.parse(formData));
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+    document.getElementById('viewGroup-btn').click();
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
+};
+
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
@@ -163,4 +186,11 @@ document.addEventListener('click', (event) => {
   if (event.target.matches('.grid-item')) {
     toggleAccordion(event);
   }
+  if (event.target.matches('#createGroup-btn')) {
+    toggleSlideUpDown();
+  }
+  if (event.target.matches('#submit-btn')) {
+    createGroup(event, tokenParam);
+  }
+
 }, false);
