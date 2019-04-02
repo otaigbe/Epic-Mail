@@ -158,6 +158,64 @@ const createGroup = async (e, token) => {
   }
 };
 
+function selectAllCheckboxesForDeletion(e) {
+  const checkboxes = document.getElementsByClassName('check-box');
+  console.log(e.target.checked);
+  if (e.target.checked === true) {
+    for (let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = true;
+    }
+  }
+  if (e.target.checked === false) {
+    for (let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = false;
+    }
+  }
+}
+
+
+function snackBar() {
+  // Get the snackbar DIV
+  const x = document.getElementById('snackbar');
+
+  // Add the "show" class to DIV
+  x.className = 'show';
+
+  // After 3 seconds, remove the show class from DIV
+  setTimeout(() => { x.className = x.className.replace('show', ''); }, 3000);
+}
+
+
+const deleteMessages = (token) => {
+  const selectedMessages = document.getElementsByClassName('check-box');
+  let messagesToBeDeleted = Array.from(selectedMessages);
+  const messageIds = [];
+  messagesToBeDeleted = messagesToBeDeleted.filter((node) => {
+    if (node.checked === true) {
+      const messageId = node.parentElement.querySelector('.mailId').textContent.trim();
+      messageIds.push(messageId);
+      node.parentElement.parentElement.removeChild(node.parentElement);
+      return messageId;
+    }
+  });
+  if (messageIds.length === 0) {
+    alert('Select the message(s) you want to delete');
+  }
+  console.log(messageIds);
+  let fetchResult;
+  messageIds.map(async (currentValue) => {
+    const url = `/api/v1/messages/${Number(currentValue)}`;
+    fetchResult = await customFetch(url, 'DELETE', token);
+    if (fetchResult.status === 'Success') {
+      console.log(fetchResult);
+      snackBar();
+    }
+    if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+      console.log(fetchResult);
+    }
+  });
+};
+
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
@@ -192,5 +250,10 @@ document.addEventListener('click', (event) => {
   if (event.target.matches('#submit-btn')) {
     createGroup(event, tokenParam);
   }
-
+  if (event.target.matches('.check-box-top')) {
+    selectAllCheckboxesForDeletion(event);
+  }
+  if (event.target.matches('.fa-trash')) {
+    deleteMessages(tokenParam);
+  }
 }, false);
