@@ -50,6 +50,27 @@ export default class MessagesController {
     errorHandler.validationError(res, result);
   }
 
+/**
+   * This creates a new draft message
+   * @param {Object} req - client request Object
+   * @param {Object} res - Server response Object
+   * @returns {JSON} - containing the status message and any addition data required if any
+   */
+  static async createDraftMessage(req, res) {
+    const result = Joi.validate(req.body, schema.message, { convert: true });
+    if (result.error === null) {
+      const message = {};
+      message.status = 'draft';
+      const args = [req.body.subject.trim(), req.body.message.trim(), message.parentmessageid, message.status, message.sender, req.body.receiver];
+      const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertMessageAsDraft, args);
+      if (dboperationResult.rowCount === 1) {
+        return res.status(201).json(response.success('Message saved as draft', dboperationResult.rows[0]));
+      }
+    } else {
+      errorHandler.validationError(res, result);
+    }
+  }
+
 
   /**
    * This fetches all received emails
