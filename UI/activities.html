@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="css/in-box.css">
 <link rel="stylesheet" href="css/logo.css">
 <link rel="stylesheet" href="css/tab.css">
+<link rel="stylesheet" href="css/snackbar.css">
+
 <title>activites</title>
 </head>
 <body>
@@ -45,22 +47,8 @@
     <div class="grid-container"></div>	 
   <div id="displayarea"> </div>
 </div>
-
-<!-- <script src="js/activities.js"></script> -->
-<!-- <script src="js/inbox.js"></script> -->
+<div id="snackbar">message(s) deleted successfully</div> 
 	<script>
-// function myFunction(elem) {
-//   var x = document.getElementById("sidenav");
-//   const d = document.getElementById("close-min");
-//   if (x.className === "sidebar") {
-//     x.className += " responsive";
-// 	  x.style.display= "block";
-//     elem.style.display = "none";
-//     d.style.display = "block";
-//   } else {
-//     x.className = "sidebar";
-//   }
-// }
 function myFunction(elem) {
   const x = document.getElementById("sidenav");
   x.style.display= "block";
@@ -74,7 +62,6 @@ document.getElementById('close-min').addEventListener('click', function(e){
 
 function showSideBar(e) {
   if (window.matchMedia("(max-width: 700px)").matches) {
-  /* The viewport is less than, or equal to, 700 pixels wide */
 } else {
   document.getElementById("sidenav").style.display = 'block';
   document.getElementsByClassName('icon')[0].style.display = 'none';
@@ -84,7 +71,6 @@ function showSideBar(e) {
 
 window.addEventListener('resize', showSideBar);
 </script>
-	<!-- <script src="./js/script.js"></script> -->
  <script src="vanilla/fetch.js"></script>
  <script src="vanilla/myscript.js"></script>
  <script type="module" src="vanilla/activities.js">

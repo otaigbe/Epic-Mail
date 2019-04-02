@@ -64,7 +64,7 @@ schemas.resetSchema = Joi.object({
 });
 
 schemas.messageId = Joi.object({
-  messageId: Joi.number().integer().required(),
+  messageId: Joi.number().positive().integer().required(),
 });
 
 export default schemas;

@@ -132,18 +132,21 @@ export default class MessagesController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async deleteMessageById(req, res) {
-    if (isNaN(req.params.messageId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
-    const args = [req.params.messageId, req.user.email];
-    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.deleteQueryByIdForParticularUser, args);
-    /* istanbul ignore next */
-    if (dbOperationResult.rowCount === 1) {
-      return res.status(200).json({
-        status: 'Sucess',
-        message: 'The message was deleted successfully',
-      });
+    const result = Joi.validate(req.params, schema.messageId, { convert: true });
+    if (result.error === null) {
+      const args = [Number(req.params.messageId), req.user.email];
+      const dbOperationResult = await dbhelper.performTransactionalQuery(queries.deleteQueryByIdForParticularUserFromInbox, args);
+      if (dbOperationResult.rowCount === 1) {
+        return res.status(200).json({
+          status: 'Success',
+          message: 'The message was deleted successfully',
+        });
+      }
+      if (dbOperationResult.rowCount === 0) {
+        return res.status(404).json(response.failure('Could not delete the message because it was not found', {}));
+      }
     } else {
-      /* istanbul ignore next */
-      return res.status(404).json(response.responseWithOutResource('Could not delete the message', 'Not Found'));
+      errorHandler.validationError(res, result);
     }
   }
 }
