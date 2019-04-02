@@ -14,7 +14,8 @@ schemas.userSchema = Joi.object({
 });
 
 schemas.signinSchema = Joi.object({
-  email: Joi.string().email().regex(/epicmail\.com$/).min(13).trim()
+  email: Joi.string().email().regex(/epicmail\.com$/).min(13)
+    .trim()
     .required(),
   password: Joi.string().alphanum().trim().min(4)
     .max(50)
@@ -67,4 +68,11 @@ schemas.messageId = Joi.object({
   messageId: Joi.number().positive().integer().required(),
 });
 
+
+schemas.draft = Joi.object({
+  subject: Joi.string().min(4).trim().required(),
+  message: Joi.string().min(5).trim().required(),
+  receiver: Joi.string().email().regex(/epicmail\.com$/).min(13)
+    .trim(),
+});
 export default schemas;

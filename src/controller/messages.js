@@ -57,7 +57,7 @@ export default class MessagesController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async createDraftMessage(req, res) {
-    const result = Joi.validate(req.body, schema.message, { convert: true });
+    const result = Joi.validate(req.body, schema.draft, { convert: true });
     if (result.error === null) {
       const message = {};
       message.status = 'draft';

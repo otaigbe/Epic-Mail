@@ -211,6 +211,24 @@ const deleteMessages = (token) => {
   });
 };
 
+
+const saveMessageAsDraft = async (e, token) => {
+  const form = e.target.parentElement.querySelector('#create-message');
+  const messagebody = e.target.parentElement.querySelector('.message-compose').value;
+  let formdata = new FormData(form);
+  formdata.append('message', messagebody);
+  formdata = convertFormDataToJson(formdata);
+  const baseUrl = '/api/v1/messages/draft';
+  const fetchResult = await customFetchWithBody(baseUrl, 'POST', token, JSON.parse(formdata));
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
+};
+
+
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
@@ -250,5 +268,8 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('.fa-trash')) {
     deleteMessages(tokenParam);
+  }
+  if (event.target.matches('.save')) {
+    saveMessageAsDraft(event, tokenParam);
   }
 }, false);
