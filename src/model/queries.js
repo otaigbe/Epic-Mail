@@ -18,7 +18,7 @@ export default class Queries {
   }
 
   static get insertMessageAsDraft() {
-    return 'INSERT INTO messages (subject, messagebody, parentmessageid, status, sender, receiver) VALUES ($1, $2, $3, $4, $5, $6) returning messageid';
+    return 'INSERT INTO messages (subject, messagebody, parentmessageid, status, sender, receiver) VALUES ($1, $2, $3, $4, $5, $6) returning *';
   }
 
   static get checkForAlreadyExistentUser() {

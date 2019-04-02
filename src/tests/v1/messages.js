@@ -39,17 +39,6 @@ describe('Testing the messages Endpoint', () => {
       chai.expect(res).to.have.status(404);
     });
 
-    it('should save a message as draft', async () => {
-      const res = await chai.request(app).post('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
-        .send({
-          subject: 'oiiuyizsgrtfhtuyoiuo',
-          message: 'Just created this message',
-        });
-      chai.expect(res).to.have.status(201);
-      chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('data');
-    });
-
     it('should save a message as draft and protect from sending message to self', async () => {
       const res = await chai.request(app).post('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
         .send({
@@ -82,6 +71,32 @@ describe('Testing the messages Endpoint', () => {
       chai.expect(res).to.have.status(401);
     });
   });
+
+  describe('Testing the save/send mail Endpoint', () => {
+    it('should save a message as draft', async () => {
+      const res = await chai.request(app).post('/api/v1/messages/draft').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          subject: 'oiiuyizsgrtfhtuyoiuo',
+          message: 'Just created this message',
+        });
+      chai.expect(res).to.have.status(201);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+    });
+
+    it('should return a 400 validation error ', async () => {
+      const res = await chai.request(app).post('/api/v1/messages/draft').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+        .send({
+          subject: '',
+          message: 'Just created this message',
+        });
+      chai.expect(res).to.have.status(400);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('error');
+    });
+  });
+
+
 
   describe('Testing the get all received email Endpoint', () => {
     it('should get all emails where status is received', async () => {

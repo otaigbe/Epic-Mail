@@ -10,6 +10,7 @@ router.get('/unread', auth, messagesController.getAllUnreadEmails);
 router.get('/sent', auth, messagesController.getAllSentEmails);
 router.get('/:messageId', auth, messagesController.getMessageById);
 router.delete('/:messageId', auth, messagesController.deleteMessageById);
+router.post('/draft', auth, messagesController.createDraftMessage);
 
 
 export default router;
