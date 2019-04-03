@@ -1,8 +1,8 @@
 export default class Queries {
   static get insertIntoMessageInboxOutbox() {
-    return `WITH insertres AS ( INSERT INTO messages (subject, messagebody, parentmessageid, status, sender, receiver)
-          VALUES ($1, $2, $3, $4, $5, $6) RETURNING messageid ), insertres2 AS ( insert into inbox (messageid, status, receiverusername) values ((SELECT messageid FROM insertres), 'unread', $6)
-         ) insert into sent (messageid, sender, senderid) values ((SELECT messageid FROM insertres), $5, $7) returning messageid`;
+    return `WITH insertres AS ( INSERT INTO messages (subject, messagebody, parentmessageid, sender, receiver)
+          VALUES ($1, $2, $3, $4, $5) RETURNING messageid ), insertres2 AS ( insert into inbox (messageid, status, receiverusername) values ((SELECT messageid FROM insertres), 'unread', $5)
+         ) insert into sent (messageid, sender, senderid, status) values ((SELECT messageid FROM insertres), $4, $6, 'sent') returning messageid`;
   }
 
   static get selectAllUnreadMessagesForAParticularUser() {
@@ -34,7 +34,7 @@ export default class Queries {
   }
 
   static get selectAllMessagesFromInboxBelongingToAParticularUser() {
-    return 'SELECT * FROM inbox JOIN messages ON (messages.messageid = inbox.messageid) WHERE inbox.receiverusername = $1';
+    return 'SELECT messages.messageid, inbox.status, inbox.receiverusername, messages.sender, messages.createdon, messages.subject, messages.parentmessageid FROM inbox JOIN messages ON (messages.messageid = inbox.messageid) WHERE inbox.receiverusername = $1';
   }
 
   static get selectEmailByIdForParticularUser() {

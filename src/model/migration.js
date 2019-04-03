@@ -25,7 +25,7 @@ async function createSchema() {
         subject text NOT NULL,
         messagebody TEXT NOT NULL,
         parentmessageid BIGINT,
-        status messagestatus NOT NULL,
+        status messagestatus,
         sender VARCHAR(200) REFERENCES users(email) ON DELETE RESTRICT,
         receiver VARCHAR(200) REFERENCES users(email) ON DELETE RESTRICT
         )`;
@@ -34,7 +34,8 @@ async function createSchema() {
         messageid BIGINT REFERENCES messages(messageid) ON DELETE CASCADE,
         createdon TIMESTAMP(8) DEFAULT now(),
         sender VARCHAR(200) REFERENCES users(email),
-        senderid BIGINT REFERENCES users(userid)
+        senderid BIGINT REFERENCES users(userid),
+        status messagestatus NOT NULL
    )`;
   const inBox = `CREATE TABLE IF NOT EXISTS inbox (
         messageid BIGINT REFERENCES messages(messageid) ON DELETE CASCADE,
@@ -105,21 +106,21 @@ async function createSchema() {
 (16,'unread', 'otaigbe@epicmail.com'), 
 (17,'unread', 'otaigbe@epicmail.com')`;
 
-  const insertIntosent = `INSERT INTO sent (messageid, sender, senderid) VALUES 
-(4, 'otaigbe@epicmail.com', 1),
-(5, 'otaigbe@epicmail.com', 1),
-(6, 'otaigbe@epicmail.com', 1),
-(7, 'otaigbe@epicmail.com', 1),
-(8, 'otaigbe@epicmail.com', 1),
-(9, 'osas422@epicmail.com', 2),
-(10, 'osas422@epicmail.com', 2),
-(11, 'osas422@epicmail.com', 2),
-(12, 'osas422@epicmail.com', 2),
-(13, 'osas422@epicmail.com', 2),
-(14, 'felicitas@epicmail.com', 3),
-(15, 'felicitas@epicmail.com', 3),
-(16, 'felicitas@epicmail.com', 3),
-(17, 'felicitas@epicmail.com', 3)`;
+  const insertIntosent = `INSERT INTO sent (messageid, sender, senderid, status) VALUES 
+(4, 'otaigbe@epicmail.com', 1, 'sent'),
+(5, 'otaigbe@epicmail.com', 1, 'sent'),
+(6, 'otaigbe@epicmail.com', 1, 'sent'),
+(7, 'otaigbe@epicmail.com', 1, 'sent'),
+(8, 'otaigbe@epicmail.com', 1, 'sent'),
+(9, 'osas422@epicmail.com', 2, 'sent'),
+(10, 'osas422@epicmail.com', 2, 'sent'),
+(11, 'osas422@epicmail.com', 2,'sent'),
+(12, 'osas422@epicmail.com', 2,'sent'),
+(13, 'osas422@epicmail.com', 2,'sent'),
+(14, 'felicitas@epicmail.com', 3, 'sent'),
+(15, 'felicitas@epicmail.com', 3, 'sent'),
+(16, 'felicitas@epicmail.com', 3, 'sent'),
+(17, 'felicitas@epicmail.com', 3, 'sent')`;
 
   const insertIntoGroup = `INSERT into groups (groupname, creator, creatorid) VALUES ('team', 'otaigbe@epicmail.com', 1),
                                                                          ('pals', 'otaigbe@epicmail.com', 1), 

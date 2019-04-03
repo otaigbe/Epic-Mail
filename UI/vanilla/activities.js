@@ -1,4 +1,4 @@
-const getAllReceivedMessages = async (token, e) => {
+const getAllReceivedMessages = async (token, e, tablename) => {
   const baseUrl = '/api/v1/messages';
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
@@ -228,11 +228,22 @@ const saveMessageAsDraft = async (e, token) => {
   }
 };
 
+const getAllDraftMessages = async (e, token, tablename) => {
+  const baseUrl = '/api/v1/messages/draft';
+  const fetchResult = await customFetch(baseUrl, 'GET', token);
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+    wrapResultWithHtml('Draft', 'draftMail', fetchResult, tablename);
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
+};
 
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
-document.getElementById('inbox').addEventListener('click', getAllReceivedMessages.bind(this, tokenParam));
+document.getElementById('inbox').addEventListener('click', getAllReceivedMessages.bind(this, tokenParam, 'inbox'));
 document.getElementById('inbox').click();
 
 document.addEventListener('click', (event) => {
@@ -271,5 +282,8 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('.save')) {
     saveMessageAsDraft(event, tokenParam);
+  }
+  if (event.target.matches('#draft')) {
+    getAllDraftMessages(event, tokenParam, 'draft');
   }
 }, false);

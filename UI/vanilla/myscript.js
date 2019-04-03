@@ -36,13 +36,25 @@ function wrapResultWithHtml(text, mailType, fetchResult) {
     </div><div class="tabcontent" id="inBox"><div class="mail">
       <div class="displayHeadings"><input type="checkbox" class="check-box-top"> <i class="fa fa-trash" aria-hidden="true"></i> <i class="fa fa-refresh"></i> <i class="fa fa-bell" aria-hidden="true"></i> <span class="pagination"><i class="fa fa-arrow-circle-left custom" ></i><i class="fa fa-arrow-circle-right custom" ></i></span></div>`;
   for (let i = 0; i < fetchResult.data.length; i++) {
-    modal += `<div class="message ${mailType}"><input type="checkbox" class="check-box"> 
-    <span class="mailId" style="display:none;">${fetchResult.data[i].messageid}</span>
+    modal += `<div class="message ${mailType}"><input type="checkbox" class="check-box">`;
+    if (text === 'Inbox') {
+      if (fetchResult.data[i].status === 'unread') {
+        modal += '<i class="fas fa-envelope tooltip"><span class="tooltiptext">Unread</span></i>';
+      }
+      if (fetchResult.data[i].status === 'read') {
+        modal += '<i class="fas fa-envelope-open tooltip"><span class="tooltiptext">read</span></i>';
+      }
+      // <i class="fas fa-pencil-alt"></i>
+    }
+    modal += `<span class="mailId" style="display:none;">${fetchResult.data[i].messageid}</span>
     <span class="sender">${fetchResult.data[i].sender}</span>
     <span class="title"><strong>${fetchResult.data[i].subject}</strong></span>
+    <span class="sendDate">${fetchResult.data[i].createdon}</span>`;
+    if (text === 'Draft') {
+      modal += '';
+    }
     
-    <span class="sendDate">${fetchResult.data[i].createdon}</span>
-    </div>`;
+    modal += '</div>';
   }
   modal += '</div></div></div>';
   document.getElementById('displayarea').innerHTML = modal;
