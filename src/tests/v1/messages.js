@@ -97,7 +97,6 @@ describe('Testing the messages Endpoint', () => {
   });
 
 
-
   describe('Testing the get all received email Endpoint', () => {
     it('should get all emails where status is received', async () => {
       const res = await chai.request(app).get('/api/v1/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');

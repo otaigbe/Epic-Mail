@@ -29,8 +29,9 @@ export default class MessagesController {
         if (dboperationResult2.rowCount === 0) {
           return res.status(404).json(response.failure('Receiver does not exists', {}));
         }
-        message.status = 'sent';
-        const args = [message.subject, message.messageBody, message.parentmessageid, message.status, req.user.email, message.receiver, Number(req.user.id)];
+        const senderId = parseInt(req.user.id, 10);
+        console.log(typeof senderId);
+        const args = [message.subject, message.messageBody, message.parentmessageid, req.user.email, message.receiver, senderId];
         const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertIntoMessageInboxOutbox, args);
         if (dboperationResult.rowCount === 1) {
           message.sender = req.user.email;
