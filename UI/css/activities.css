@@ -20,6 +20,10 @@ body {
   cursor: pointer;
 }
 
+button {
+	cursor: pointer;
+}
+
 .sidebar {
 	/* margin-top: 90px; */
 	padding: 0;
@@ -101,6 +105,12 @@ body {
 	background-color: #555;
 	color: white;
 }
+
+.save:hover{
+	background-color: #555;
+	color: white;
+}
+
 
 .message-compose{
 	width: 98%;
