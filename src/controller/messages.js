@@ -50,7 +50,7 @@ export default class MessagesController {
     errorHandler.validationError(res, result);
   }
 
-/**
+  /**
    * This creates a new draft message
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
@@ -61,7 +61,7 @@ export default class MessagesController {
     if (result.error === null) {
       const message = {};
       message.status = 'draft';
-      const args = [req.body.subject.trim(), req.body.message.trim(), message.parentmessageid, message.status, message.sender, req.body.receiver];
+      const args = [req.body.subject.trim(), req.body.message.trim(), message.parentmessageid, message.status, req.user.email, req.body.receiver];
       const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertMessageAsDraft, args);
       if (dboperationResult.rowCount === 1) {
         return res.status(201).json(response.success('Message saved as draft', dboperationResult.rows[0]));
@@ -69,6 +69,24 @@ export default class MessagesController {
     } else {
       errorHandler.validationError(res, result);
     }
+  }
+
+
+  /**
+   * This fetches all draft messages for a particular user
+   * @param {Object} req - client request Object
+   * @param {Object} res - Server response Object
+   * @returns {JSON} - containing the status message and any additional data required if any
+   */
+  static async getAllDraftMessages(req, res) {
+    const args = ['draft', req.user.email];
+    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.getAllDraftMessages, args);
+    let draft = dbOperationResult.rows;
+    if (dbOperationResult.rows.length === 0) {
+      draft = 'You have no draft messages currently';
+      return res.status(200).json(response.success(draft, {}));
+    }
+    return res.status(200).json(response.success('All Draft Messages', draft));
   }
 
 

@@ -56,4 +56,8 @@ export default class Queries {
   static get deleteQueryByIdForParticularUserFromInbox() {
     return 'DELETE FROM inbox WHERE messageid = $1 AND receiverusername = $2';
   }
+
+  static get getAllDraftMessages() {
+    return 'SELECT * FROM messages WHERE status = $1 AND sender = $2';
+  }
 }

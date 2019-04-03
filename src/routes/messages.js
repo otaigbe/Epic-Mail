@@ -4,6 +4,7 @@ import auth from '../middleware/auth';
 
 const router = express.Router();
 
+router.get('/draft', auth, messagesController.getAllDraftMessages);
 router.post('/', auth, messagesController.sendMail);
 router.get('/', auth, messagesController.getAllReceivedEmails);
 router.get('/unread', auth, messagesController.getAllUnreadEmails);
