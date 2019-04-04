@@ -240,6 +240,12 @@ const getAllDraftMessages = async (e, token, tablename) => {
   }
 };
 
+
+const getDraftMessageById = (e, token) => {
+  
+};
+
+
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
@@ -285,5 +291,8 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('#draft')) {
     getAllDraftMessages(event, tokenParam, 'draft');
+  }
+  if (event.target.matches('.draftMail')) {
+    getDraftMessageById(event, tokenParam);
   }
 }, false);

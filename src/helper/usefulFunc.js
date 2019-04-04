@@ -1,6 +1,7 @@
 /* eslint-disable no-plusplus */
 /* istanbul ignore file */
 import store from '../fixtures/users';
+import dbhelper from '../model/dbHelper';
 
 export default class UsefulFunctions {
   static generateId() {
@@ -58,5 +59,19 @@ export default class UsefulFunctions {
         return element;
       }
     });
+  }
+
+  static async wrapDbOperationInTryCatchBlock(res, query, args) {
+    try {
+      const dboperationResult = await dbhelper.performTransactionalQuery(query, args);
+      return dboperationResult;
+    } catch (error) {
+      return res.status(400).json({
+        status: 'failure',
+        error: {
+          message: 'Query Exception Occurred',
+        },
+      });
+    }
   }
 }

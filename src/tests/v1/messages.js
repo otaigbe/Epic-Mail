@@ -179,6 +179,25 @@ describe('Testing the messages Endpoint', () => {
     });
   });
 
+  describe('Testing the get draft message by Id Endpoint', () => {
+    it('should get a specific draft message by Id', async () => {
+      const res = await chai.request(app).get('/api/v1/messages/draft/20').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+      chai.expect(res.body).to.have.property('data');
+    });
+
+    it('should throw a 400 validation error', async () => {
+      const res = await chai.request(app).get('/api/v1/messages/draft/adc').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(400);
+    });
+
+    it('should throw a 404 not found error', async () => {
+      const res = await chai.request(app).get('/api/v1/messages/draft/1123343').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(404);
+    });
+  });
+
   describe('Testing the Delete email by Id Endpoint', () => {
     it('should return a not found error', async () => {
       const res = await chai.request(app).delete('/api/v1/messages/5876756').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
