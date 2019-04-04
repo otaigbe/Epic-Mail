@@ -22,4 +22,4 @@ exclude_patterns:
   - "dist/"
   - "features/"
   - "**/node_modules/"
-  - "test/"
+  - "tests/"
