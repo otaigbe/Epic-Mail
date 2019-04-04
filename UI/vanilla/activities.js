@@ -26,7 +26,6 @@ const getAllSentMessages = async (token, e) => {
 
 
 const messageDisplayTab = async (e, button, token) => {
-  console.log(e.target);
   const id = e.target.querySelector('.mailId').textContent;
   const baseUrl = `/api/v1/messages/${Number(id)}`;
   const fetchResult = await customFetch(baseUrl, 'GET', token);
@@ -83,7 +82,8 @@ function closeComposeWindow(e) {
 }
 
 
-const createComposeWindow = (e) => {
+const createComposeWindow = (e, fetchResult) => {
+  console.log(fetchResult);
   on();
   let modal = `<div id="myModal" class="modal">
 <div class="bar"><button type="button" class="close-btn">
@@ -101,11 +101,9 @@ const createComposeWindow = (e) => {
   document.getElementById('composeWindow').appendChild(modal);
   e.target.disabled = true;
   if (e.target.classList.contains('draftMail')) {
-    // console.log(e.target);
-    const mailtitle = e.target.querySelector('.title').textContent;
-    const sender = e.target.querySelector('.sender').textContent;
-    document.querySelector('.to').value = sender;
-    document.querySelector('.topic').value = mailtitle;
+    document.querySelector('.to').value = fetchResult.data.receiver;
+    document.querySelector('.topic').value = fetchResult.data.subject;
+    document.querySelector('.message-compose').value = fetchResult.data.messagebody;
   }
   document.querySelector('.close-btn').addEventListener('click', closeComposeWindow);
 };
@@ -228,12 +226,12 @@ const saveMessageAsDraft = async (e, token) => {
   }
 };
 
-const getAllDraftMessages = async (e, token, tablename) => {
+const getAllDraftMessages = async (e, token) => {
   const baseUrl = '/api/v1/messages/draft';
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
     console.log(fetchResult);
-    wrapResultWithHtml('Draft', 'draftMail', fetchResult, tablename);
+    wrapResultWithHtml('Draft', 'draftMail', fetchResult);
   }
   if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
     console.log(fetchResult);
@@ -241,8 +239,14 @@ const getAllDraftMessages = async (e, token, tablename) => {
 };
 
 
-const getDraftMessageById = (e, token) => {
-  
+const getDraftMessageById = async (e, token) => {
+  const id = e.target.querySelector('.mailId').textContent.trim();
+  const baseUrl = `/api/v1/messages/draft/${Number(id)}`;
+  const fetchResult = await customFetch(baseUrl, 'GET', token);
+  console.log(fetchResult);
+  if (fetchResult.status === 'Success') {
+    createComposeWindow(e, fetchResult);
+  }
 };
 
 
@@ -263,7 +267,7 @@ document.addEventListener('click', (event) => {
     messageDisplayTab(event, '<button type="button" onclick="retractMail(event);" class="retract-mail-btn">Retract Mail</button>', tokenParam);
   }
   if (event.target.matches('#compose')) {
-    createComposeWindow(event);
+    createComposeWindow(event, null);
   }
   if (event.target.matches('.send')) {
     sendMail(event, tokenParam);
@@ -290,7 +294,7 @@ document.addEventListener('click', (event) => {
     saveMessageAsDraft(event, tokenParam);
   }
   if (event.target.matches('#draft')) {
-    getAllDraftMessages(event, tokenParam, 'draft');
+    getAllDraftMessages(event, tokenParam);
   }
   if (event.target.matches('.draftMail')) {
     getDraftMessageById(event, tokenParam);
