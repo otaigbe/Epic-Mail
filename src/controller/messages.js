@@ -7,6 +7,7 @@ import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
 import dbhelper from '../model/dbHelper';
 import queries from '../model/queries';
+import helper from '../helper/usefulFunc';
 
 export default class MessagesController {
   /**
@@ -25,12 +26,12 @@ export default class MessagesController {
       message.receiver = req.body.receiver;
       if (message.receiver && message.receiver !== req.user.email) {
         const args2 = [req.body.receiver.trim()];
-        const dboperationResult2 = await dbhelper.performTransactionalQuery(queries.checkIfEmailExists, args2);
+        // const dboperationResult2 = await dbhelper.performTransactionalQuery(queries.checkIfEmailExists, args2);
+        const dboperationResult2 = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfEmailExists, args2);
         if (dboperationResult2.rowCount === 0) {
           return res.status(404).json(response.failure('Receiver does not exists', {}));
         }
         const senderId = parseInt(req.user.id, 10);
-        console.log(typeof senderId);
         const args = [message.subject, message.messageBody, message.parentmessageid, req.user.email, message.receiver, senderId];
         const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertIntoMessageInboxOutbox, args);
         if (dboperationResult.rowCount === 1) {
@@ -100,7 +101,8 @@ export default class MessagesController {
   static async getAllReceivedEmails(req, res) {
     const user = req.user;
     const args = [req.user.email];
-    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectAllMessagesFromInboxBelongingToAParticularUser, args);
+    // const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectAllMessagesFromInboxBelongingToAParticularUser, args);
+    const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectAllMessagesFromInboxBelongingToAParticularUser, args);
     let received = dbOperationResult.rows;
     if (dbOperationResult.rows.length === 0) {
       received = 'You have no received emails currently';
@@ -144,6 +146,23 @@ export default class MessagesController {
     }
     return res.status(200).json(response.success('Sent Messages', sent));
   }
+
+
+  static async getDraftMessageById(req, res) {
+    const result = Joi.validate(req.params, schema.messageId, { convert: true });
+    if (result.error === null) {
+      const args = ['draft', String(req.user.email), Number(req.params.messageId)];
+      // const dbOperationResult = await dbhelper.performTransactionalQuery(queries.getDraftMessageById, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.getDraftMessageById, args);
+      if (dbOperationResult.rowCount === 1) {
+        return res.status(200).json(response.success('Message retrieved successfully', dbOperationResult.rows[0]));
+      }
+      return res.status(404).json(response.failure('Could not find the message you were looking for', {}));
+    } else {
+      errorHandler.validationError(res, result);
+    }
+  }
+
 
   /**
    * This fetches a message by id

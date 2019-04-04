@@ -60,4 +60,8 @@ export default class Queries {
   static get getAllDraftMessages() {
     return 'SELECT * FROM messages WHERE status = $1 AND sender = $2';
   }
+
+  static get getDraftMessageById() {
+    return 'SELECT * FROM messages WHERE status = $1 AND sender = $2 AND messageid = $3';
+  }
 }
