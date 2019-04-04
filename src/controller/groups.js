@@ -6,6 +6,7 @@ import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
 import dbhelpers from '../model/dbHelper';
 import queries from '../model/queries';
+import helper from '../helper/usefulFunc';
 
 export default class GroupsController {
   /**
@@ -73,6 +74,27 @@ export default class GroupsController {
   }
 
   /**
+   * This gets all group members of a particular group
+   * @param {Object} req - client request Object
+   * @param {Object} res - Server response Object
+   * @returns {JSON} - containing the status message and any addition data required if any
+   */
+  static async getAllMembersOfAGroup(req, res) {
+    const result = Joi.validate(req.params, schema.groupId, { convert: true });
+    if (result.error === null) {
+      const args = [req.params.groupId];
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.getAllMembersOfAGroup, args);
+      let groupMembers = dbOperationResult.rows;
+      if (dbOperationResult.rows.length === 0) {
+        groupMembers = 'This group has no members yet';
+        return res.status(200).json(response.success(groupMembers, {}));
+      }
+      return res.status(200).json(response.success('Showing all group members', groupMembers));
+    }
+    errorHandler.validationError(res, result);
+  }
+
+  /**
    * This renames a group
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
@@ -114,28 +136,23 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async addUserToGroup(req, res) {
-    /* istanbul ignore next */
-    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
-    if (!req.body.useremail.includes('@epicmail.com')) return res.status(400).json(response.responseWithOutResource('Please Insert a valid email', 'Bad Request'));
-    const result = Joi.validate(req.body, schema.addToGroup);
+    const result = Joi.validate(req.body, schema.addToGroup, { convert: true });
     if (result.error === null) {
-      /* istanbul ignore next */
-      if (req.body.useremail === req.user.email) return res.status(400).json({ status: 'Bad Request', message: 'You cannot add yourself to a group you own!'});
+      if (req.body.useremail === req.user.email) return res.status(400).json({ status: 'failure', message: 'You cannot add yourself to a group you own!' });
       const args = [req.params.groupId, req.user.email];
-      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
       if (dbOperationResult.rowCount === 1) {
         const args2 = [req.params.groupId, req.body.useremail];
-        const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMember, args2);
+        const dbOperationResult3 = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfUserIsAlreadyAMember, args2);
         if (dbOperationResult3.rowCount > 0) {
-          return res.status(200).json({ status: 'conflict', message: 'You are already a member of the Group!'});
+          return res.status(200).json({ status: 'failure', message: 'You are already a member of the Group!' });
         }
         const args3 = [req.params.groupId, req.body.useremail];
-        const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.insertNewMembersIntoGroup, args3);
+        const dbOperationResult2 = await helper.wrapDbOperationInTryCatchBlock(res, queries.insertNewMembersIntoGroup, args3);
         return res.status(200).json({ status: 'Success', message: 'User added to Group!' });
       }
-      /* istanbul ignore next */
       if (dbOperationResult.rowCount === 0) {
-        return res.status(404).json(response.responseWithOutResource('The Group wasn\'t found!', 'Not found'));
+        return res.status(404).json(response.failure('The Group wasn\'t found!', {}));
       }
     } else {
       errorHandler.validationError(res, result);

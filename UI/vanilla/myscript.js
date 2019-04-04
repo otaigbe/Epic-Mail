@@ -74,8 +74,14 @@ function wrapInAccordion(fetchResult) {
     icon.setAttribute('class', 'fas fa-plus');
     const panel = document.createElement('div');
     panel.setAttribute('class', 'panel');
+    const spanForId = document.createElement('span');
+    spanForId.setAttribute('class', fetchResult.data[i].groupid);
+    const textNodeForGroup = document.createTextNode(fetchResult.data[i].groupid);
+    spanForId.setAttribute('style', 'display:none;');
     div.appendChild(textNode);
     div.appendChild(icon);
+    spanForId.appendChild(textNodeForGroup);
+    div.appendChild(spanForId);
     const form = `<form id="addUser">
           <input placeholder="search user" type="text" name="searchInput" required autofocus>
           <button type="button" id="searchUser-btn" onclick="searchAndCreateAddUserUI(this);"><i class="fas fa-search"></i></button>

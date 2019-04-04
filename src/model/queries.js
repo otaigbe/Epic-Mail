@@ -21,6 +21,10 @@ export default class Queries {
     return 'INSERT INTO messages (subject, messagebody, parentmessageid, status, sender, receiver) VALUES ($1, $2, $3, $4, $5, $6) returning *';
   }
 
+  static get getAllMembersOfAGroup() {
+    return 'SELECT * FROM groupmembers JOIN users ON (users.userid = groupmembers.memberid) WHERE groupid = $1';
+  }
+
   static get checkForAlreadyExistentUser() {
     return 'SELECT * FROM users where username = $1';
   }
@@ -63,5 +67,18 @@ export default class Queries {
 
   static get getDraftMessageById() {
     return 'SELECT * FROM messages WHERE status = $1 AND sender = $2 AND messageid = $3';
+  }
+
+  static get checkIfUserOwnsTheGroupAboutToBeDeleted() {
+    return 'SELECT * FROM groups WHERE groupid = $1 AND creator = $2';
+  }
+
+  static get checkIfUserIsAlreadyAMember() {
+    return 'SELECT * FROM groupmembers WHERE groupid = $1 AND memberemail = $2';
+  }
+
+  static get insertNewMembersIntoGroup() {
+    return `WITH selectres AS ( SELECT * FROM users WHERE email = $2)
+     insert into groupmembers (groupid, memberemail, memberid) values ($1, $2, (SELECT userid FROM selectres))`;
   }
 }

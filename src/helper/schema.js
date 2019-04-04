@@ -55,12 +55,14 @@ schemas.newpass = Joi.object({
 });
 
 schemas.addToGroup = Joi.object({
-  useremail: Joi.string().email({ minDomainAtoms: 2 }).max(256).trim()
+  useremail: Joi.string().email().regex(/epicmail\.com$/).max(256)
+    .trim()
     .required(),
 });
 
 schemas.resetSchema = Joi.object({
-  email: Joi.string().email({ minDomainAtoms: 2 }).max(256).trim()
+  email: Joi.string().email().regex(/epicmail\.com$/).max(256)
+    .trim()
     .required(),
 });
 
@@ -75,4 +77,9 @@ schemas.draft = Joi.object({
   receiver: Joi.string().email().regex(/epicmail\.com$/).min(13)
     .trim(),
 });
+
+schemas.groupId = Joi.object({
+  groupId: Joi.number().positive().integer().required(),
+});
+
 export default schemas;

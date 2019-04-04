@@ -100,7 +100,6 @@ export default class MessagesController {
   static async getAllReceivedEmails(req, res) {
     const user = req.user;
     const args = [req.user.email];
-    // const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectAllMessagesFromInboxBelongingToAParticularUser, args);
     const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectAllMessagesFromInboxBelongingToAParticularUser, args);
     let received = dbOperationResult.rows;
     if (dbOperationResult.rows.length === 0) {
