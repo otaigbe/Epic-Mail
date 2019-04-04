@@ -44,15 +44,17 @@ function wrapResultWithHtml(text, mailType, fetchResult) {
       if (fetchResult.data[i].status === 'read') {
         modal += '<i class="fas fa-envelope-open tooltip"><span class="tooltiptext">read</span></i>';
       }
-      // <i class="fas fa-pencil-alt"></i>
+    }
+    if (fetchResult.data[i].status === 'draft') {
+      modal += '<i class="fas fa-pencil-alt tooltip"><span class="tooltiptext">draft</span></i>';
     }
     modal += `<span class="mailId" style="display:none;">${fetchResult.data[i].messageid}</span>
     <span class="sender">${fetchResult.data[i].sender}</span>
     <span class="title"><strong>${fetchResult.data[i].subject}</strong></span>
     <span class="sendDate">${fetchResult.data[i].createdon}</span>`;
-    if (text === 'Draft') {
-      modal += '';
-    }
+    // if (text === 'Draft') {
+    //   modal += '';
+    // }
     
     modal += '</div>';
   }

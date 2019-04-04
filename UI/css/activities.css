@@ -111,7 +111,7 @@ button {
 	color: white;
 }
 
-.fa-envelope, .fa-envelope-open{
+.fa-envelope, .fa-envelope-open, .fa-pencil-alt{
 	float: left;
 	margin-left: 2%;
 }
