@@ -166,92 +166,125 @@ describe('Testing the groups Endpoint', () => {
     });
   });
 
-  //   describe('Testing the add User to group Endpoint', () => {
-  //     it('should add a user successfully add to group', async () => {
-  //       const res = await chai.request(app).post('/api/v1/groups/2/users')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-  //         .type('form')
-  //         .send(
-  //           {
-  //             useremail: 'ade@epicmail.com',
-  //           },
-  //         );
-  //       chai.expect(res).to.have.status(200);
-  //     });
+  describe('Testing the add User to group Endpoint', () => {
+    it('should add a user successfully add to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'ade@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
 
-  //     it('should add a user successfully add to group', async () => {
-  //       const res = await chai.request(app).post('/api/v1/groups/2/users')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-  //         .type('form')
-  //         .send(
-  //           {
-  //             useremail: 'felicitas@epicmail.com',
-  //           },
-  //         );
-  //       chai.expect(res).to.have.status(200);
-  //     });
+    it('should add a user successfully add to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'felicitas@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
 
-  //     it('should add a user successfully add to group', async () => {
-  //       const res = await chai.request(app).post('/api/v1/groups/2/users')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-  //         .type('form')
-  //         .send(
-  //           {
-  //             useremail: 'osas422@epicmail.com',
-  //           },
-  //         );
-  //       chai.expect(res).to.have.status(200);
-  //     });
+    it('should add a user successfully add to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'osas422@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
 
-  //     it('should add a user successfully add to group', async () => {
-  //       const res = await chai.request(app).post('/api/v1/groups/2/users')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-  //         .type('form')
-  //         .send(
-  //           {
-  //             useremail: 'george@epicmail.com',
-  //           },
-  //         );
-  //       chai.expect(res).to.have.status(200);
-  //     });
+    it('should add a user successfully add to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'george@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
+
+    it('should throw a 400 error and declare that one cannot add himself to a group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'otaigbe@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(400);
+    });
 
 
-  //     it('should add already a member of a group', async () => {
-  //       const res = await chai.request(app).post('/api/v1/groups/2/users')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-  //         .type('form')
-  //         .send(
-  //           {
-  //             useremail: 'ade@epicmail.com',
-  //           },
-  //         );
-  //       chai.expect(res).to.have.status(200);
-  //     });
+    it('should add already a member of a group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'ade@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(200);
+    });
 
-  //     it('should not find group', async () => {
-  //       const res = await chai.request(app).post('/api/v1/groups/200/users')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-  //         .type('form')
-  //         .send(
-  //           {
-  //             useremail: 'ade@epicmail.com',
-  //           },
-  //         );
-  //       chai.expect(res).to.have.status(404);
-  //     });
-  //     it('should throw a validation error', async () => {
-  //       const res = await chai.request(app).post('/api/v1/groups/2/users')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
-  //         .type('form')
-  //         .send(
-  //           {
-  //             useremail: 1234,
-  //           },
-  //         );
-  //       chai.expect(res).to.have.status(400);
-  //     });
-  //   });
+    it('should not find group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/200/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 'ade@epicmail.com',
+          },
+        );
+      chai.expect(res).to.have.status(404);
+    });
+    it('should throw a validation error', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/2/users')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
+        .type('form')
+        .send(
+          {
+            useremail: 1234,
+          },
+        );
+      chai.expect(res).to.have.status(400);
+    });
+  });
 
+
+  describe('Testing the get all members of a group Endpoint', () => {
+    it('Should successfully get all members of a group', async () => {
+      const res = await chai.request(app).get('/api/v1/groups/2/members')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body.data).to.be.an('array');
+    });
+
+    it('Should successfully get all members of a group', async () => {
+      const res = await chai.request(app).get('/api/v1/groups/abc/members')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(400);
+    });
+
+    it('Should successfully get all members of a group', async () => {
+      const res = await chai.request(app).get('/api/v1/groups/4/members')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(200);
+    });
+  });
   //   describe('Testing the send mail to all members in a group endpoint', () => {
   //     it('should send messages to all members in a group', async () => {
   //       const res = await chai.request(app).post('/api/v1/groups/2/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')

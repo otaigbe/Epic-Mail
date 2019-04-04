@@ -30,5 +30,6 @@ router.patch('/groups/:groupId/name', Auth.auth, groupsController.renameAGroup);
 router.post('/groups/:groupId/users', Auth.auth, groupsController.addUserToGroup);
 router.delete('/groups/:groupId/users/:userId', Auth.auth, groupsController.deleteUserFromParticularGroup);
 router.post('/groups/:groupId/messages', Auth.auth, groupsController.sendMailToAllMembersInAGroup);
+router.get('/groups/:groupId/members', Auth.auth, groupsController.getAllMembersOfAGroup);
 
 export default router;
