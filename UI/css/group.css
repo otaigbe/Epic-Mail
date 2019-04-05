@@ -15,7 +15,8 @@ body {
 }
 
 .panel{
-	background-color: white;
+  background-color: white;
+  margin: 0;
 }
 
 .sidebar button {
