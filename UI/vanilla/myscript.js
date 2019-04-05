@@ -62,32 +62,40 @@ function wrapResultWithHtml(text, mailType, fetchResult) {
   document.getElementById('displayarea').innerHTML = modal;
 }
 
-function wrapInAccordion(fetchResult) {
+async function wrapInAccordion(fetchResult) {
   let groupHtml = '<span id="reply"><h2>Groups</h2></span>';
   for (let i = 0; i < fetchResult.data.length; i++) {
     const span = document.createElement('span');
     span.setAttribute('class', 'tile');
+    span.classList.add(fetchResult.data[i].groupname);
     const div = document.createElement('div');
     div.setAttribute('class', 'grid-item');
     const textNode = document.createTextNode(fetchResult.data[i].groupname);
     const icon = document.createElement('i');
     icon.setAttribute('class', 'fas fa-plus');
+    const iconSend = document.createElement('i');
+    iconSend.setAttribute('class', 'fas fa-send');
+    const iconRight = document.createElement('i');
+    iconRight.setAttribute('class', 'fas fa-angle-right');
     const panel = document.createElement('div');
     panel.setAttribute('class', 'panel');
     const spanForId = document.createElement('span');
-    spanForId.setAttribute('class', fetchResult.data[i].groupid);
+    spanForId.setAttribute('class', 'groupId');
     const textNodeForGroup = document.createTextNode(fetchResult.data[i].groupid);
     spanForId.setAttribute('style', 'display:none;');
     div.appendChild(textNode);
     div.appendChild(icon);
+    div.appendChild(iconSend);
+    div.appendChild(iconRight);
     spanForId.appendChild(textNodeForGroup);
     div.appendChild(spanForId);
-    const form = `<form id="addUser">
-          <input placeholder="search user" type="text" name="searchInput" required autofocus>
-          <button type="button" id="searchUser-btn" onclick="searchAndCreateAddUserUI(this);"><i class="fas fa-search"></i></button>
-          </form><span class="searchResults"></span>`;
-    const elem = document.createRange().createContextualFragment(form);
-    panel.appendChild(elem);
+    
+    // const form = `<form id="addUser">
+    //       <input placeholder="search user" type="text" name="searchInput" required autofocus>
+    //       <button type="button" id="searchUser-btn" onclick="searchAndCreateAddUserUI(this);"><i class="fas fa-search"></i></button>
+    //       </form><span class="searchResults"></span>`;
+    // const elem = document.createRange().createContextualFragment(form);
+    // panel.appendChild(elem);
     panel.style.display = 'none';
     span.appendChild(div);
     span.appendChild(panel);
@@ -100,18 +108,5 @@ function wrapInAccordion(fetchResult) {
   document.getElementById('displayarea').style.display = 'none';
 }
 
-function toggleAccordion(e) {
-  // if (e.target && e.target.matches('.grid-item')) {
-  console.log(e.target);
-  const panel = e.target.nextElementSibling;
-  e.target.classList.toggle('active');
-  const caret = e.target.querySelector('.fas');
-  if (panel.style.display === 'block') {
-    caret.setAttribute('class', 'fas fa-plus');
-    panel.style.display = 'none';
-  } else {
-    caret.setAttribute('class', 'fas fa-minus');
-    panel.style.display = 'block';
-  // }
-  }
-}
+
+

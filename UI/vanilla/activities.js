@@ -133,6 +133,47 @@ const getAllGroups = async (e, token) => {
   }
 };
 
+
+function wrapResultInListTags(fetchResult) {
+  let html = '<ul class="groupMembers">';
+  for (let i = 0; i < fetchResult.data.length; i++) {
+    html += `<li>${fetchResult.data[i].username}</li>`;
+  }
+  html += '</ul>';
+  return html;
+}
+
+
+const getAllGroupMembers = async (e, token, id) => {
+  const baseUrl = `/api/v1/groups/${Number(id)}/members`;
+  const fetchResult = await customFetch(baseUrl, 'GET', token);
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+    const html = wrapResultInListTags(fetchResult);
+    return html;
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
+};
+
+async function toggleAccordion(e, token) {
+  const panel = e.target.nextElementSibling;
+  e.target.classList.toggle('active');
+  let caret = e.target.querySelector('.fa-angle-right');
+  if (panel.style.display === 'block') {
+    caret = e.target.querySelector('.fa-angle-down');
+    caret.setAttribute('class', 'fas fa-angle-right');
+    panel.style.display = 'none';
+  } else {
+    caret.setAttribute('class', 'fas fa-angle-down');
+    panel.style.display = 'block';
+  }
+  const id = e.target.querySelector('.groupId').textContent.trim();
+  let html = await getAllGroupMembers(e, token, id);
+  panel.innerHTML = html;
+}
+
 const toggleSlideUpDown = () => {
   if (document.getElementById('createGroup').style.display === 'block') {
     document.getElementById('createGroup').style.display = 'none';
@@ -276,7 +317,7 @@ document.addEventListener('click', (event) => {
     getAllGroups(event, tokenParam);
   }
   if (event.target.matches('.grid-item')) {
-    toggleAccordion(event);
+    toggleAccordion(event, tokenParam);
   }
   if (event.target.matches('#createGroup-btn')) {
     toggleSlideUpDown();
@@ -298,5 +339,7 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('.draftMail')) {
     getDraftMessageById(event, tokenParam);
+  }
+  if (event.target.matches('.fa-plus')) {
   }
 }, false);

@@ -89,6 +89,18 @@ button {
 #details {
 	padding: 5px;
 }
+
+.groupMembers {
+	margin: 0px;
+}
+
+.groupMembers li {
+	border: #000 thin solid;
+	list-style: none;
+	margin-left: -40px;
+    font-size: 14pt;
+}
+
 .send {
 	background-color: steelblue;
 	float: right;
@@ -294,7 +306,7 @@ border-right: thin rgba(9,95,227,1.00) solid;
 
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(0, 0, 0);
+  border: 1px solid rgba(0, 0, 0);
   padding: 10px;
   font-size: 30px;
 }
@@ -307,8 +319,18 @@ border-right: thin rgba(9,95,227,1.00) solid;
 	background-color: steelblue;
 }
 
+.fa-send{
+	color:lightblue;
+	float: right;
+	margin-right: 15px;
+}
 .fa-plus, .fa-minus, .fa-check{
 	float: right;
+}
+
+.fa-angle-right, .fa-angle-down {
+	float: left;
+	margin-right: 15px;
 }
 
 .panel{
