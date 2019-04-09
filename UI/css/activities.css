@@ -3,7 +3,6 @@ body {
 	font-family: "Lato", sans-serif;
 	box-sizing: border-box;
 	background-color: lightblue;
-	/* overflow: hidden; */
 }
 
 #overlay {
@@ -25,7 +24,6 @@ button {
 }
 
 .sidebar {
-	/* margin-top: 90px; */
 	padding: 0;
 	background-color: lightblue;
 	border: thin black solid;
@@ -125,6 +123,12 @@ button {
 .fa-envelope, .fa-envelope-open, .fa-pencil-alt{
 	float: left;
 	margin-left: 2%;
+}
+
+.material-icons{
+	float: right;
+	margin-right: 2%;
+	cursor: pointer;
 }
 
 .message-compose{
@@ -250,7 +254,6 @@ div.content {
 
 #signout{
 	float: right;
-	/* margin-top: 40px; */
 	top: 25px;
 	margin-left: 95%;
 	z-index: 1;
@@ -365,11 +368,6 @@ border-right: thin rgba(9,95,227,1.00) solid;
 	border: thin black solid;
 }
 
-/* #member-search-form{
-	width: 400px;
-	height: 400px;
-} */
-
 #memberholder{
 	position: absolute;
 	top: 50%;
@@ -381,7 +379,6 @@ border-right: thin rgba(9,95,227,1.00) solid;
 }
 
 #addUser > input {
-/*	width: 93%;*/
 	flex-grow: 8;
 	padding: 5px;
 	line-height: 1.4em;

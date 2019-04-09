@@ -52,7 +52,7 @@ async function createSchema() {
     creatorid bigint
 )`;
   const groupMembers = `CREATE TABLE IF NOT EXISTS groupmembers (
-  groupid bigserial REFERENCES groups(groupid) NOT NULL,
+  groupid bigserial REFERENCES groups(groupid) ON DELETE CASCADE NOT NULL,
   memberemail VARCHAR(200) REFERENCES users(email),
   memberid bigint,
   addedon TIMESTAMP(8) DEFAULT now()

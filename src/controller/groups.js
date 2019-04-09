@@ -42,17 +42,20 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async deleteGroupById(req, res) {
-    // eslint-disable-next-line no-restricted-globals
-    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
-    const args = [req.params.groupId, req.user.email];
-    const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
-    if (dbOperationResult.rowCount === 1) {
-      const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.deleteGroupById, args);
-      return res.status(200).json(response.responseWithOutResource('Deletion Successful', 'Success'));
-    }
-    /* istanbul ignore next */
-    if (dbOperationResult.rowCount === 0) {
-      return res.status(404).json(response.responseWithOutResource('Couldn\'t Delete the group you requested', 'Unsuccessful Operation'));
+    // if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
+    const result = Joi.validate(req.params, schema.groupId, { convert: true });
+    if (result.error === null) {
+      const args = [req.params.groupId, req.user.email];
+      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+      if (dbOperationResult.rowCount === 1) {
+        const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.deleteGroupById, args);
+        return res.status(200).json(response.success('Deletion Successful', dbOperationResult2.rows[0]));
+      }
+      if (dbOperationResult.rowCount === 0) {
+        return res.status(404).json(response.failure('Couldn\'t Delete the group you requested', {}));
+      }
+    } else {
+      errorHandler.validationError(res, result);
     }
   }
 
