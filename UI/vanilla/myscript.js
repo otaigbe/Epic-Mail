@@ -52,10 +52,6 @@ function wrapResultWithHtml(text, mailType, fetchResult) {
     <span class="sender">${fetchResult.data[i].sender}</span>
     <span class="title"><strong>${fetchResult.data[i].subject}</strong></span>
     <span class="sendDate">${fetchResult.data[i].createdon}</span>`;
-    // if (text === 'Draft') {
-    //   modal += '';
-    // }
-    
     modal += '</div>';
   }
   modal += '</div></div></div>';
