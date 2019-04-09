@@ -329,6 +329,25 @@ const addUserToGroup = async (e, token) => {
   }
 };
 
+
+const deleteGroupById = async (e, token) => {
+  if (confirm('Are you sure you want to delete this group? This action is irreversible')) {
+    const groupId = e.target.parentElement.querySelector('.groupId').textContent.trim();
+    console.log(groupId);
+    const url = `/api/v1/groups/${groupId}`;
+    const fetchResult = await customFetchWithBody(url, 'DELETE', token);
+    if (fetchResult.status === 'Success') {
+      console.log(fetchResult);
+      document.getElementById('snackbar').innerHTML = 'Group successfully deleted';
+      snackBar();
+      document.getElementById('viewGroup-btn').click();
+    }
+  } else {
+    txt = "You pressed Cancel!";
+  }
+};
+
+
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
@@ -383,5 +402,8 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('#addUser')) {
     addUserToGroup(event, tokenParam);
+  }
+  if (event.target.matches('.material-icons')) {
+    deleteGroupById(event, tokenParam);
   }
 }, false);

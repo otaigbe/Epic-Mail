@@ -350,26 +350,26 @@ describe('Testing the groups Endpoint', () => {
   //     });
   //   });
 
-  //   describe('Testing the delete group by id endpoint', () => {
-  //     it('should delete a group with provided id', async () => {
-  //       const res = await chai.request(app).delete('/api/v1/groups/1')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-  //       chai.expect(res).to.have.status(200);
-  //       chai.expect(res.body).to.have.property('status');
-  //     });
+  describe('Testing the delete group by id endpoint', () => {
+    it('should delete a group with provided id', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/1')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+    });
 
-  //     it('should throw a bad request error ', async () => {
-  //       const res = await chai.request(app).delete('/api/v1/groups/bar')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-  //       chai.expect(res).to.have.status(400);
-  //       chai.expect(res.body).to.have.property('status');
-  //     });
+    it('should throw a bad request error ', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/bar')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(400);
+      chai.expect(res.body).to.have.property('status');
+    });
 
-//     it('shouldn\'t find message with supplied id', async () => {
-//       const res = await chai.request(app).delete('/api/v1/groups/1898')
-//         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-//       chai.expect(res).to.have.status(404);
-//       chai.expect(res.body).to.have.property('status');
-//     });
-//   });
+    it('shouldn\'t find message with supplied id', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/1898')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(404);
+      chai.expect(res.body).to.have.property('status');
+    });
+  });
 });

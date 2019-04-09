@@ -71,6 +71,11 @@ async function wrapInAccordion(fetchResult) {
     icon.setAttribute('class', 'fas fa-plus');
     const iconSend = document.createElement('i');
     iconSend.setAttribute('class', 'fas fa-send');
+    // const iconDelete = document.createElement('i');
+    const spanDeleteWrapper = document.createElement('span');
+    spanDeleteWrapper.setAttribute('class', 'material-icons');
+    const textIcon = document.createTextNode('delete');
+    spanDeleteWrapper.appendChild(textIcon);
     const iconRight = document.createElement('i');
     iconRight.setAttribute('class', 'fas fa-angle-right');
     const panel = document.createElement('div');
@@ -82,6 +87,8 @@ async function wrapInAccordion(fetchResult) {
     div.appendChild(textNode);
     div.appendChild(icon);
     div.appendChild(iconSend);
+    // spanDeleteWrapper.appendChild(iconDelete);
+    div.appendChild(spanDeleteWrapper);
     div.appendChild(iconRight);
     spanForId.appendChild(textNodeForGroup);
     div.appendChild(spanForId);

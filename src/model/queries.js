@@ -81,4 +81,8 @@ export default class Queries {
     return `WITH selectres AS ( SELECT * FROM users WHERE email = $2)
      insert into groupmembers (groupid, memberemail, memberid) values ($1, $2, (SELECT userid FROM selectres))`;
   }
+
+  static get deleteGroupById() {
+    return 'DELETE FROM groups WHERE groupid = $1 AND creator = $2 RETURNING *';
+  }
 }
