@@ -54,7 +54,7 @@ button {
 	z-index: 1;
 }
 .close-btn {
-	margin-left: 95%;
+	margin-left: 88%;
 	color: red;
 }
 
@@ -80,7 +80,6 @@ button {
 
 #details input {
 	width: 99%;
-	padding: 5px;
 	font-size: 14pt;
 	margin-bottom: 2px;
 	margin-right: 5px;
@@ -323,9 +322,12 @@ border-right: thin rgba(9,95,227,1.00) solid;
 	color:lightblue;
 	float: right;
 	margin-right: 15px;
+	cursor: pointer;
+
 }
 .fa-plus, .fa-minus, .fa-check{
 	float: right;
+	cursor: pointer;
 }
 
 .fa-angle-right, .fa-angle-down {
@@ -361,7 +363,21 @@ border-right: thin rgba(9,95,227,1.00) solid;
 	line-height: 1.4em;
 	border: none;
 	border: thin black solid;
-	
+}
+
+/* #member-search-form{
+	width: 400px;
+	height: 400px;
+} */
+
+#memberholder{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+#memberModal{
+	background-color: white;
 }
 
 #addUser > input {
@@ -391,17 +407,6 @@ border-right: thin rgba(9,95,227,1.00) solid;
 	 position: absolute;
 	 display: none;
  }
-/*
-  .sidebar.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-	.sidebar.responsive button {
-   width: 18%;
-float: left;
-		padding: 5px;
-	} */
 
 #close-min{
 	padding: 0px;
@@ -436,7 +441,6 @@ float: left;
 	}
 
 	.grid-item{
-/*		width: 95%;*/
 		  background-color: rgba(255, 255, 255, 0.8);
   border: 2px solid rgba(0, 0, 0);
 	}

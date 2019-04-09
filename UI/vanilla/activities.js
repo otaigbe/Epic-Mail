@@ -1,3 +1,9 @@
+const snackBar = () => {
+  const x = document.getElementById('snackbar');
+  x.className = 'show';
+  setTimeout(() => { x.className = x.className.replace('show', ''); }, 3000);
+};
+
 const getAllReceivedMessages = async (token, e, tablename) => {
   const baseUrl = '/api/v1/messages';
   const fetchResult = await customFetch(baseUrl, 'GET', token);
@@ -49,7 +55,7 @@ const messageDisplayTab = async (e, button, token) => {
 };
 
 
-function closeCurrentTab(e) {
+const closeCurrentTab = (e) => {
   const activetabContent = e.target.parentElement.parentElement.parentElement.querySelector('.tabcontent[style="display: block;"]');
   if (activetabContent.nextElementSibling !== null) {
     activetabContent.nextElementSibling.style.display = 'block';
@@ -65,25 +71,24 @@ function closeCurrentTab(e) {
     activetabContent.parentElement.removeChild(activetabContent);
     e.target.parentElement.parentElement.removeChild(e.target.parentElement);
   }
-}
+};
 
-function on() {
+const on = () => {
   document.getElementById('overlay').style.display = 'block';
-}
+};
 
-function off() {
+const off = () => {
   document.getElementById('overlay').style.display = 'none';
-}
+};
 
-function closeComposeWindow(e) {
+const closeComposeWindow = (e) => {
   off();
   e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
   document.getElementById('compose').disabled = false;
-}
+};
 
 
 const createComposeWindow = (e, fetchResult) => {
-  console.log(fetchResult);
   on();
   let modal = `<div id="myModal" class="modal">
 <div class="bar"><button type="button" class="close-btn">
@@ -134,14 +139,14 @@ const getAllGroups = async (e, token) => {
 };
 
 
-function wrapResultInListTags(fetchResult) {
+const wrapResultInListTags = (fetchResult) => {
   let html = '<ul class="groupMembers">';
   for (let i = 0; i < fetchResult.data.length; i++) {
     html += `<li>${fetchResult.data[i].username}</li>`;
   }
   html += '</ul>';
   return html;
-}
+};
 
 
 const getAllGroupMembers = async (e, token, id) => {
@@ -157,7 +162,7 @@ const getAllGroupMembers = async (e, token, id) => {
   }
 };
 
-async function toggleAccordion(e, token) {
+const toggleAccordion = async (e, token) => {
   const panel = e.target.nextElementSibling;
   e.target.classList.toggle('active');
   let caret = e.target.querySelector('.fa-angle-right');
@@ -170,9 +175,9 @@ async function toggleAccordion(e, token) {
     panel.style.display = 'block';
   }
   const id = e.target.querySelector('.groupId').textContent.trim();
-  let html = await getAllGroupMembers(e, token, id);
+  const html = await getAllGroupMembers(e, token, id);
   panel.innerHTML = html;
-}
+};
 
 const toggleSlideUpDown = () => {
   if (document.getElementById('createGroup').style.display === 'block') {
@@ -197,7 +202,7 @@ const createGroup = async (e, token) => {
   }
 };
 
-function selectAllCheckboxesForDeletion(e) {
+const selectAllCheckboxesForDeletion = (e) => {
   const checkboxes = document.getElementsByClassName('check-box');
   console.log(e.target.checked);
   if (e.target.checked === true) {
@@ -210,14 +215,7 @@ function selectAllCheckboxesForDeletion(e) {
       checkboxes[i].checked = false;
     }
   }
-}
-
-
-function snackBar() {
-  const x = document.getElementById('snackbar');
-  x.className = 'show';
-  setTimeout(() => { x.className = x.className.replace('show', ''); }, 3000);
-}
+};
 
 
 const deleteMessages = (token) => {
@@ -261,6 +259,8 @@ const saveMessageAsDraft = async (e, token) => {
   const fetchResult = await customFetchWithBody(baseUrl, 'POST', token, JSON.parse(formdata));
   if (fetchResult.status === 'Success') {
     console.log(fetchResult);
+    document.getElementById('snackbar').innerHTML = 'Message saved as Draft';
+    snackBar();
   }
   if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
     console.log(fetchResult);
@@ -284,12 +284,50 @@ const getDraftMessageById = async (e, token) => {
   const id = e.target.querySelector('.mailId').textContent.trim();
   const baseUrl = `/api/v1/messages/draft/${Number(id)}`;
   const fetchResult = await customFetch(baseUrl, 'GET', token);
-  console.log(fetchResult);
   if (fetchResult.status === 'Success') {
     createComposeWindow(e, fetchResult);
   }
 };
 
+
+function closeMemberModal(e) {
+  off();
+  console.log(e.target.parentElement.parentElement);
+  e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
+}
+
+
+const createSearchForm = (e) => {
+  const groupId = e.target.parentElement.querySelector('.groupId').textContent.trim();
+  on();
+  let modal = `<div id="memberModal" class="memberarea"><div class="bar"><button type="button" class="close-btn"></button>
+  </div><form id="member-search-form"><div id="details"><span class="originating-group-id" style="display: none;">${groupId}</span>
+<input type="text" class="membername" name="useremail" placeholder="Insert user email"><br><button type="button" id="addUser" class="add-user">Add User To Group</button></div>
+<div id="member-name-display-area"></div>
+</form></div>`;
+  modal = document.createRange().createContextualFragment(modal);
+  document.getElementById('memberholder').appendChild(modal);
+  e.target.disabled = true;
+  document.querySelector('.close-btn').addEventListener('click', closeMemberModal);
+};
+
+const addUserToGroup = async (e, token) => {
+  console.log(e.target.parentElement);
+  const groupId = e.target.parentElement.querySelector('.originating-group-id').textContent.trim();
+  const url = `/api/v1/groups/${Number(groupId)}/users`;
+  const form = document.getElementById('member-search-form');
+  let formdata = new FormData(form);
+  formdata = convertFormDataToJson(formdata);
+  const fetchResult = await customFetchWithBody(url, 'POST', token, JSON.parse(formdata));
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+    document.getElementById('snackbar').innerHTML = 'member added to group';
+    snackBar();
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
+};
 
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
@@ -341,5 +379,9 @@ document.addEventListener('click', (event) => {
     getDraftMessageById(event, tokenParam);
   }
   if (event.target.matches('.fa-plus')) {
+    createSearchForm(event);
+  }
+  if (event.target.matches('#addUser')) {
+    addUserToGroup(event, tokenParam);
   }
 }, false);
