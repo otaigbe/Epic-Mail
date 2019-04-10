@@ -133,16 +133,16 @@ const getAllGroups = async (e, token) => {
   const baseUrl = '/api/v1/groups';
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
-    console.log(fetchResult);
     wrapInAccordion(fetchResult);
   }
 };
 
 
 const wrapResultInListTags = (fetchResult) => {
+  console.log(fetchResult);
   let html = '<ul class="groupMembers">';
   for (let i = 0; i < fetchResult.data.length; i++) {
-    html += `<li>${fetchResult.data[i].username}</li>`;
+    html += `<li data-userid=${fetchResult.data[i].userid} data-groupid=${fetchResult.data[i].groupid}><span>${fetchResult.data[i].username}</span><i class="fas fa-trash-alt"></i></li>`;
   }
   html += '</ul>';
   return html;
@@ -312,7 +312,6 @@ const createSearchForm = (e) => {
 };
 
 const addUserToGroup = async (e, token) => {
-  console.log(e.target.parentElement);
   const groupId = e.target.parentElement.querySelector('.originating-group-id').textContent.trim();
   const url = `/api/v1/groups/${Number(groupId)}/users`;
   const form = document.getElementById('member-search-form');
@@ -333,11 +332,9 @@ const addUserToGroup = async (e, token) => {
 const deleteGroupById = async (e, token) => {
   if (confirm('Are you sure you want to delete this group? This action is irreversible')) {
     const groupId = e.target.parentElement.querySelector('.groupId').textContent.trim();
-    console.log(groupId);
     const url = `/api/v1/groups/${groupId}`;
     const fetchResult = await customFetch(url, 'DELETE', token);
     if (fetchResult.status === 'Success') {
-      console.log(fetchResult);
       document.getElementById('snackbar').innerHTML = 'Group successfully deleted';
       snackBar();
       document.getElementById('viewGroup-btn').click();
@@ -353,14 +350,12 @@ const renameTheGroup = async (e, token) => {
       alert('Enter group name');
       return false;
     }
-    console.log(e.target.parentElement);
     const id = e.target.getAttribute('data-groupId');
     const url = `/api/v1/groups/${Number(id)}/name`;
     const groupObj = { groupname: value };
     const fetchResult = await customFetchWithBody(url, 'PATCH', token, groupObj);
     if (fetchResult.status === 'Success') {
       document.getElementById('viewGroup-btn').click();
-      console.log(fetchResult);
       document.getElementById('snackbar').innerHTML = 'Group successfully renamed';
       snackBar();
     }
@@ -371,11 +366,28 @@ const renameTheGroup = async (e, token) => {
 };
 
 const makeGroupNameEditable = (e) => {
-  console.log(e.target.parentElement);
   const teamName = e.target.parentElement.textContent.trim();
   const id = e.target.parentElement.querySelector('.groupId').textContent.trim();
   const makeContentEditable = `<input type="text" placeholder="${teamName}" class="edit-group-name" data-groupId="${Number(id)}" name="groupname" minlength='2' required>`;
   e.target.parentElement.innerHTML = makeContentEditable;
+};
+
+
+const deleteUserFromGroup = async (e, token) => {
+  const groupMemberId = e.target.parentElement.getAttribute('data-userid').trim();
+  const groupId = e.target.parentElement.getAttribute('data-groupid').trim();
+  const url = `/api/v1/groups/${Number(groupId)}/users/${Number(groupMemberId)}`;
+  console.log(url);
+  const fetchResult = await customFetch(url, 'DELETE', token);
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+    e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+    document.getElementById('snackbar').innerHTML = 'member deleted from group';
+    snackBar();
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
 };
 
 
@@ -439,6 +451,9 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('.material-icons.edit')) {
     makeGroupNameEditable(event);
+  }
+  if (event.target.matches('.fa-trash-alt')) {
+    deleteUserFromGroup(event, tokenParam);
   }
 }, false);
 

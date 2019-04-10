@@ -89,4 +89,12 @@ export default class Queries {
   static get renameGroup() {
     return 'UPDATE groups SET groupname = $1 WHERE groupid = $2 AND creator = $3 RETURNING *';
   }
+
+  static get CheckIfUserIsAlreadyAMemberDel() {
+    return 'SELECT * FROM groupmembers WHERE groupid = $1 AND memberid = $2';
+  }
+
+  static get deleteUserFromASpecificGroup() {
+    return 'Delete from groupmembers WHERE groupid = $1 AND memberid = $2';
+  }
 }

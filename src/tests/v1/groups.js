@@ -325,28 +325,28 @@ describe('Testing the groups Endpoint', () => {
   //     });
   //   });
 
-  //   describe('Testing the delete users from group endpoint', () => {
-  //     it('should delete a group with provided id', async () => {
-  //       const res = await chai.request(app).delete('/api/v1/groups/2/users/5')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-  //       chai.expect(res).to.have.status(200);
-  //       chai.expect(res.body).to.have.property('status');
-  //     });
+  describe('Testing the delete users from group endpoint', () => {
+    it('should delete a group with provided id', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/2/users/5')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(200);
+      chai.expect(res.body).to.have.property('status');
+    });
 
-  //     it('should throw a validation error', async () => {
-  //       const res = await chai.request(app).delete('/api/v1/groups/bad/users/5')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-  //       chai.expect(res).to.have.status(400);
-  //     });
+    it('should throw a validation error', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/bad/users/5')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(400);
+    });
 
 
-  //     it('shouldn\'t find message with supplied id', async () => {
-  //       const res = await chai.request(app).delete('/api/v1/groups/18989898/users/5')
-  //         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-  //       chai.expect(res).to.have.status(404);
-  //       chai.expect(res.body).to.have.property('status');
-  //     });
-  //   });
+    it('shouldn\'t find message with supplied id', async () => {
+      const res = await chai.request(app).delete('/api/v1/groups/18989898/users/5')
+        .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
+      chai.expect(res).to.have.status(404);
+      chai.expect(res.body).to.have.property('status');
+    });
+  });
 
   describe('Testing the delete group by id endpoint', () => {
     it('should delete a group with provided id', async () => {
