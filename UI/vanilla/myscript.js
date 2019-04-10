@@ -73,7 +73,12 @@ async function wrapInAccordion(fetchResult) {
     iconSend.setAttribute('class', 'fas fa-send');
     // const iconDelete = document.createElement('i');
     const spanDeleteWrapper = document.createElement('span');
-    spanDeleteWrapper.setAttribute('class', 'material-icons');
+    spanDeleteWrapper.setAttribute('class', 'material-icons delete');
+    const spanEditWrapper = document.createElement('span');
+    spanEditWrapper.setAttribute('class', 'material-icons edit');
+
+    const editIcon = document.createTextNode('edit');
+    spanEditWrapper.appendChild(editIcon);
     const textIcon = document.createTextNode('delete');
     spanDeleteWrapper.appendChild(textIcon);
     const iconRight = document.createElement('i');
@@ -87,18 +92,11 @@ async function wrapInAccordion(fetchResult) {
     div.appendChild(textNode);
     div.appendChild(icon);
     div.appendChild(iconSend);
-    // spanDeleteWrapper.appendChild(iconDelete);
     div.appendChild(spanDeleteWrapper);
+    div.appendChild(spanEditWrapper);
     div.appendChild(iconRight);
     spanForId.appendChild(textNodeForGroup);
     div.appendChild(spanForId);
-    
-    // const form = `<form id="addUser">
-    //       <input placeholder="search user" type="text" name="searchInput" required autofocus>
-    //       <button type="button" id="searchUser-btn" onclick="searchAndCreateAddUserUI(this);"><i class="fas fa-search"></i></button>
-    //       </form><span class="searchResults"></span>`;
-    // const elem = document.createRange().createContextualFragment(form);
-    // panel.appendChild(elem);
     panel.style.display = 'none';
     span.appendChild(div);
     span.appendChild(panel);

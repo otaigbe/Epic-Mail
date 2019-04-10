@@ -85,4 +85,8 @@ export default class Queries {
   static get deleteGroupById() {
     return 'DELETE FROM groups WHERE groupid = $1 AND creator = $2 RETURNING *';
   }
+
+  static get renameGroup() {
+    return 'UPDATE groups SET groupname = $1 WHERE groupid = $2 AND creator = $3 RETURNING *';
+  }
 }
