@@ -42,7 +42,6 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async deleteGroupById(req, res) {
-    // if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const result = Joi.validate(req.params, schema.groupId, { convert: true });
     if (result.error === null) {
       const args = [req.params.groupId, req.user.email];
@@ -104,8 +103,7 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async renameAGroup(req, res) {
-    /* istanbul ignore next */
-    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
+    // if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const result = Joi.validate(req.body, schema.rename);
     if (result.error === null) {
       const args = [req.params.groupId, req.user.email];
@@ -115,18 +113,14 @@ export default class GroupsController {
       if (dbOperationResult.rowCount === 1) {
         const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args1);
         if (dbOperationResult1.rowCount > 0) {
-          return res.status(409).json(response.responseWithOutResource(`You Already have a group with name ${req.body.groupname}! Chooose a different group name`, 'Conflict'));
+          return res.status(409).json(response.failure(`You Already have a group with name ${req.body.groupname}! Chooose a different group name`, {}));
         }
-        /* istanbul ignore next */
         if (dbOperationResult1.rowCount === 0) {
           const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.renameGroup, args2);
-          return res.status(200).json({
-            status: 'Success',
-            message: `Group with id ${req.params.groupId} has been renamed to ${req.body.groupname}!`,
-          });
+          return res.status(200).json(response.success(`Group with id ${req.params.groupId} has been renamed to ${req.body.groupname}!`, dbOperationResult2.rows[0]));
         }
       } else if (dbOperationResult.rowCount === 0) {
-        return res.status(404).json(response.responseWithOutResource('Can\'t find the group you were looking for', 'Not Found'));
+        return res.status(404).json(response.failure('Can\'t find the group you were looking for', {}));
       }
     }
     errorHandler.validationError(res, result);

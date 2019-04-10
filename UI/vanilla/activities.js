@@ -335,7 +335,7 @@ const deleteGroupById = async (e, token) => {
     const groupId = e.target.parentElement.querySelector('.groupId').textContent.trim();
     console.log(groupId);
     const url = `/api/v1/groups/${groupId}`;
-    const fetchResult = await customFetchWithBody(url, 'DELETE', token);
+    const fetchResult = await customFetch(url, 'DELETE', token);
     if (fetchResult.status === 'Success') {
       console.log(fetchResult);
       document.getElementById('snackbar').innerHTML = 'Group successfully deleted';
@@ -343,8 +343,39 @@ const deleteGroupById = async (e, token) => {
       document.getElementById('viewGroup-btn').click();
     }
   } else {
-    txt = "You pressed Cancel!";
   }
+};
+
+const renameTheGroup = async (e, token) => {
+  const { value } = e.target;
+  if (e.which === 13 || e.keyCode === 13) {
+    if (value === '') {
+      alert('Enter group name');
+      return false;
+    }
+    console.log(e.target.parentElement);
+    const id = e.target.getAttribute('data-groupId');
+    const url = `/api/v1/groups/${Number(id)}/name`;
+    const groupObj = { groupname: value };
+    const fetchResult = await customFetchWithBody(url, 'PATCH', token, groupObj);
+    if (fetchResult.status === 'Success') {
+      document.getElementById('viewGroup-btn').click();
+      console.log(fetchResult);
+      document.getElementById('snackbar').innerHTML = 'Group successfully renamed';
+      snackBar();
+    }
+    if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+      console.log(fetchResult);
+    }
+  }
+};
+
+const makeGroupNameEditable = (e) => {
+  console.log(e.target.parentElement);
+  const teamName = e.target.parentElement.textContent.trim();
+  const id = e.target.parentElement.querySelector('.groupId').textContent.trim();
+  const makeContentEditable = `<input type="text" placeholder="${teamName}" class="edit-group-name" data-groupId="${Number(id)}" name="groupname" minlength='2' required>`;
+  e.target.parentElement.innerHTML = makeContentEditable;
 };
 
 
@@ -403,7 +434,14 @@ document.addEventListener('click', (event) => {
   if (event.target.matches('#addUser')) {
     addUserToGroup(event, tokenParam);
   }
-  if (event.target.matches('.material-icons')) {
+  if (event.target.matches('.material-icons.delete')) {
     deleteGroupById(event, tokenParam);
   }
+  if (event.target.matches('.material-icons.edit')) {
+    makeGroupNameEditable(event);
+  }
+}, false);
+
+document.addEventListener('keypress', (event) => {
+  renameTheGroup(event, tokenParam);
 }, false);

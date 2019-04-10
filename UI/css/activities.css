@@ -83,6 +83,13 @@ button {
 	margin-right: 5px;
 }
 
+.edit-group-name{
+	width: 60%;
+	font-size: 14pt;
+	margin-bottom: 2px;
+	margin-right: 5px;
+}
+
 #details {
 	padding: 5px;
 }
