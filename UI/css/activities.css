@@ -333,8 +333,14 @@ border-right: thin rgba(9,95,227,1.00) solid;
 	float: right;
 	margin-right: 15px;
 	cursor: pointer;
-
 }
+
+.fa-trash-alt{
+	float: right;
+	margin-right: 15px;
+	cursor: pointer;
+}
+
 .fa-plus, .fa-minus, .fa-check{
 	float: right;
 	cursor: pointer;

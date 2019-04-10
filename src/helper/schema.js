@@ -82,4 +82,8 @@ schemas.groupId = Joi.object({
   groupId: Joi.number().positive().integer().required(),
 });
 
+schemas.deleteUserFromGroup = Joi.object({
+  groupId: Joi.number().positive().integer().required(),
+  userId: Joi.number().positive().integer().required(),
+});
 export default schemas;

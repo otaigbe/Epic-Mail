@@ -163,21 +163,24 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async deleteUserFromParticularGroup(req, res) {
-    if (isNaN(req.params.groupId) === true || isNaN(req.params.userId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
-    const args = [req.params.groupId, Number(req.params.userId)];
-    const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMemberDel, args);
-    if (dbOperationResult3.rowCount > 0) {
-      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.deleteUserFromASpecificGroup, args);
-      return res.status(200).json({
-        status: 'Success',
-        data: {
-          message: 'user deleted from group',
-        },
-      });
-    }
-    /* istanbul ignore next */
-    if (dbOperationResult3.rowCount === 0) {
-      return res.status(404).json(response.groupFailure('You are not a member of Group', 'Not found'));
+    const result = Joi.validate(req.params, schema.deleteUserFromGroup, { convert: true });
+    if (result.error === null) {
+      const args = [req.params.groupId, Number(req.params.userId)];
+      const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMemberDel, args);
+      if (dbOperationResult3.rowCount > 0) {
+        const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.deleteUserFromASpecificGroup, args);
+        return res.status(200).json({
+          status: 'Success',
+          data: {
+            message: 'user deleted from group',
+          },
+        });
+      }
+      if (dbOperationResult3.rowCount === 0) {
+        return res.status(404).json(response.failure('You are not a member of the Group', {}));
+      }
+    } else {
+      errorHandler.validationError(res, result);
     }
   }
 
