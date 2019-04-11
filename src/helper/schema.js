@@ -32,7 +32,7 @@ schemas.message = Joi.object({
 
 
 schemas.groupMessage = Joi.object({
-  subject: Joi.string().min(4).trim().required(),
+  subject: Joi.string().min(3).trim().required(),
   message: Joi.string().min(4).trim().required(),
 });
 

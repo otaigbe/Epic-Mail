@@ -191,9 +191,8 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async sendMailToAllMembersInAGroup(req, res) {
-    /* istanbul ignore next */
-    if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
-    const result = Joi.validate(req.body, schema.groupMessage);
+    // if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
+    const result = Joi.validate(req.body, schema.groupMessage, { convert: true });
     if (result.error === null) {
       const message = {};
       message.sender = req.user.email;
@@ -212,11 +211,11 @@ export default class GroupsController {
       }
       dbOperationResult.rows.map(async (element) => {
         message.status = 'sent';
-        const args2 = [message.subject, message.messageBody, message.parentmessageid, message.status, req.user.email, element.memberemail, Number(req.user.id)];
+        const args2 = [message.subject, message.messageBody, message.parentmessageid, req.user.email, message.receiver, Number(req.user.id)];
         const dboperationResult = await dbhelpers.performTransactionalQuery(queries.insertIntoMessageInboxOutbox, args2);
       });
       return res.status(201).json({
-        status: 'success',
+        status: 'Success',
         message: 'Successfully sent the mails to all members in the group',
         data: message,
       });

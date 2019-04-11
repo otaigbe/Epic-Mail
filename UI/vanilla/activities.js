@@ -391,6 +391,42 @@ const deleteUserFromGroup = async (e, token) => {
 };
 
 
+const sendMessagesToAllInAGroup = async (e, token) => {
+  const groupId = e.target.getAttribute('data-groupId');
+  const form = e.target.parentElement.querySelector('#create-message');
+  const messagebody = e.target.parentElement.querySelector('.message-compose').value;
+  let formdata = new FormData(form);
+  formdata.append('message', messagebody);
+  formdata = convertFormDataToJson(formdata);
+  const url = `/api/v1/groups/${Number(groupId)}/messages`;
+  const fetchResult = await customFetchWithBody(url, 'POST', token, JSON.parse(formdata));
+  if (fetchResult.status === 'Success') {
+    console.log(fetchResult);
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    console.log(fetchResult);
+  }
+};
+
+const createGroupMessageComposeWindow = (e, token) => {
+  const groupId = e.target.parentElement.querySelector('.groupId').textContent.trim();
+  on();
+  let modal = `<div id="myModal" class="modal">
+                <div class="bar"><button type="button" class="close-btn">
+                </button></div>
+                <form id="create-message">
+                <div id="details">
+                <input type="text" name="subject" class="topic" placeholder="Subject">
+                </div>
+                <textarea class="message-compose"></textarea>
+                </form>
+                <button type="button" class="group-send" id="group-send" data-groupId=${groupId}>Send to Group Members</button></div>`;
+  modal = document.createRange().createContextualFragment(modal);
+  document.getElementById('composeWindow').appendChild(modal);
+  e.target.disabled = true;
+  document.querySelector('.close-btn').addEventListener('click', closeComposeWindow);
+};
+
 const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
@@ -454,6 +490,12 @@ document.addEventListener('click', (event) => {
   }
   if (event.target.matches('.fa-trash-alt')) {
     deleteUserFromGroup(event, tokenParam);
+  }
+  if (event.target.matches('.fa-send')) {
+    createGroupMessageComposeWindow(event, tokenParam);
+  }
+  if (event.target.matches('#group-send')) {
+    sendMessagesToAllInAGroup(event, tokenParam);
   }
 }, false);
 
