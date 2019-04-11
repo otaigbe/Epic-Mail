@@ -105,7 +105,7 @@ button {
     font-size: 14pt;
 }
 
-.send {
+.send, .group-send {
 	background-color: steelblue;
 	float: right;
 	padding: 10px;

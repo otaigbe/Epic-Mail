@@ -97,4 +97,8 @@ export default class Queries {
   static get deleteUserFromASpecificGroup() {
     return 'Delete from groupmembers WHERE groupid = $1 AND memberid = $2';
   }
+
+  static get selectAllMembersOfAPraticularGroup() {
+    return 'SELECT memberemail FROM groupmembers WHERE groupid = $1';
+  }
 }
