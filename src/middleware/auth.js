@@ -11,7 +11,7 @@ export default class Authentication {
     const token = req.header('x-auth-token');
     if (!token) {
       return res.status(401).json({
-        status: 'Unauthoutrized',
+        status: 'failure',
         message: 'No access token provided!',
       });
     }

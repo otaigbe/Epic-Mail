@@ -1,12 +1,10 @@
-/* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
 import Joi from 'joi';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
-import dbhelpers from '../model/dbHelper';
 import queries from '../model/queries';
-import helper from '../helper/usefulFunc';
+import helper from '../helper/helper';
 
 export default class GroupsController {
   /**
@@ -22,12 +20,12 @@ export default class GroupsController {
       group.groupName = req.body.groupname;
       group.creator = req.user.email;
       const args = [group.groupName, group.creator];
-      const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args);
+      const dbOperationResult1 = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfUserAlreadyHasGroupWithGroupName, args);
       if (dbOperationResult1.rowCount > 0) {
         return res.status(409).json(response.failure(`You Already have a group with name ${group.groupName}! Chooose a different group name`, {}));
       }
       const args1 = [group.groupName, group.creator, Number(req.user.id)];
-      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.createGroup, args1);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.createGroup, args1);
       group.id = dbOperationResult.rows[0].groupid;
       return res.status(201).json(response.success(`Group ${group.groupName} has been created!`, group));
     }
@@ -45,9 +43,9 @@ export default class GroupsController {
     const result = Joi.validate(req.params, schema.groupId, { convert: true });
     if (result.error === null) {
       const args = [req.params.groupId, req.user.email];
-      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
       if (dbOperationResult.rowCount === 1) {
-        const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.deleteGroupById, args);
+        const dbOperationResult2 = await helper.wrapDbOperationInTryCatchBlock(res, queries.deleteGroupById, args);
         return res.status(200).json(response.success('Deletion Successful', dbOperationResult2.rows[0]));
       }
       if (dbOperationResult.rowCount === 0) {
@@ -66,7 +64,7 @@ export default class GroupsController {
    */
   static async getAllGroups(req, res) {
     const args = [req.user.email];
-    const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllGroupsCreatedByAUser, args);
+    const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectAllGroupsCreatedByAUser, args);
     let groups = dbOperationResult.rows;
     if (dbOperationResult.rows.length === 0) {
       groups = 'You have not created any groups yet';
@@ -103,20 +101,19 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async renameAGroup(req, res) {
-    // if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const result = Joi.validate(req.body, schema.rename);
     if (result.error === null) {
       const args = [req.params.groupId, req.user.email];
       const args1 = [req.body.groupname, req.user.email];
       const args2 = [req.body.groupname, req.params.groupId, req.user.email];
-      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfUserOwnsTheGroupAboutToBeDeleted, args);
       if (dbOperationResult.rowCount === 1) {
-        const dbOperationResult1 = await dbhelpers.performTransactionalQuery(queries.checkIfUserAlreadyHasGroupWithGroupName, args1);
+        const dbOperationResult1 = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfUserAlreadyHasGroupWithGroupName, args1);
         if (dbOperationResult1.rowCount > 0) {
           return res.status(409).json(response.failure(`You Already have a group with name ${req.body.groupname}! Chooose a different group name`, {}));
         }
         if (dbOperationResult1.rowCount === 0) {
-          const dbOperationResult2 = await dbhelpers.performTransactionalQuery(queries.renameGroup, args2);
+          const dbOperationResult2 = await helper.wrapDbOperationInTryCatchBlock(res, queries.renameGroup, args2);
           return res.status(200).json(response.success(`Group with id ${req.params.groupId} has been renamed to ${req.body.groupname}!`, dbOperationResult2.rows[0]));
         }
       } else if (dbOperationResult.rowCount === 0) {
@@ -142,7 +139,7 @@ export default class GroupsController {
         const args2 = [req.params.groupId, req.body.useremail];
         const dbOperationResult3 = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfUserIsAlreadyAMember, args2);
         if (dbOperationResult3.rowCount > 0) {
-          return res.status(200).json({ status: 'failure', message: 'You are already a member of the Group!' });
+          return res.status(409).json({ status: 'failure', message: 'You are already a member of the Group!' });
         }
         const args3 = [req.params.groupId, req.body.useremail];
         const dbOperationResult2 = await helper.wrapDbOperationInTryCatchBlock(res, queries.insertNewMembersIntoGroup, args3);
@@ -166,14 +163,13 @@ export default class GroupsController {
     const result = Joi.validate(req.params, schema.deleteUserFromGroup, { convert: true });
     if (result.error === null) {
       const args = [req.params.groupId, Number(req.params.userId)];
-      const dbOperationResult3 = await dbhelpers.performTransactionalQuery(queries.CheckIfUserIsAlreadyAMemberDel, args);
+      const dbOperationResult3 = await helper.wrapDbOperationInTryCatchBlock(res, queries.CheckIfUserIsAlreadyAMemberDel, args);
       if (dbOperationResult3.rowCount > 0) {
-        const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.deleteUserFromASpecificGroup, args);
+        const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.deleteUserFromASpecificGroup, args);
         return res.status(200).json({
           status: 'Success',
-          data: {
-            message: 'user deleted from group',
-          },
+          message: 'user deleted from group',
+          data: dbOperationResult3.rows[0],
         });
       }
       if (dbOperationResult3.rowCount === 0) {
@@ -191,7 +187,6 @@ export default class GroupsController {
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async sendMailToAllMembersInAGroup(req, res) {
-    // if (isNaN(req.params.groupId) === true) return res.status(400).json(response.responseWithOutResource('Please Insert only numbers', 'Bad Request'));
     const result = Joi.validate(req.body, schema.groupMessage, { convert: true });
     if (result.error === null) {
       const message = {};
@@ -200,7 +195,7 @@ export default class GroupsController {
       message.subject = req.body.subject;
       message.parentmessageid = req.body.parentmessageid;
       const args = [req.params.groupId];
-      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.selectAllMembersOfAPraticularGroup, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectAllMembersOfAPraticularGroup, args);
       if (dbOperationResult.rowCount === 0) {
         return res.status(404).json({
           status: 'failure',
@@ -212,7 +207,7 @@ export default class GroupsController {
       dbOperationResult.rows.map(async (element) => {
         message.status = 'sent';
         const args2 = [message.subject, message.messageBody, message.parentmessageid, req.user.email, message.receiver, Number(req.user.id)];
-        const dboperationResult = await dbhelpers.performTransactionalQuery(queries.insertIntoMessageInboxOutbox, args2);
+        const dboperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.insertIntoMessageInboxOutbox, args2);
       });
       return res.status(201).json({
         status: 'Success',

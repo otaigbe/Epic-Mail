@@ -1,17 +1,15 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-else-return */
-/* eslint-disable prefer-destructuring */
+/* eslint-disable consistent-return */
 import Joi from 'joi';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
-import dbhelper from '../model/dbHelper';
 import queries from '../model/queries';
-import helper from '../helper/usefulFunc';
+import helper from '../helper/helper';
 
 export default class MessagesController {
   /**
-   * This sends a message created by a user or saves it as draft
+   * @async
+   * @method - This sends a message created by a user or saves it as draft
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any addition data required if any
@@ -28,31 +26,26 @@ export default class MessagesController {
         const args2 = [req.body.receiver.trim()];
         const dboperationResult2 = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkIfEmailExists, args2);
         if (dboperationResult2.rowCount === 0) {
-          return res.status(404).json(response.failure('Receiver does not exists', {}));
+          return res.status(404).json(response.failure('Receiver does not exist', {}));
         }
         const senderId = parseInt(req.user.id, 10);
         const args = [message.subject, message.messageBody, message.parentmessageid, req.user.email, message.receiver, senderId];
-        const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertIntoMessageInboxOutbox, args);
+        const dboperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.insertIntoMessageInboxOutbox, args);
         if (dboperationResult.rowCount === 1) {
           message.sender = req.user.email;
           message.id = dboperationResult.rows[0].messageid;
           return res.status(201).json(response.success('Message sent successfully', message));
         }
-      } else if (message.receiver === undefined || message.receiver === req.user.email) {
-        message.status = 'draft';
-        const args = [message.subject, message.messageBody, message.parentmessageid, message.status, message.sender, message.receiver];
-        const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertMessageAsDraft, args);
-        if (dboperationResult.rowCount === 1) {
-          message.id = dboperationResult.rows[0].messageid;
-          return res.status(201).json(response.success('Message saved as draft', message));
-        }
+      } else if (message.receiver === undefined || message.receiver === req.user.email) { 
+        return res.status(400).json(response.failure('You can\'t send a message to youeself! Save the message as draft instead.', {}));
       }
     }
     errorHandler.validationError(res, result);
   }
 
   /**
-   * This creates a new draft message
+   * @async
+   * @method - This creates a new draft message
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any addition data required if any
@@ -63,7 +56,7 @@ export default class MessagesController {
       const message = {};
       message.status = 'draft';
       const args = [req.body.subject.trim(), req.body.message.trim(), message.parentmessageid, message.status, req.user.email, req.body.receiver];
-      const dboperationResult = await dbhelper.performTransactionalQuery(queries.insertMessageAsDraft, args);
+      const dboperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.insertMessageAsDraft, args);
       if (dboperationResult.rowCount === 1) {
         return res.status(201).json(response.success('Message saved as draft', dboperationResult.rows[0]));
       }
@@ -74,14 +67,15 @@ export default class MessagesController {
 
 
   /**
-   * This fetches all draft messages for a particular user
+   * @async
+   * @method - This fetches all draft messages for a particular user
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any additional data required if any
    */
   static async getAllDraftMessages(req, res) {
     const args = ['draft', req.user.email];
-    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.getAllDraftMessages, args);
+    const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.getAllDraftMessages, args);
     let draft = dbOperationResult.rows;
     if (dbOperationResult.rows.length === 0) {
       draft = 'You have no draft messages currently';
@@ -92,13 +86,13 @@ export default class MessagesController {
 
 
   /**
-   * This fetches all received emails
+   * @async
+   * @method - This fetches all received emails
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async getAllReceivedEmails(req, res) {
-    const user = req.user;
     const args = [req.user.email];
     const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectAllMessagesFromInboxBelongingToAParticularUser, args);
     let received = dbOperationResult.rows;
@@ -106,37 +100,38 @@ export default class MessagesController {
       received = 'You have no received emails currently';
       return res.status(200).json(response.success(received, {}));
     }
-    return res.status(200).json(response.success('Success', received));
+    return res.status(200).json(response.success('All received messages', received));
   }
 
   /**
-   * This gets all unread messages for a particular user
+   * @async
+   * @method - This gets all unread messages for a particular user
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async getAllUnreadEmails(req, res) {
     const args = [req.user.email, 'unread'];
-    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectAllUnreadMessagesForAParticularUser, args);
+    const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectAllUnreadMessagesForAParticularUser, args);
     let unread = dbOperationResult.rows;
-    /* istanbul ignore next */
     if (dbOperationResult.rows.length === 0) {
       unread = 'You have no unread emails currently';
-      return res.status(200).json(response.responseWithResource(unread, 'Success'));
+      return res.status(200).json(response.success(unread, {}));
     }
-    return res.status(200).json(response.responseWithResource(unread, 'Unread Messages', 'Success'));
+    return res.status(200).json(response.success('All Unread messages', unread));
   }
 
 
   /**
-   * This gets all sent messages sent by a user
+   * @async
+   * @method - This gets all sent messages sent by a user
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any addition data required if any
    */
   static async getAllSentEmails(req, res) {
     const args = [req.user.email];
-    const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectAllSentEmailsForAParticularUser, args);
+    const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectAllSentEmailsForAParticularUser, args);
     let sent = dbOperationResult.rows;
     if (dbOperationResult.rows.length === 0) {
       sent = 'You have no sent emails currently';
@@ -146,6 +141,13 @@ export default class MessagesController {
   }
 
 
+  /**
+   * @async
+   * @method - This gets draft a message by Id
+   * @param {Object} req - client request Object
+   * @param {Object} res - Server response Object
+   * @returns {JSON} - containing the status message and any addition data required if any
+   */
   static async getDraftMessageById(req, res) {
     const result = Joi.validate(req.params, schema.messageId, { convert: true });
     if (result.error === null) {
@@ -155,14 +157,14 @@ export default class MessagesController {
         return res.status(200).json(response.success('Message retrieved successfully', dbOperationResult.rows[0]));
       }
       return res.status(404).json(response.failure('Could not find the message you were looking for', {}));
-    } else {
-      errorHandler.validationError(res, result);
     }
+    errorHandler.validationError(res, result);
   }
 
 
   /**
-   * This fetches a message by id
+   * @async
+   * @method - This fetches a message by id
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any addition data required if any
@@ -171,18 +173,18 @@ export default class MessagesController {
     const result = Joi.validate(req.params, schema.messageId, { convert: true });
     if (result.error === null) {
       const args = [Number(req.params.messageId), String(req.user.email)];
-      const dbOperationResult = await dbhelper.performTransactionalQuery(queries.selectEmailByIdForParticularUser, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.selectEmailByIdForParticularUser, args);
       if (dbOperationResult.rowCount === 1) {
         return res.status(200).json(response.success('Message Found', dbOperationResult.rows[0]));
       }
       return res.status(404).json(response.failure('Could not find the message you were looking for', {}));
-    } else {
-      errorHandler.validationError(res, result);
     }
+    errorHandler.validationError(res, result);
   }
 
   /**
-   * This deletes a message by id
+   * @async
+   * @method - This deletes a message by id
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {JSON} - containing the status message and any addition data required if any
@@ -191,7 +193,7 @@ export default class MessagesController {
     const result = Joi.validate(req.params, schema.messageId, { convert: true });
     if (result.error === null) {
       const args = [Number(req.params.messageId), req.user.email];
-      const dbOperationResult = await dbhelper.performTransactionalQuery(queries.deleteQueryByIdForParticularUserFromInbox, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.deleteQueryByIdForParticularUserFromInbox, args);
       if (dbOperationResult.rowCount === 1) {
         return res.status(200).json({
           status: 'Success',

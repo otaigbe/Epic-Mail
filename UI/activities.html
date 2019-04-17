@@ -27,10 +27,10 @@
   <span id="close-min"><i class="fas fa-times"></i>
   </span>
   <button id="compose">Compose</button>
-  <button id="inbox" type="button">Inbox <span class="count">10</span></button>
-  <button id="sent" type="button">Sent</button>
-	<button id="draft" type="button">Draft</button>
-	<button id="viewGroup-btn" type="button">Groups</button>
+  <button id="inbox" type="button">Inbox <span class="inbox-count"></span></button>
+  <button id="sent" type="button">Sent <span class="sent-count"></span></button>
+	<button id="draft" type="button">Draft <span class="draft-count"></span></button>
+	<button id="viewGroup-btn" type="button">Groups <span class="group-count"></span></button>
 	<div>
 		<button id="createGroup-btn" type="button">Add Group</button>
 		<div id="createGroup">
@@ -47,6 +47,7 @@
   <div id="composeWindow"> </div>
   <div id="memberholder"></div>
 <div class="content">
+  <span id="display-message"></span>
     <div class="grid-container"></div>	 
   <div id="displayarea"> </div>
 </div>

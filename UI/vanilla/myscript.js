@@ -1,4 +1,4 @@
-function openMail(evt, id) {
+const openMail = (evt, id) => {
   const tablinks = document.getElementsByClassName('tablinks');
   for (let i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(' active', '');
@@ -9,10 +9,10 @@ function openMail(evt, id) {
   }
   evt.currentTarget.className += ' active';
   document.getElementById(id).style.display = 'block';
-}
+};
 
 
-function openInBox(evt, inbox) {
+const openInBox = (evt, inbox) => {
   const tabcontent = document.getElementsByClassName('tabcontent');
   for (let i = 0; i < tabcontent.length; i++) {
     tabcontent[i].style.display = 'none';
@@ -23,10 +23,10 @@ function openInBox(evt, inbox) {
     tablinks[i].className = tablinks[i].className.replace(' active', '');
   }
   evt.currentTarget.className += ' active';
-}
+};
 
 
-function wrapResultWithHtml(text, mailType, fetchResult) {
+const wrapResultWithHtml = (text, mailType, fetchResult) => {
   document.querySelector('.grid-container').style.display = 'none';
   document.getElementById('displayarea').style.display = 'block';
   let modal = '';
@@ -56,9 +56,9 @@ function wrapResultWithHtml(text, mailType, fetchResult) {
   }
   modal += '</div></div></div>';
   document.getElementById('displayarea').innerHTML = modal;
-}
+};
 
-async function wrapInAccordion(fetchResult) {
+const wrapInAccordion = async (fetchResult) => {
   let groupHtml = '<span id="reply"><h2>Groups</h2></span>';
   for (let i = 0; i < fetchResult.data.length; i++) {
     const span = document.createElement('span');
@@ -71,12 +71,10 @@ async function wrapInAccordion(fetchResult) {
     icon.setAttribute('class', 'fas fa-plus');
     const iconSend = document.createElement('i');
     iconSend.setAttribute('class', 'fas fa-send');
-    // const iconDelete = document.createElement('i');
     const spanDeleteWrapper = document.createElement('span');
     spanDeleteWrapper.setAttribute('class', 'material-icons delete');
     const spanEditWrapper = document.createElement('span');
     spanEditWrapper.setAttribute('class', 'material-icons edit');
-
     const editIcon = document.createTextNode('edit');
     spanEditWrapper.appendChild(editIcon);
     const textIcon = document.createTextNode('delete');
@@ -107,7 +105,4 @@ async function wrapInAccordion(fetchResult) {
   document.getElementsByClassName('grid-container')[0].innerHTML = groupHtml;
   document.getElementsByClassName('grid-container')[0].style.display = 'grid';
   document.getElementById('displayarea').style.display = 'none';
-}
-
-
-
+};
