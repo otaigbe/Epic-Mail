@@ -105,6 +105,9 @@ If all the dependencies installed correctly run 'npm test' in the root of the in
 - html
 - css
 
+## Documentated with swagger
+- [Docs](https://https://app.swaggerhub.com/apis-docs/otaigbe/Epic-mail/1.0.0)
+
 ## Tested With
 - Mocha
 - Chai

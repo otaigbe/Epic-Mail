@@ -5,12 +5,13 @@ import jwt from 'jsonwebtoken';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
-import dbhelpers from '../model/dbHelper';
 import queries from '../model/queries';
+import helper from '../helper/helper';
 
 export default class SigninController {
   /**
-   * This creates a new account for a user
+   * @async
+   * @method - This gives a user access to his/her account
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
    * @returns {Object} Success or failure message
@@ -19,7 +20,7 @@ export default class SigninController {
     const result = Joi.validate(req.body, schema.signinSchema, { convert: false });
     if (result.error === null) {
       const args = [req.body.email.trim()];
-      const dbOperationResult = await dbhelpers.performTransactionalQuery(queries.searchForEmail, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.searchForEmail, args);
       if (dbOperationResult.rowCount === 1) {
         const validPassword = await bcrypt.compare(req.body.password, dbOperationResult.rows[0].password);
         const user = {};
@@ -34,8 +35,8 @@ export default class SigninController {
         res.set('x-auth-token', token);
         return res.status(200).json(response.success(`Welcome! ${user.username}`, user));
       }
-    } else {
-      errorHandler.validationError(res, result);
+      return res.status(404).json(response.failure('Something wrong with username or password', {}));
     }
+    errorHandler.validationError(res, result);
   }
 }

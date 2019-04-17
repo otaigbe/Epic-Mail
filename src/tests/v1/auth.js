@@ -1,9 +1,8 @@
-/* eslint-disable prefer-destructuring */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 
-const expect = chai.expect;
+const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('Testing the Epic mail app', () => {
@@ -16,9 +15,9 @@ describe('Testing the Epic mail app', () => {
         password: 'piloting',
         alternateemail: 'stanlex4400@gmail.com',
       });
-      chai.expect(res).to.have.status(201);
-      chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('data');
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('status');
+      expect(res.body).to.have.property('data');
     });
 
     it('should return a validation error', async () => {
@@ -29,10 +28,8 @@ describe('Testing the Epic mail app', () => {
         password: '',
         alternateemail: 'stanlex4400@gmail.com',
       });
-      chai.expect(res).to.have.status(400);
-      chai.expect(res.body).to.have.property('status');
-      // chai.expect(res.body).to.have.property('error');
-      // chai.expect(res.body.error.message).to.eql('Something wrong with input!');
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('status');
     });
 
     it('should return an already existent user message', async () => {
@@ -43,8 +40,8 @@ describe('Testing the Epic mail app', () => {
         password: 'piloting',
         alternateemail: 'stanlex4400@gmail.com',
       });
-      chai.expect(res).to.have.status(409);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(409);
+      expect(res.body).to.have.property('status');
     });
   });
 
@@ -54,7 +51,14 @@ describe('Testing the Epic mail app', () => {
         email: 'otaigbe@epicmail.com',
         password: 'password',
       });
-      chai.expect(res).to.have.status(200);
+      expect(res).to.have.status(200);
+    });
+    it('should throw a 404 signifying that email not found', async () => {
+      const res = await chai.request(app).post('/api/v1/auth/signin').type('form').send({
+        email: 'fanta@epicmail.com',
+        password: 'password',
+      });
+      expect(res).to.have.status(404);
     });
 
     it('should return a validation error', async () => {
@@ -62,9 +66,9 @@ describe('Testing the Epic mail app', () => {
         email: 'otaigbe@epicmail.com',
         password: '',
       });
-      chai.expect(res).to.have.status(400);
-      chai.expect(res.body).to.have.property('status');
-      // chai.expect(res.body).to.have.property('error');
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('status');
+      // expect(res.body).to.have.property('error');
     });
 
     it('should return an invalid username/password error message', async () => {
@@ -72,9 +76,9 @@ describe('Testing the Epic mail app', () => {
         email: 'otaigbe@epicmail.com',
         password: 'piloti',
       });
-      chai.expect(res).to.have.status(400);
-      chai.expect(res.body).to.have.property('status');
-      // chai.expect(res.body).to.have.property('error');
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('status');
+      // expect(res.body).to.have.property('error');
     });
 
   });

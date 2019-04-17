@@ -2,19 +2,18 @@
 import Joi from 'joi';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import usefulFunc from '../helper/usefulFunc';
 import schema from '../helper/schema';
 import errorHandler from '../helper/errorHandler';
 import response from '../helper/responseSchema';
-import dbhelper from '../model/dbHelper';
 import queries from '../model/queries';
+import helper from '../helper/helper';
 
 export default class SignupController {
   /**
-   * This creates a new account for a user
+   * @method - This creates a new account for a user
    * @param {Object} req - client request Object
    * @param {Object} res - Server response Object
-   * @returns {Object} Success or failure message
+   * @returns {JSON} Success or failure message
    */
   static async signup(req, res) {
     const result = Joi.validate(req.body, schema.userSchema, { convert: false });
@@ -23,17 +22,17 @@ export default class SignupController {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       const userObj = {};
-      userObj.email = usefulFunc.generateFullEmailAddress(req.body.username);
+      userObj.email = helper.generateFullEmailAddress(req.body.username);
       userObj.firstName = req.body.firstname;
       userObj.lastName = req.body.lastname;
       userObj.password = hashedPassword;
       userObj.username = req.body.username;
       userObj.alternateEmail = req.body.alternateemail;
       const args = [userObj.username];
-      const dbOperationResult = await dbhelper.performTransactionalQuery(queries.checkForAlreadyExistentUser, args);
+      const dbOperationResult = await helper.wrapDbOperationInTryCatchBlock(res, queries.checkForAlreadyExistentUser, args);
       if (dbOperationResult.rowCount === 0) {
         const args2 = [userObj.firstName, userObj.lastName, userObj.username, userObj.password, userObj.email, userObj.alternateEmail];
-        const dbOperationResult2 = await dbhelper.performTransactionalQuery(queries.insertNewUser, args2);
+        const dbOperationResult2 = await helper.wrapDbOperationInTryCatchBlock(res, queries.insertNewUser, args2);
         const user = {};
         user.id = dbOperationResult2.rows[0].userid;
         user.username = userObj.username;

@@ -9,7 +9,19 @@ const getAllReceivedMessages = async (token, e, tablename) => {
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
     console.log(fetchResult);
+    document.querySelector('.inbox-count').innerHTML = fetchResult.data.length;
+    if (typeof fetchResult.data.length === 'undefined') {
+      document.querySelector('.inbox-count').innerHTML = 0;
+      document.getElementById('snackbar').innerHTML = fetchResult.message;
+      snackBar();
+    }
     wrapResultWithHtml('Inbox', 'receivedMails', fetchResult);
+    document.getElementById('snackbar').innerHTML = fetchResult.message;
+    snackBar();
+  }
+  if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
+    document.getElementById('display-message').style.color = 'red';
+    document.getElementById('display-message').innerHTML = fetchResult.error.message;
   }
 };
 
@@ -26,7 +38,14 @@ const getAllSentMessages = async (token, e) => {
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
     console.log(fetchResult);
+    if (typeof fetchResult.data.length === 'undefined') {
+      document.querySelector('.sent-count').innerHTML = 0;
+      document.getElementById('snackbar').innerHTML = fetchResult.message;
+      snackBar();
+    }
     wrapResultWithHtml('Sent Mails', 'sentMails', fetchResult);
+    document.getElementById('snackbar').innerHTML = fetchResult.message;
+    snackBar();
   }
 };
 
@@ -133,7 +152,14 @@ const getAllGroups = async (e, token) => {
   const baseUrl = '/api/v1/groups';
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
+    if (typeof fetchResult.data.length === 'undefined') {
+      document.querySelector('.group-count').innerHTML = 0;
+      document.getElementById('snackbar').innerHTML = 'You haven\'t created any groups';
+      snackBar();
+    }
     wrapInAccordion(fetchResult);
+    document.getElementById('snackbar').innerHTML = fetchResult.message;
+    snackBar();
   }
 };
 
@@ -153,7 +179,6 @@ const getAllGroupMembers = async (e, token, id) => {
   const baseUrl = `/api/v1/groups/${Number(id)}/members`;
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
-    console.log(fetchResult);
     const html = wrapResultInListTags(fetchResult);
     return html;
   }
@@ -271,8 +296,9 @@ const getAllDraftMessages = async (e, token) => {
   const baseUrl = '/api/v1/messages/draft';
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
-    console.log(fetchResult);
     wrapResultWithHtml('Draft', 'draftMail', fetchResult);
+    document.getElementById('snackbar').innerHTML = fetchResult.message;
+    snackBar();
   }
   if (fetchResult.status === 'Failed' || fetchResult.status === 'failure') {
     console.log(fetchResult);
@@ -286,15 +312,15 @@ const getDraftMessageById = async (e, token) => {
   const fetchResult = await customFetch(baseUrl, 'GET', token);
   if (fetchResult.status === 'Success') {
     createComposeWindow(e, fetchResult);
+    
   }
 };
 
 
-function closeMemberModal(e) {
+const closeMemberModal = (e) => {
   off();
-  console.log(e.target.parentElement.parentElement);
   e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
-}
+};
 
 
 const createSearchForm = (e) => {
@@ -431,6 +457,8 @@ const params = new URLSearchParams(window.location.search);
 const tokenParam = params.get('token');
 document.getElementById('sent').addEventListener('click', getAllSentMessages.bind(this, tokenParam));
 document.getElementById('inbox').addEventListener('click', getAllReceivedMessages.bind(this, tokenParam, 'inbox'));
+document.getElementById('sent').click();
+document.getElementById('viewGroup-btn').click();
 document.getElementById('inbox').click();
 
 document.addEventListener('click', (event) => {

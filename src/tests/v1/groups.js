@@ -13,9 +13,9 @@ describe('Testing the groups Endpoint', () => {
         .send({
           groupname: 'friends',
         });
-      chai.expect(res).to.have.status(201);
-      chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('data');
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('status');
+      expect(res.body).to.have.property('data');
     });
 
     it('should successfully create a group buddies', async () => {
@@ -24,9 +24,9 @@ describe('Testing the groups Endpoint', () => {
         .send({
           groupname: 'buddies',
         });
-      chai.expect(res).to.have.status(201);
-      chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('data');
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('status');
+      expect(res.body).to.have.property('data');
     });
 
 
@@ -36,9 +36,9 @@ describe('Testing the groups Endpoint', () => {
         .send({
           groupname: 'enemies',
         });
-      chai.expect(res).to.have.status(201);
-      chai.expect(res.body).to.have.property('status');
-      chai.expect(res.body).to.have.property('data');
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('status');
+      expect(res.body).to.have.property('data');
     });
 
 
@@ -48,7 +48,7 @@ describe('Testing the groups Endpoint', () => {
         .send({
           groupname: 'friends',
         });
-      chai.expect(res).to.have.status(400);
+      expect(res).to.have.status(400);
     });
 
     it('should throw an unauthorised error message', async () => {
@@ -57,7 +57,7 @@ describe('Testing the groups Endpoint', () => {
         .send({
           groupname: 'friends',
         });
-      chai.expect(res).to.have.status(401);
+      expect(res).to.have.status(401);
     });
 
     it('should throw validation error', async () => {
@@ -68,9 +68,8 @@ describe('Testing the groups Endpoint', () => {
           groupname: '',
           creator: 'osas422@epicmail.com',
         });
-      chai.expect(res).to.have.status(400);
+      expect(res).to.have.status(400);
     });
-    // eslint-disable-next-line no-template-curly-in-string
     it('should return a "You Already have a group with name this group name! Chooose a different group name" message', async () => {
       const res = await chai.request(app).post('/api/v1/groups')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
@@ -78,8 +77,8 @@ describe('Testing the groups Endpoint', () => {
         .send({
           groupname: 'friends',
         });
-      chai.expect(res).to.have.status(409);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(409);
+      expect(res.body).to.have.property('status');
     });
   });
 
@@ -94,8 +93,8 @@ describe('Testing the groups Endpoint', () => {
             groupname: 'classmates',
           },
         );
-      chai.expect(res).to.have.status(200);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('status');
     });
     it('should throw a no token error', async () => {
       const res = await chai.request(app)
@@ -106,7 +105,7 @@ describe('Testing the groups Endpoint', () => {
             groupname: 'buddies',
           },
         );
-      chai.expect(res).to.have.status(401);
+      expect(res).to.have.status(401);
     });
 
     it('should throw an error because buddies group already exists', async () => {
@@ -118,8 +117,8 @@ describe('Testing the groups Endpoint', () => {
             groupname: 'buddies',
           },
         );
-      chai.expect(res).to.have.status(409);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(409);
+      expect(res.body).to.have.property('status');
     });
     it('should throw validation error', async () => {
       const res = await chai.request(app).patch('/api/v1/groups/1/name')
@@ -130,8 +129,8 @@ describe('Testing the groups Endpoint', () => {
             groupname: 'e',
           },
         );
-      chai.expect(res).to.have.status(400);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('status');
     });
 
     it('should throw unfound error', async () => {
@@ -143,8 +142,8 @@ describe('Testing the groups Endpoint', () => {
             groupname: 'enemies',
           },
         );
-      chai.expect(res).to.have.status(404);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(404);
+      expect(res.body).to.have.property('status');
     });
   });
 
@@ -152,21 +151,21 @@ describe('Testing the groups Endpoint', () => {
     it('should get all groups', async () => {
       const res = await chai.request(app).get('/api/v1/groups')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(200);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('status');
     });
 
     it('should should successfully get all groups but the result should be an empty array', async () => {
       const res = await chai.request(app).get('/api/v1/groups')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIiLCJ1c2VybmFtZSI6Im9zYXM0MjIiLCJlbWFpbCI6Im9zYXM0MjJAZXBpY21haWwuY29tIiwiaWF0IjoxNTU0MDI4NzQxfQ.8aCYtKjj3rDAhzprgLWCrap-RDk2-SSFkqXKkR9tKww');
-      chai.expect(res).to.have.status(200);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('status');
     });
   });
 
   describe('Testing the add User to group Endpoint', () => {
-    it('should add a user successfully add to group', async () => {
-      const res = await chai.request(app).post('/api/v1/groups/2/users')
+    it('should add a user successfully to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/3/users')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
         .type('form')
         .send(
@@ -174,11 +173,11 @@ describe('Testing the groups Endpoint', () => {
             useremail: 'ade@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(200);
+      expect(res).to.have.status(200);
     });
 
-    it('should add a user successfully add to group', async () => {
-      const res = await chai.request(app).post('/api/v1/groups/2/users')
+    it('should add a user successfully to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/3/users')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
         .type('form')
         .send(
@@ -186,11 +185,11 @@ describe('Testing the groups Endpoint', () => {
             useremail: 'felicitas@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(200);
+      expect(res).to.have.status(200);
     });
 
-    it('should add a user successfully add to group', async () => {
-      const res = await chai.request(app).post('/api/v1/groups/2/users')
+    it('should add a user successfully to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/3/users')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
         .type('form')
         .send(
@@ -198,11 +197,11 @@ describe('Testing the groups Endpoint', () => {
             useremail: 'osas422@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(200);
+      expect(res).to.have.status(200);
     });
 
-    it('should add a user successfully add to group', async () => {
-      const res = await chai.request(app).post('/api/v1/groups/2/users')
+    it('should add a user successfully to group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/3/users')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
         .type('form')
         .send(
@@ -210,11 +209,11 @@ describe('Testing the groups Endpoint', () => {
             useremail: 'george@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(200);
+      expect(res).to.have.status(200);
     });
 
-    it('should throw a 400 error and declare that one cannot add himself to a group', async () => {
-      const res = await chai.request(app).post('/api/v1/groups/2/users')
+    it('should throw a 400 error and declare that one cannot add himself to a group he created', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/3/users')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
         .type('form')
         .send(
@@ -222,12 +221,12 @@ describe('Testing the groups Endpoint', () => {
             useremail: 'otaigbe@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(400);
+      expect(res).to.have.status(400);
     });
 
 
-    it('should add already a member of a group', async () => {
-      const res = await chai.request(app).post('/api/v1/groups/2/users')
+    it('should say already a member of a group', async () => {
+      const res = await chai.request(app).post('/api/v1/groups/3/users')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4')
         .type('form')
         .send(
@@ -235,7 +234,7 @@ describe('Testing the groups Endpoint', () => {
             useremail: 'ade@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(200);
+      expect(res).to.have.status(409);
     });
 
     it('should not find group', async () => {
@@ -247,7 +246,7 @@ describe('Testing the groups Endpoint', () => {
             useremail: 'ade@epicmail.com',
           },
         );
-      chai.expect(res).to.have.status(404);
+      expect(res).to.have.status(404);
     });
     it('should throw a validation error', async () => {
       const res = await chai.request(app).post('/api/v1/groups/2/users')
@@ -258,40 +257,40 @@ describe('Testing the groups Endpoint', () => {
             useremail: 1234,
           },
         );
-      chai.expect(res).to.have.status(400);
+      expect(res).to.have.status(400);
     });
   });
 
 
   describe('Testing the get all members of a group Endpoint', () => {
     it('Should successfully get all members of a group', async () => {
-      const res = await chai.request(app).get('/api/v1/groups/2/members')
+      const res = await chai.request(app).get('/api/v1/groups/3/members')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(200);
-      chai.expect(res.body.data).to.be.an('array');
+      expect(res).to.have.status(200);
+      expect(res.body.data).to.be.an('array');
     });
 
     it('Should successfully get all members of a group', async () => {
       const res = await chai.request(app).get('/api/v1/groups/abc/members')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(400);
+      expect(res).to.have.status(400);
     });
 
     it('Should successfully get all members of a group', async () => {
       const res = await chai.request(app).get('/api/v1/groups/4/members')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(200);
+      expect(res).to.have.status(200);
     });
   });
   describe('Testing the send mail to all members in a group endpoint', () => {
     it('should send messages to all members in a group', async () => {
-      const res = await chai.request(app).post('/api/v1/groups/2/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
+      const res = await chai.request(app).post('/api/v1/groups/3/messages').set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4').type('form')
         .send({
           subject: 'oiiuyizsgrtfhtuyoiuo',
           message: 'Just created this test to be sent to multiple folks',
         });
-      chai.expect(res).to.have.status(201);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(201);
+      expect(res.body).to.have.property('status');
     });
 
     it('shouldn\'t find message with supplied id', async () => {
@@ -301,7 +300,7 @@ describe('Testing the groups Endpoint', () => {
           subject: 'oiiuyizsgrtfhtuyoiuo',
           message: 'Just created this test to be sent to multiple folks',
         });
-      chai.expect(res).to.have.status(404);
+      expect(res).to.have.status(404);
     });
 
     it('should return a not found error because no members in the group', async () => {
@@ -311,7 +310,7 @@ describe('Testing the groups Endpoint', () => {
           subject: 'oiiuyizsgrtfhtuyoiuo',
           message: 'Just created this test to be sent to multiple folks',
         });
-      chai.expect(res).to.have.status(404);
+      expect(res).to.have.status(404);
     });
 
     it('should return a validation error', async () => {
@@ -321,30 +320,30 @@ describe('Testing the groups Endpoint', () => {
           subject: 'o',
           message: 'Ju',
         });
-      chai.expect(res).to.have.status(400);
+      expect(res).to.have.status(400);
     });
   });
 
   describe('Testing the delete users from group endpoint', () => {
     it('should delete a group with provided id', async () => {
-      const res = await chai.request(app).delete('/api/v1/groups/2/users/5')
+      const res = await chai.request(app).delete('/api/v1/groups/3/users/5')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(200);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('status');
     });
 
     it('should throw a validation error', async () => {
       const res = await chai.request(app).delete('/api/v1/groups/bad/users/5')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(400);
+      expect(res).to.have.status(400);
     });
 
 
     it('shouldn\'t find message with supplied id', async () => {
       const res = await chai.request(app).delete('/api/v1/groups/18989898/users/5')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(404);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(404);
+      expect(res.body).to.have.property('status');
     });
   });
 
@@ -352,22 +351,22 @@ describe('Testing the groups Endpoint', () => {
     it('should delete a group with provided id', async () => {
       const res = await chai.request(app).delete('/api/v1/groups/1')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(200);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(200);
+      expect(res.body).to.have.property('status');
     });
 
     it('should throw a bad request error ', async () => {
       const res = await chai.request(app).delete('/api/v1/groups/bar')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(400);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(400);
+      expect(res.body).to.have.property('status');
     });
 
     it('shouldn\'t find message with supplied id', async () => {
       const res = await chai.request(app).delete('/api/v1/groups/1898')
         .set('x-auth-token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJ1c2VybmFtZSI6Im90YWlnYmUiLCJlbWFpbCI6Im90YWlnYmVAZXBpY21haWwuY29tIiwiaWF0IjoxNTUyOTY3MDY3fQ.-9Gv6CLrGsoSTxeBSnd24Dse_1uKE5Gu_6x6IhOq9Q4');
-      chai.expect(res).to.have.status(404);
-      chai.expect(res.body).to.have.property('status');
+      expect(res).to.have.status(404);
+      expect(res.body).to.have.property('status');
     });
   });
 });

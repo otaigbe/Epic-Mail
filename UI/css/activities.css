@@ -225,13 +225,22 @@ div.content {
 }
 
 
-.count{
+.inbox-count{
   background-color: #fa3e3e;
-  border-radius: 3px;
+  border-radius: 50%;
   color: white;
   padding: 3px 3px;
   font-size: 10px;
   float:right;
+}
+
+.sent-count, .group-count{
+  background-color:#fa3e3e5b;
+  border-radius: 50%;
+  color: white;
+  padding: 3px 3px;
+  font-size: 10px;
+	float:right;
 }
 
 .count-brown{
@@ -410,11 +419,16 @@ border-right: thin rgba(9,95,227,1.00) solid;
 
 #close-min{
 	display: block;
+	width: 100%;
+}
+
+#close-min > i{
+	float: right;
 }
 
 	div.content {margin-left: 0;}
  .sidebar{
-	 position: absolute;
+	 position: fixed;
 	 display: none;
  }
 
@@ -452,7 +466,8 @@ border-right: thin rgba(9,95,227,1.00) solid;
 
 	.grid-item{
 		  background-color: rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(0, 0, 0);
+	border: 2px solid rgba(0, 0, 0);
+	font-size: 15px;
 	}
 	#addUser > input{
   width: 80%;
